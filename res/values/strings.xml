@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">HexMini</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="settings_title_connection">CONNECT TO HEX MINI</string>
+    <string name="settings_title_personal">PERSONAL SETTINGS</string>
+    <string name="settings_title_angel_trim">ANGEL TRIM</string>
+    <string name="settings_title_mode">MODE SETTINGS</string>
+    <string name="settings_title_about">ABOUT</string>
+    <string name="btn_title_default_settings">Default Settings</string>
+    <string name="btn_title_calibrate_acc">Calibrate Acc</string>
+    <string name="btn_title_calibrate_mag">Calibrate Mag</string>
+    <string name="btn_title_scan">Scan</string>
+    <string name="btn_title_stop_scan">Stop Scanning</string>
+    <string name="btn_title_scanning">Scanning</string>
+    <string name="btn_title_up_trim">Up</string>
+    <string name="btn_title_down_trim">Down</string>
+    <string name="btn_title_left_trim">Left</string>
+    <string name="btn_title_right_trim">Right</string>
+    <string name="settings_item_left_handed">LEFT HAND</string>
+    <string name="settings_item_interface_opacity">INTERFACE OPACITY</string>
+    <string name="settings_item_acc_mode">ACC MODE</string>
+    <string name="settings_item_headfree_mode">HEADFREE MODE</string>
+    <string name="settings_item_take_off_throttle">TAKE OFF THROTTLE</string>
+    <string name="settings_item_aileron_and_elevator_dead_band">AILERON/ELEVATOR DEAD BAND</string>
+    <string name="settings_item_rudder_dead_band">RUDDER DEAD BAND</string>
+    <string name="settings_item_stop_scan">Stop Scan</string>
+    <string name="settings_item_scanning">Scanning</string>
+    <string name="settings_item_scan">Scan</string>
+    <string name="settings_item_not_connected">not connected</string>
+    <string name="settings_item_connected">connected</string>
+    <string name="settings_item_scanning_hex_mini">Sanning Hex Mini...</string>
+
+</resources>

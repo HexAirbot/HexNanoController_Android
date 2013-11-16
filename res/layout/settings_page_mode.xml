@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:orientation="vertical" >
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="80dp"
+        android:layout_height="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <SeekBar
+        android:id="@+id/takeOffThrottleSeekBar"
+        android:layout_width="255dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/view1"
+        android:layout_below="@+id/view1" />
+
+    <TextView
+        android:id="@+id/isLeftHandedTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/takeOffThrottleSeekBar"
+        android:layout_marginRight="@dimen/settings_h_gap"
+        android:layout_toLeftOf="@+id/takeOffThrottleSeekBar"
+        android:text="@string/settings_item_take_off_throttle"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/takeOffThrottleValueTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/isLeftHandedTitleTextView"
+        android:layout_below="@+id/isLeftHandedTitleTextView"
+        android:text="50%"
+        android:textColor="@color/orange"
+        android:textSize="@dimen/settings_indicator_text_size" />
+
+    <SeekBar
+        android:id="@+id/aileronAndElevatorDeadBandSeekBar"
+        android:layout_width="255dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/takeOffThrottleSeekBar"
+        android:layout_below="@+id/takeOffThrottleSeekBar"
+        android:layout_marginTop="@dimen/settings_v_gap" />
+
+    <TextView
+        android:id="@+id/TextView01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/takeOffThrottleValueTextView"
+        android:layout_alignTop="@+id/aileronAndElevatorDeadBandSeekBar"
+        android:text="@string/settings_item_aileron_and_elevator_dead_band"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/aileronAndElevatorDeadBandValueTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/TextView01"
+        android:layout_below="@+id/TextView01"
+        android:text="50%"
+        android:textColor="@color/orange"
+        android:textSize="@dimen/settings_indicator_text_size" />
+
+    <SeekBar
+        android:id="@+id/rudderDeadBandSeekBar"
+        android:layout_width="255dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/aileronAndElevatorDeadBandSeekBar"
+        android:layout_below="@+id/aileronAndElevatorDeadBandSeekBar"
+        android:layout_marginTop="@dimen/settings_v_gap" />
+
+    <TextView
+        android:id="@+id/TextView04"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/aileronAndElevatorDeadBandValueTextView"
+        android:layout_alignTop="@+id/rudderDeadBandSeekBar"
+        android:text="@string/settings_item_rudder_dead_band"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/rudderDeadBandValueTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/TextView04"
+        android:layout_below="@+id/TextView04"
+        android:text="50%"
+        android:textColor="@color/orange"
+        android:textSize="@dimen/settings_indicator_text_size" />
+
+</RelativeLayout>

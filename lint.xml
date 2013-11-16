@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="CommitPrefEdits">
+        <ignore path="src/com/hexairbot/hexmini/modal/ApplicationSettings.java" />
+    </issue>
+    <issue id="WrongCall">
+        <ignore path="src/com/hexairbot/hexmini/ui/HudRenderer.java" />
+        <ignore path="src/com/hexairbot/hexmini/ui/Image.java" />
+        <ignore path="src/com/hexairbot/hexmini/ui/JoystickBase.java" />
+        <ignore path="src/com/hexairbot/hexmini/ui/joystick/JoystickBase.java" />
+        <ignore path="src/com/hexaribot/hexmini/ui/Button.java" />
+        <ignore path="src/com/hexaribot/hexmini/ui/Image.java" />
+        <ignore path="src/com/hexaribot/hexmini/ui/Indicator.java" />
+        <ignore path="src/com/hexaribot/hexmini/ui/JoystickBase.java" />
+        <ignore path="src/com/hexaribot/hexmini/ui/Text.java" />
+        <ignore path="src/com/hexaribot/hexmini/ui/ToggleButton.java" />
+    </issue>
+</lint>

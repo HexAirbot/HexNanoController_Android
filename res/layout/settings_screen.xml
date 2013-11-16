@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/settings_bg" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="46dp" >
+
+                <Button
+                    android:id="@+id/backBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Back" />
+
+                <TextView
+                    android:id="@+id/titleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/pageIndicator"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/settings_title_connection"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/settings_title_text_size" />
+
+                <com.hexairbot.hexmini.ui.control.ViewPagerIndicator
+                    android:id="@+id/pageIndicator"
+                    style="@style/ViewPagerIndicatorStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="217dp"
+                android:layout_marginTop="14dp" >
+
+                <ImageButton
+                    android:id="@+id/preBtn"
+                    style="@style/SettingsNavigationButton.Prev"
+                    android:layout_width="@dimen/setttings_navigation_buton_width"
+                    android:layout_height="fill_parent"
+                    android:src="@drawable/arrow_left_orange"
+                    android:visibility="invisible" />
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toLeftOf="@+id/nextBtn"
+                    android:layout_toRightOf="@+id/preBtn" >
+                </android.support.v4.view.ViewPager>
+
+                <ImageButton
+                    android:id="@+id/nextBtn"
+                    style="@style/SettingsNavigationButton.Next"
+                    android:layout_width="@dimen/setttings_navigation_buton_width"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:src="@drawable/arrow_right_orange" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="32dp" >
+
+                <Button
+                    android:id="@+id/magCalibrateBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="14dp"
+                    android:background="@drawable/btn_black"
+                    android:paddingLeft="@dimen/settings_button_left_padding"
+                    android:paddingRight="@dimen/settings_button_right_padding"
+                    android:text="@string/btn_title_calibrate_mag"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:id="@+id/accCalibrateBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginRight="20dp"
+                    android:layout_toLeftOf="@+id/magCalibrateBtn"
+                    android:background="@drawable/btn_black"
+                    android:paddingLeft="@dimen/settings_button_left_padding"
+                    android:paddingRight="@dimen/settings_button_right_padding"
+                    android:text="@string/btn_title_calibrate_acc"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:id="@+id/defaultSettingsBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginRight="14dp"
+                    android:layout_toLeftOf="@+id/accCalibrateBtn"
+                    android:background="@drawable/btn_black"
+                    android:paddingLeft="@dimen/settings_button_left_padding"
+                    android:paddingRight="@dimen/settings_button_right_padding"
+                    android:text="@string/btn_title_default_settings"
+                    android:textColor="@color/white" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>
