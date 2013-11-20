@@ -120,5 +120,4 @@ public class Channel {
 	public void setOwnerSettings(ApplicationSettings ownerSettings) {
 		this.ownerSettings = ownerSettings;
 	}
-
 }

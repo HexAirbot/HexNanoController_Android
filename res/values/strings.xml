@@ -19,6 +19,8 @@
     <string name="btn_title_down_trim">Down</string>
     <string name="btn_title_left_trim">Left</string>
     <string name="btn_title_right_trim">Right</string>
+    <string name="settings_item_connection_state_not_conneceted">Not connected</string>
+    <string name="settings_item_connection_state_conneceted">Connected</string>
     <string name="settings_item_left_handed">LEFT HAND</string>
     <string name="settings_item_interface_opacity">INTERFACE OPACITY</string>
     <string name="settings_item_acc_mode">ACC MODE</string>
@@ -32,5 +34,8 @@
     <string name="settings_item_not_connected">not connected</string>
     <string name="settings_item_connected">connected</string>
     <string name="settings_item_scanning_hex_mini">Sanning Hex Mini...</string>
+    <string name="ble_not_supported">BLE is not available on this device.</string>
+    <string name="bluetooth_not_supported">Bluetooth is not available on this device.</string>
+    
 
 </resources>

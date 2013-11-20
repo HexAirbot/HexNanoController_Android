@@ -15,4 +15,13 @@ public abstract class ViewController {
 	public Context getContext(){
 		return context;
 	}
+	
+	public void viewWillAppear(){
+		
+		
+	}
+	
+	public void viewWillDisappear() {
+		
+	}
 }

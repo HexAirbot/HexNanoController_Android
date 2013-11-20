@@ -15,7 +15,6 @@ import com.hexairbot.hexmini.util.FileHelper;
 
 public class HexMiniApplication 
 	extends Application 
-	
 {   
 	private static final String TAG = "HexMiniApplication";
     

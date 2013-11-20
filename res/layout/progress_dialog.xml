@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="240dip"
+    android:layout_height="160dip"
+    android:background="#AAAAAA"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/activityIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/angeleyes01" android:layout_marginTop="25dip" android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/connectionStateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/activityIndicator"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dip"
+        android:text="连接中.."
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/cancelBtn"
+        android:layout_width="90sp"
+        android:layout_height="40sp"
+        android:layout_alignParentBottom="true"
+        android:text="取消" android:layout_centerHorizontal="true" android:layout_marginBottom="5dip"/>
+
+</RelativeLayout>

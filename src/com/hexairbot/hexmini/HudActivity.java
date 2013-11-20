@@ -4,6 +4,7 @@ import com.hexairbot.hexmini.SettingsDialog;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import android.os.Build;
@@ -27,6 +28,7 @@ import com.hexairbot.hexmini.ui.joystick.JoystickFactory;
 import com.hexairbot.hexmini.ui.joystick.JoystickListener;
 import com.hexairbot.hexmini.HudViewController.JoystickType;
 import com.hexairbot.hexmini.modal.ApplicationSettings;
+import com.hexairbot.hexmini.modal.Transmitter;
 
 
 @SuppressLint("NewApi")
@@ -35,12 +37,16 @@ public class HudActivity extends FragmentActivity implements SettingsDialogDeleg
 	
 	private SettingsDialog settingsDialog;
     private HudViewController hudVC;
+    
+    public static final int REQUEST_ENABLE_BT = 1;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); 
 		hudVC = new HudViewController(this, this);	
+		
+		Transmitter.sharedTransmitter().start();
 	}
 	
 	@Override
@@ -55,8 +61,10 @@ public class HudActivity extends FragmentActivity implements SettingsDialogDeleg
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.addToBackStack(null);
         
-        if(settingsDialog == null)
+        if(settingsDialog == null){
+        	Log.d(TAG, "settingsDialog is null");
         	settingsDialog = new SettingsDialog(this, this);
+        }
         
         settingsDialog.show(ft, "settings");
     }
@@ -72,29 +80,40 @@ public class HudActivity extends FragmentActivity implements SettingsDialogDeleg
 	public void onDismissed(SettingsDialog settingsDialog) {
 		hudVC.setSettingsButtonEnabled(true);
 	}
-	
 
+	
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		return false;
 	}
-	
     
+	
     private ApplicationSettings getSettings()
     {
         return ((HexMiniApplication) getApplication()).getAppSettings();
     }
-   
 
+    
 	@Override
 	public void settingsBtnDidClick(View settingsBtn) {
 		hudVC.setSettingsButtonEnabled(false);
 		showSettingsDialog();		
 	}
 	
-
+	
 	public ViewController getViewController() {
 		return hudVC;
 	}
+	
+	 @Override
+		protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	        // User chose not to enable Bluetooth.
+	        if (requestCode == REQUEST_ENABLE_BT && resultCode == Activity.RESULT_CANCELED) {
+	            finish();
+	            return;
+	        }
+	        super.onActivityResult(requestCode, resultCode, data);
+	    }
+
 }
 

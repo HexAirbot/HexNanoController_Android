@@ -33,7 +33,9 @@ public class SettingsDialog extends DialogFragment
     private SettingsViewController settingsVC;
     
     private Context context;
+    private View view;
     private SettingsDialogDelegate delegate;
+    
     
 
     public SettingsDialog(Context context, SettingsDialogDelegate delegate)
@@ -50,7 +52,7 @@ public class SettingsDialog extends DialogFragment
 
         setStyle(DialogFragment.STYLE_NO_TITLE, R.style.HexMiniTheme_SettingScreen);
     }
-
+    
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -60,10 +62,14 @@ public class SettingsDialog extends DialogFragment
         }
     	
         ViewGroup v = (ViewGroup) inflater.inflate(R.layout.settings_screen, container, false);
-       
-        settingsVC = new SettingsViewController(getActivity(), inflater, v, (SettingsViewControllerDelegate)(((HudActivity) delegate).getViewController()));
-        
-        initListeners();
+            
+            if (this.context == getActivity()) {
+    			Log.d(TAG, "this.context == getActivity()");
+    		}
+            
+            settingsVC = new SettingsViewController(this.context, inflater, v, (SettingsViewControllerDelegate)(((HudActivity) delegate).getViewController()));
+            
+            initListeners();
         
         return v;
     }
@@ -73,6 +79,10 @@ public class SettingsDialog extends DialogFragment
     public void onStart()
     {
         super.onStart();
+        
+        settingsVC.viewWillAppear();
+
+        Log.d(TAG,"onStart sendBleEnableRequest");
     }
 
 
@@ -80,6 +90,10 @@ public class SettingsDialog extends DialogFragment
     public void onStop()
     {
         super.onStop();
+        
+        Log.d(TAG, "settingsVC viewWillDisappear");
+        
+        settingsVC.viewWillDisappear();
     }
 
 
