@@ -18,7 +18,6 @@ public abstract class ViewController {
 	
 	public void viewWillAppear(){
 		
-		
 	}
 	
 	public void viewWillDisappear() {

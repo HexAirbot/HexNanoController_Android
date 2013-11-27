@@ -150,7 +150,7 @@ public class HudViewController extends ViewController
 		
 		initJoystickListeners();
 		initJoysticks(JoystickType.ANALOGUE, JoystickType.ANALOGUE, isLeftHanded);
-
+		
 		initListeners();
 		
 		initChannels();
@@ -165,6 +165,11 @@ public class HudViewController extends ViewController
 	    aux2Channel     = settings.getChannel(Channel.CHANNEL_NAME_AUX2);
 	    aux3Channel     = settings.getChannel(Channel.CHANNEL_NAME_AUX3);
 	    aux4Channel     = settings.getChannel(Channel.CHANNEL_NAME_AUX4);
+	    
+	    aileronChannel.setValue(0.0f);
+	    elevatorChannel.setValue(0.0f);
+	    rudderChannel.setValue(0.0f);
+	    throttleChannel.setValue(-1);
 	}
 	
 	private void initJoystickListeners()
@@ -173,18 +178,23 @@ public class HudViewController extends ViewController
 	        {
 	            public void onChanged(JoystickBase joy, float x, float y)
 	            {
-	        		Log.d(TAG, "rollPitchListener onChanged x:" + x + "y:" + y);
+	        		Log.e(TAG, "rollPitchListener onChanged x:" + x + "y:" + y);
+	                aileronChannel.setValue(x);
+	                elevatorChannel.setValue(y);
 	            }
 
 	            @Override
 	            public void onPressed(JoystickBase joy)
 	            {
+	            	
+	            	
 	            }
 
 	            @Override
 	            public void onReleased(JoystickBase joy)
 	            {
-
+	                aileronChannel.setValue(0.0f);
+	                elevatorChannel.setValue(0.0f);
 	            }
 	        };
 
@@ -192,17 +202,22 @@ public class HudViewController extends ViewController
 	        {
 	            public void onChanged(JoystickBase joy, float x, float y)
 	            {
-	        		Log.d(TAG, "rudderThrottleListener onChanged x:" + x + "y:" + y);
+	        		Log.e(TAG, "rudderThrottleListener onChanged x:" + x + "y:" + y);
+	        		rudderChannel.setValue(x);
+	        		throttleChannel.setValue(y);
 	            }
 
 	            @Override
 	            public void onPressed(JoystickBase joy)
 	            {
+	            	
 	            }
 
 	            @Override
 	            public void onReleased(JoystickBase joy)
 	            {
+	        		rudderChannel.setValue(0.0f);
+	        		throttleChannel.setValue(joy.getYValue());
 	            }
 	        };
     }
@@ -463,8 +478,15 @@ public class HudViewController extends ViewController
         JoystickBase joystickRight = (!isLeftHanded ? getJoystickRight() : getJoystickLeft());
 
 
+		ApplicationSettings settings = HexMiniApplication.sharedApplicaion().getAppSettings();
+		settings.setElevatorDeadBand(settings.getAileronDeadBand());
+        
         if (joystickLeft == null || !(joystickLeft instanceof AnalogueJoystick)) {
-        	joystickLeft = JoystickFactory.createAnalogueJoystick(this.getContext(), false, rollPitchListener, false);
+        	joystickLeft = JoystickFactory.createAnalogueJoystick(this.getContext(), false, rollPitchListener, true);
+        	joystickLeft.setXDeadBand(settings.getAileronDeadBand());
+        	joystickLeft.setYDeadBand(settings.getElevatorDeadBand());
+        	//((AnalogueJoystick)joystickLeft).setXDeadBand(0.12f);
+        //	((AnalogueJoystick)joystickLeft).setYDeadBand(0.12f);
         } 
         else {
         	joystickLeft.setOnAnalogueChangedListener(rollPitchListener);
@@ -473,6 +495,7 @@ public class HudViewController extends ViewController
 
         if (joystickRight == null || !(joystickRight instanceof AnalogueJoystick)) {
         	joystickRight = JoystickFactory.createAnalogueJoystick(this.getContext(), false, rudderThrottleListener, false);
+        	joystickRight.setXDeadBand(settings.getRudderDeadBand());
         } 
         else {
         	joystickRight.setOnAnalogueChangedListener(rudderThrottleListener);
@@ -491,8 +514,25 @@ public class HudViewController extends ViewController
         }
     }
 
+    
 	@Override
 	public void headfreeModeValueDidChange(boolean isHeadfree) {
-		// TODO Auto-generated method stub
+	}
+
+	
+	@Override
+	public void aileronAndElevatorDeadBandValueDidChange(float newValue) {
+	    JoystickBase joystickLeft  = (!isLeftHanded ? getJoystickLeft() : getJoystickRight());
+        
+        joystickLeft.setXDeadBand(newValue);
+        joystickLeft.setYDeadBand(newValue);
+	}
+
+	@Override
+	public void rudderDeadBandValueDidChange(float newValue) {
+		JoystickBase joystickRight = (!isLeftHanded ? getJoystickRight() : getJoystickLeft());
+		
+		joystickRight.setXDeadBand(newValue);
+		//joystickRight.setYDeadBand(newValue);
 	}
 }

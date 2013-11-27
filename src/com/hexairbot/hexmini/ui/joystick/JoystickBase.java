@@ -406,7 +406,6 @@ public abstract class JoystickBase extends Sprite
     	Log.d("onActionDown x y", "x:"+ x + ";y:"+ y);
     	Log.d("onActionDown before", "centerX:"+ centerX + ";centerY:"+ centerY  + ";thumbCenterX:"+ thumbCenterX + ";thumbCenterY:"+ thumbCenterY);
     	
-    	
         isPressed = true;
 
         if (yStickIsBounced) {
@@ -420,8 +419,36 @@ public abstract class JoystickBase extends Sprite
         
 
         if (analogueListener != null) {
-            analogueListener.onChanged(this, 0, 0);
-            analogueListener.onPressed(this);
+        	if (yStickIsBounced) {
+                analogueListener.onChanged(this, 0, 0);
+                analogueListener.onPressed(this);
+			}
+        	else{
+        		 float yValidBand = 1 - yDeadBand; 	
+        	
+                if ((centerY - inverseY(y)) > (bg.height / 2.0f * yDeadBand)) {
+                	float percent = (centerY - inverseY(y) - (bg.height / 2.0f * yDeadBand)) / (yValidBand / 2.0f * bg.height);
+                	
+                	if(percent > 1.0f)
+                		percent = 1;
+                	
+                	yValue = -percent;
+        		}
+                else if((inverseY(y) - centerY) > (bg.height / 2.0f * yDeadBand)) {
+                	float percent = (inverseY(y) - centerY - (bg.height / 2.0f *  yDeadBand)) / (yValidBand / 2.0f * bg.height);
+                	
+                	if(percent > 1.0f)
+                		percent = 1;
+                	
+                	yValue = percent;
+        		}
+                else {
+        			yValue = 0;
+                }
+        		
+                analogueListener.onChanged(this, 0, yValue);
+                analogueListener.onPressed(this);
+        	}
         }
         
         Log.d("onActionDown after", "centerX:"+ centerX + ";centerY:"+ centerY  + ";thumbCenterX:"+ thumbCenterX + ";thumbCenterY:"+ thumbCenterY);
@@ -495,8 +522,13 @@ public abstract class JoystickBase extends Sprite
 		}
         else{
         	absolutMoveThumbTo(baseX,  inverseY(baseY - (thumbCenterY - centerY))); 
-        	moveTo(baseX, inverseY(baseY));        	   
+        	moveTo(baseX, inverseY(baseY));   
+        	
+            if (analogueListener != null) {
+            	analogueListener.onReleased(this);
+    		}
         }
+
         
         Log.d("onActionUp", "centerX:"+ centerX + ";centerY:"+ centerY  + ";thumbCenterX:"+ thumbCenterX + ";thumbCenterY:"+ thumbCenterY);
     }

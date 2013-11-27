@@ -330,8 +330,8 @@ public class SettingsViewController extends ViewController
         
         interfaceOpacitySeekBar.setMax(100);
         takeOffThrottleSeekBar.setMax(1000);
-        aileronAndElevatorDeadBandSeekBar.setMax(20);
-        rudderDeadBandSeekBar.setMax(20);
+        aileronAndElevatorDeadBandSeekBar.setMax(100);
+        rudderDeadBandSeekBar.setMax(100);
         
         WebView aboutWebView = (WebView)settingsViews.get(aboutPageIdx).findViewById(R.id.aboutWebView);
         aboutWebView.getSettings().setJavaScriptEnabled(true);  
@@ -366,8 +366,6 @@ public class SettingsViewController extends ViewController
         
        // sendBleEnableRequest();
         
-        
-
         // Device scan callback.
         mLeScanCallback =
                new BluetoothAdapter.LeScanCallback() {
@@ -477,9 +475,6 @@ public class SettingsViewController extends ViewController
 						isScanning = true;
 						scanBtn.setText(R.string.btn_title_stop_scan);
 						//mBluetoothAdapter.stopLeScan(mLeScanCallback);
-						
-						
-						
 					
 						if(mBluetoothAdapter.startLeScan(mLeScanCallback)){
 							Log.d(TAG, "ble scan start successful");
@@ -655,6 +650,10 @@ public class SettingsViewController extends ViewController
 				settings.setAileronDeadBand(seekBar.getProgress() / 100.f);
 				settings.setElevatorDeadBand(settings.getAileronDeadBand());
 				settings.save();
+				
+				if (delegate != null) {
+					delegate.aileronAndElevatorDeadBandValueDidChange(settings.getAileronDeadBand());
+				}
 			}
 			
 			@Override
@@ -676,6 +675,10 @@ public class SettingsViewController extends ViewController
 				ApplicationSettings settings = HexMiniApplication.sharedApplicaion().getAppSettings();
 				settings.setRudderDeadBand(seekBar.getProgress() / 100.f);
 				settings.save();
+				
+				if (delegate != null) {
+					delegate.rudderDeadBandValueDidChange(settings.getRudderDeadBand());
+				}
 			}
 			
 			@Override
@@ -844,7 +847,7 @@ public class SettingsViewController extends ViewController
 		}
 		
 		Toast.makeText(SettingsViewController.this.context, "Ê§È¥Á¬½Ó!", Toast.LENGTH_LONG).show();	 
-	
+		connectionStateTextView.setText(R.string.settings_item_connection_state_not_conneceted);
 	}
 
 	@Override
@@ -1027,6 +1030,8 @@ public class SettingsViewController extends ViewController
 	public void viewWillDisappear() {
 		// TODO Auto-generated method stub
 		super.viewWillDisappear();
+		
+		Log.d(TAG, "viewWillAppear()");
 
 		if (isScanning) {
 			if (bleAvailabed) {

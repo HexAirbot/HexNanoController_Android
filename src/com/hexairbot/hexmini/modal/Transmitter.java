@@ -3,15 +3,18 @@ package com.hexairbot.hexmini.modal;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.R.integer;
+
 import com.hexairbot.hexmini.ble.BleConnectinManager;
 
 public class Transmitter {
 	private static final int  CHANNEL_COUNT = 8;
+	private static final int  FPS = 20;
 	
 	private static Transmitter sharedTransmitter; 
 	private BleConnectinManager bleConnectionManager;
 	private Timer timer;
-	private char dataPackage[] = new char[22];
+	private byte dataPackage[] = new byte[11];
 	private float[] channelList = new float[CHANNEL_COUNT];
 	
 	public BleConnectinManager getBleConnectionManager() {
@@ -43,7 +46,7 @@ public class Transmitter {
 			public void run() {
 				transmmit();
 			}
-		}, 0, 40);
+		}, 0, 1000 / FPS);
 	}
 	
 	public void stop(){
@@ -65,17 +68,8 @@ public class Transmitter {
 	private void transmmit(){
 		updateDataPackage();
 	    
-	    String data = null;
-
-	    if (data == null) {
-	        data = new String(dataPackage, 0, 11);
-	    }
-	    else{
-	    	data += new String(dataPackage, 0, 11);
-	    }
-	    
-	    if (bleConnectionManager.isConnected() && data != null) {
-			bleConnectionManager.sendData(data);
+	    if (bleConnectionManager.isConnected() && dataPackage != null) {
+			bleConnectionManager.sendData(dataPackage);
 		}
 	}
 	
@@ -84,7 +78,7 @@ public class Transmitter {
 		dataPackage[1] = 'M';
 		dataPackage[2] = '<';
 		dataPackage[3] = 4;
-		dataPackage[4] = (char)(OSDCommon.MSPCommnand.MSP_SET_RAW_RC_TINY.value());
+		dataPackage[4] = (byte)(OSDCommon.MSPCommnand.MSP_SET_RAW_RC_TINY.value());
 		
 		updateDataPackage();
 	}
@@ -106,7 +100,7 @@ public class Transmitter {
 	    checkSum ^= (dataPackage[dataSizeIdx + 1] & 0xFF);
 	    
 	    for(int channelIdx = 0; channelIdx < CHANNEL_COUNT - 4; channelIdx++){
-	        float scale =  dataPackage[channelIdx];
+	        float scale =  channelList[channelIdx];
 	        
 	        
 	        if (scale > 1) {
@@ -118,16 +112,7 @@ public class Transmitter {
 	        
 	        byte pulseLen =  (byte) ((int)(Math.abs(500 + 500 * scale)) / 4);
 	    
-	        dataPackage[5 + channelIdx] = (char) pulseLen;
-
-	//À¶ÑÀÑÓ³Ù²âÊÔ
-//	        if(channelIdx ==0){
-//	            static int len = 0;
-//	            package[5 + channelIdx] = len++;
-//	            if (len > 250) {
-//	                len = 0;
-//	            }
-//	        }
+	        dataPackage[5 + channelIdx] = (byte) pulseLen;
 	        
 	        checkSum ^= (dataPackage[5 + channelIdx] & 0xFF);
 	    }
@@ -182,9 +167,9 @@ public class Transmitter {
 	        auxChannels |= 0x02;
 	    }
 	    
-	    dataPackage[5 + 4] = (char) auxChannels;
+	    dataPackage[5 + 4] = (byte) auxChannels;
 	    checkSum ^= (dataPackage[5 + 4] & 0xFF);
 	       
-	    dataPackage[checkSumIdx] = (char) checkSum;
+	    dataPackage[checkSumIdx] = (byte) checkSum;
 	}
 }

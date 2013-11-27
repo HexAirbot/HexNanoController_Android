@@ -34,8 +34,7 @@ public class BleConnectinManager implements BleConnectionDelegate {
 	}
 	
 	public void connect(BleConnection connection){
-		
-		
+		/*
 		if (currentConnection == connection) {
 			if (currentConnection != null) {
 				if (isConnected()) {
@@ -58,11 +57,20 @@ public class BleConnectinManager implements BleConnectionDelegate {
 			currentConnection.setDelegate(this);
 			currentConnection.connect();
 		}
+		*/
+		if (currentConnection != null) {
+			currentConnection.disconnect();
+			currentConnection.releaseSource();
+		}
+		currentConnection = connection;
+		isTryingConnect = true;
+		currentConnection.setDelegate(this);
+		currentConnection.connect();
 	}
 	
 	public void disconnect(){
 		if (currentConnection != null) {
-			currentConnection.disconnect();
+			//currentConnection.disconnect();
 			currentConnection.releaseSource();
 			currentConnection = null;
 			isTryingConnect = false;
@@ -70,6 +78,13 @@ public class BleConnectinManager implements BleConnectionDelegate {
 	}
 	
 	public void sendData(String data){
+		if ((currentConnection != null) && currentConnection.isConnected()) {
+			currentConnection.sendData(data);
+		}
+	}
+	
+
+	public void sendData(byte[] data){
 		if ((currentConnection != null) && currentConnection.isConnected()) {
 			currentConnection.sendData(data);
 		}

@@ -36,7 +36,6 @@ public class SettingsDialog extends DialogFragment
     private View view;
     private SettingsDialogDelegate delegate;
     
-    
 
     public SettingsDialog(Context context, SettingsDialogDelegate delegate)
     {

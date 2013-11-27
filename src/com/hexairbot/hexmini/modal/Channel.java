@@ -74,7 +74,8 @@ public class Channel {
 	    
 		outputValue *= outputAdjustabledRange;
 	    
-	    //[[Transmitter sharedTransmitter] setPpmValue:outputValue atChannel:_idx];
+		Transmitter.sharedTransmitter().setChannel(idx, outputValue);
+		
 	}
 
 	public float getDefaultOutputValue() {

@@ -33,8 +33,10 @@ public class BleConnection {
 	protected BleConnectionDelegate delegate;
 	protected boolean isConnected;
 	protected boolean isConnecting;
-	protected boolean isTryingConnect;
 	protected boolean isReadyToConnect;
+	
+	private boolean isTryingDisconnect;
+	
 	public boolean isReadyToConnect() {
 		return isReadyToConnect;
 	}
@@ -52,11 +54,10 @@ public class BleConnection {
                 Log.e(TAG, "Unable to initialize Bluetooth");
                 mBluetoothLeService = null;
             }
-            
-            isReadyToConnect = true;
-            Log.e(TAG, "mBluetoothLeService is okay");
-            //sAutomatically connects to the device upon successful start-up initialization.
-            //mBluetoothLeService.connect(mDeviceAddress);
+            else{
+                isReadyToConnect = true;
+                Log.e(TAG, "mBluetoothLeService is okay");
+            }
         }
 
         @Override
@@ -76,26 +77,29 @@ public class BleConnection {
     private BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+        	
             final String action = intent.getAction();
             if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {  //连接成功
             	Log.e(TAG, "Only gatt, just wait");
             } else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) { //断开连接
-                isConnected = false;
+                Log.e(TAG,  "ACTION_GATT_DISCONNECTED");
+            	isConnected = false;
                 if (delegate != null) {
 					delegate.didDisconnect(BleConnection.this);
+					releaseSource();
 				}
-                
-            }else if(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) //可以开始干活了
+            }
+            else if(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) //可以开始干活了
             {
             	//Toast.makeText(BleConnection.this.context, "连接成功，现在可以正常通信！", Toast.LENGTH_SHORT).show();
-            	
             	isConnected = true;
             	isConnecting = false;
             	
             	if (delegate != null) {
 					delegate.didConnect(BleConnection.this);
 				}
-            }else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) { //收到数据
+            }
+            else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) { //收到数据
             	Log.e(TAG, "RECV DATA");
             	String data = intent.getStringExtra(BluetoothLeService.EXTRA_DATA);
             	if (delegate != null) {
@@ -124,6 +128,10 @@ public class BleConnection {
 						}
 		                break;
 		            case ACTION_CONNCET:
+		            	if (isTryingDisconnect == true) {
+							return;
+						}
+		            	
 		            	mBluetoothLeService.connect(BleConnection.this.deviceAddress);
 		            	break;
 		            }  
@@ -182,15 +190,11 @@ public class BleConnection {
 	public void connect(){
 		Log.d(TAG, "try connect");
 		
-		
-		
 		if (isConnected()) {
 			return;
 		} 
 		else {
-			if (isTryingConnect == false) {
-				isTryingConnect = true;
-
+			if (timer != null) { //正在尝试连接
 				connectionTimeCount = 0;
 
 				timer = new Timer();
@@ -201,11 +205,10 @@ public class BleConnection {
 							Log.d(TAG, "is Connect");
 							timer.cancel();
 							timer = null;
-							isTryingConnect = false;
 							isConnecting = false;
 							return;
 						}
-
+						
 						if (isReadyToConnect() && (isConnecting == false)) {
 							Log.d(TAG, "isReadyToConnect");
 							isConnecting = true;
@@ -213,23 +216,24 @@ public class BleConnection {
 							message.what = ACTION_CONNCET;
 							handler.sendMessage(message);
 							
+							timer.cancel();
+							timer = null;
+							
 							return;
 						} 
 						else {
 							if (connectionTimeCount > 40) {
 								connectionTimeCount = 0;
-								isTryingConnect = false;
 								isConnecting = false;
-								timer.cancel();
-								timer = null;
-
+	
 								Log.d(TAG, "connect timeout");
-
-								// (Activity)(BleConnection.this.context).;
 
 								Message message = new Message();
 								message.what = FAILED_TO_CONNECT;
 								handler.sendMessage(message);
+								
+								timer.cancel();
+								timer = null;
 
 								return;
 							}
@@ -244,7 +248,12 @@ public class BleConnection {
 	}
 	
 	public void disconnect() {
-		Log.d(TAG, "try disconnect");
+		if (timer != null) {  //正在尝试连接
+			timer.cancel();
+			timer = null;
+			connectionTimeCount = 0;
+			isConnecting = false;
+		}
 		
 		if (isConnected()) {
 			if (mBluetoothLeService != null) {
@@ -256,14 +265,6 @@ public class BleConnection {
 			
 			return;
 		}
-		
-		if (isTryingConnect) {
-			timer.cancel();
-			timer = null;
-			connectionTimeCount = 0;
-			isTryingConnect = false;
-			isConnecting = false;
-		}
 	}
 	
 	public void sendData(String data) {
@@ -271,7 +272,13 @@ public class BleConnection {
 			mBluetoothLeService.WriteValue(data);	
 		}
 	}
-
+	
+	public void sendData(byte[] data) {
+		if (mBluetoothLeService != null && isConnected()) {
+			mBluetoothLeService.WriteValue(data);	
+		}
+	}
+	
 	public boolean isConnected() {
 		return isConnected;
 	}
@@ -280,16 +287,9 @@ public class BleConnection {
 		return context;
 	}
 
-	@Override
-	protected void finalize() throws Throwable {
-		// TODO Auto-generated method stub
-		super.finalize();
-		releaseSource();
-	}
-	
+
 	public void releaseSource(){
 		disconnect();
-		
 		
 		if (mGattUpdateReceiver != null) {
 			this.context.unregisterReceiver(mGattUpdateReceiver);

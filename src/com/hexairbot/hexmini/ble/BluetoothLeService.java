@@ -66,8 +66,18 @@ public class BluetoothLeService extends Service {
     
     public void WriteValue(String strValue)
     {
-    	mNotifyCharacteristic.setValue(strValue.getBytes());
-    	mBluetoothGatt.writeCharacteristic(mNotifyCharacteristic);
+    	if (mBluetoothGatt != null) {
+        	mNotifyCharacteristic.setValue(strValue.getBytes());
+        	mBluetoothGatt.writeCharacteristic(mNotifyCharacteristic);
+		}
+    }
+    
+    public void WriteValue(byte[] data)
+    {
+    	if (mBluetoothGatt != null) {
+    		mNotifyCharacteristic.setValue(data);
+    		mBluetoothGatt.writeCharacteristic(mNotifyCharacteristic);
+    	}
     }
     
     public void findService(List<BluetoothGattService> gattServices)
@@ -151,14 +161,14 @@ public class BluetoothLeService extends Service {
         public void onCharacteristicChanged(BluetoothGatt gatt,
                                             BluetoothGattCharacteristic characteristic) {
             broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
-            Log.e(TAG, "OnCharacteristicWrite");
+            //Log.e(TAG, "OnCharacteristicWrite");
         }
         
         @Override
         public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic,
         								int status)
         {
-        	Log.e(TAG, "OnCharacteristicWrite");
+        	//Log.e(TAG, "OnCharacteristicWrite");
         }
         
         @Override
