@@ -28,12 +28,12 @@ public class BleConnection {
 	private Timer timer;
 	private BluetoothDevice device;
 	
-	protected String deviceName;
-	protected String deviceAddress;
-	protected BleConnectionDelegate delegate;
-	protected boolean isConnected;
-	protected boolean isConnecting;
-	protected boolean isReadyToConnect;
+	private String deviceName;
+	private String deviceAddress;
+	private BleConnectionDelegate delegate;
+	private boolean isConnected;
+	private boolean isConnecting;
+	private boolean isReadyToConnect;
 	
 	private boolean isTryingDisconnect;
 	
@@ -41,9 +41,9 @@ public class BleConnection {
 		return isReadyToConnect;
 	}
 
-	protected Context context;
+	private Context context;
 	
-	protected BluetoothLeService mBluetoothLeService;
+	private BluetoothLeService mBluetoothLeService;
 	
 	 // Code to manage Service lifecycle.
     private  ServiceConnection mServiceConnection = new ServiceConnection() {
@@ -194,7 +194,7 @@ public class BleConnection {
 			return;
 		} 
 		else {
-			if (timer != null) { //正在尝试连接
+			if (timer == null) { 
 				connectionTimeCount = 0;
 
 				timer = new Timer();

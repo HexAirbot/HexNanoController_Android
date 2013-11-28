@@ -178,6 +178,7 @@ public abstract class Sprite
     public abstract void draw(Canvas canvas);
     public abstract boolean onTouchEvent(View v, MotionEvent event);
     public abstract boolean isInitialized();
+    public abstract void setNeedsUpdate();
     public abstract void setViewAndProjectionMatrices(float[] vMatrix, float[] projMatrix);
     public abstract int getWidth();
     public abstract int getHeight();

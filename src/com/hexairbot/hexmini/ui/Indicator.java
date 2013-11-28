@@ -109,4 +109,9 @@ public class Indicator extends Sprite
             indicatorStates[i].freeResources();
         }
     }
+
+	@Override
+	public void setNeedsUpdate() {
+		initialized = false;
+	}
 }

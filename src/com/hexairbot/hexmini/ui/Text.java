@@ -221,5 +221,9 @@ public class Text extends Sprite{
     {
         sprite.freeResources();
     }
+    
+    @Override
+    public void setNeedsUpdate() {
 
+    }
 }

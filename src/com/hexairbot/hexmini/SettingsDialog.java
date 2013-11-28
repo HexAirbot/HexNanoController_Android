@@ -1,6 +1,7 @@
 
 package com.hexairbot.hexmini;
 
+import com.hexairbot.hexmini.HexMiniApplication.AppStage;
 import com.hexairbot.hexmini.modal.ApplicationSettings;
 
 import android.annotation.SuppressLint;
@@ -25,18 +26,13 @@ import android.view.ViewGroup;
 @SuppressLint("ValidFragment")
 public class SettingsDialog extends DialogFragment
 {
-    public static final int RESULT_OK = 0;
-    public static final int RESULT_CLOSE_APP = 1;
-
     private static final String TAG = SettingsDialog.class.getSimpleName();
     
     private SettingsViewController settingsVC;
-    
     private Context context;
-    private View view;
     private SettingsDialogDelegate delegate;
-    
 
+    
     public SettingsDialog(Context context, SettingsDialogDelegate delegate)
     {
         super();
@@ -80,6 +76,8 @@ public class SettingsDialog extends DialogFragment
         super.onStart();
         
         settingsVC.viewWillAppear();
+        
+        HexMiniApplication.sharedApplicaion().setAppStage(AppStage.SETTINGS);
 
         Log.d(TAG,"onStart sendBleEnableRequest");
     }
@@ -89,6 +87,8 @@ public class SettingsDialog extends DialogFragment
     public void onStop()
     {
         super.onStop();
+        
+        HexMiniApplication.sharedApplicaion().setAppStage(AppStage.HUD);
         
         Log.d(TAG, "settingsVC viewWillDisappear");
         

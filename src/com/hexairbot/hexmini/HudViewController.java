@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.res.Resources;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
-import android.util.SparseIntArray;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.GestureDetector.OnGestureListener;
@@ -12,8 +11,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.TextView;
+
+import com.hexairbot.hexmini.HexMiniApplication.AppStage;
 import com.hexairbot.hexmini.gestures.EnhancedGestureDetector;
 import com.hexairbot.hexmini.modal.ApplicationSettings;
 import com.hexairbot.hexmini.modal.Channel;
@@ -22,13 +21,13 @@ import com.hexairbot.hexmini.ui.Image;
 import com.hexairbot.hexmini.ui.Indicator;
 import com.hexairbot.hexmini.ui.Sprite;
 import com.hexairbot.hexmini.ui.Text;
-import com.hexairbot.hexmini.ui.ToggleButton;
 import com.hexairbot.hexmini.ui.UIRenderer;
 import com.hexairbot.hexmini.ui.Image.SizeParams;
 import com.hexairbot.hexmini.ui.Sprite.Align;
 import com.hexairbot.hexmini.ui.joystick.AnalogueJoystick;
 import com.hexairbot.hexmini.ui.joystick.JoystickBase;
 import com.hexairbot.hexmini.ui.joystick.JoystickFactory;
+import com.hexairbot.hexmini.ui.joystick.JoystickFactory.JoystickType;
 import com.hexairbot.hexmini.ui.joystick.JoystickListener;
 
 
@@ -37,13 +36,6 @@ public class HudViewController extends ViewController
 			   OnGestureListener,
 			   SettingsViewControllerDelegate
 {
-	public enum JoystickType {
-		NONE,
-		ANALOGUE,
-		ACCELERO,
-		COMBINED,
-	}
-	
 	private static final String TAG = "HudViewController";
 	
 	private static final int JOY_ID_LEFT     = 1;
@@ -69,7 +61,7 @@ public class HudViewController extends ViewController
 	
 	private GLSurfaceView glView;
 	
-	private JoystickBase[] joysticks;
+	private JoystickBase[] joysticks;   //[0]roll and pitch, [1]rudder and throttle
 	private float joypadOpacity;
 	private GestureDetector gestureDetector;
 	
@@ -101,7 +93,9 @@ public class HudViewController extends ViewController
 		
 		settings = ((HexMiniApplication)context.getApplication()).getAppSettings();
 		
-	    joypadOpacity = 1f;
+	    joypadOpacity = settings.getInterfaceOpacity();
+	    isLeftHanded  = settings.isLeftHanded();
+	    
 		this.context = context;
 		gestureDetector = new EnhancedGestureDetector(context, this);
 		
@@ -149,7 +143,7 @@ public class HudViewController extends ViewController
 		renderer.addSprite(SETTINGS_BTN_ID, settingsBtn);
 		
 		initJoystickListeners();
-		initJoysticks(JoystickType.ANALOGUE, JoystickType.ANALOGUE, isLeftHanded);
+		initJoysticks(JoystickType.ANALOGUE, JoystickType.ANALOGUE);
 		
 		initListeners();
 		
@@ -178,6 +172,12 @@ public class HudViewController extends ViewController
 	        {
 	            public void onChanged(JoystickBase joy, float x, float y)
 	            {
+	            	if(HexMiniApplication.sharedApplicaion().getAppStage() == AppStage.SETTINGS){
+	            		Log.e(TAG, "AppStage.SETTINGS ignore rollPitchListener onChanged");
+	            		return;
+	            	}
+	            	
+	            	
 	        		Log.e(TAG, "rollPitchListener onChanged x:" + x + "y:" + y);
 	                aileronChannel.setValue(x);
 	                elevatorChannel.setValue(y);
@@ -202,6 +202,12 @@ public class HudViewController extends ViewController
 	        {
 	            public void onChanged(JoystickBase joy, float x, float y)
 	            {
+	            	if(HexMiniApplication.sharedApplicaion().getAppStage() == AppStage.SETTINGS){
+	            		Log.e(TAG, "AppStage.SETTINGS ignore rudderThrottleListener onChanged");
+	            		return;
+	            	}
+	            	
+	            	
 	        		Log.e(TAG, "rudderThrottleListener onChanged x:" + x + "y:" + y);
 	        		rudderChannel.setValue(x);
 	        		throttleChannel.setValue(y);
@@ -217,6 +223,9 @@ public class HudViewController extends ViewController
 	            public void onReleased(JoystickBase joy)
 	            {
 	        		rudderChannel.setValue(0.0f);
+	        		
+	        		Log.e(TAG, "rudderThrottleListener onReleased"+joy.getYValue());
+	        		
 	        		throttleChannel.setValue(joy.getYValue());
 	            }
 	        };
@@ -262,6 +271,71 @@ public class HudViewController extends ViewController
 		}
 	}
 	
+	public void setJoysticks()
+	{
+		JoystickBase rollAndPitchJoystick = joysticks[0];
+		JoystickBase rudderAndThrottleJoystick = joysticks[1];
+		
+		if (rollAndPitchJoystick != null) 
+		{
+			if (isLeftHanded) {
+			    joysticks[0].setAlign(Align.BOTTOM_RIGHT);
+			    joysticks[0].setAlpha(joypadOpacity);
+			}else{
+				joysticks[0].setAlign(Align.BOTTOM_LEFT);
+				joysticks[0].setAlpha(joypadOpacity);
+			}
+			
+			rollAndPitchJoystick.setNeedsUpdate();
+		}
+	
+		if (rudderAndThrottleJoystick != null)	{
+			if (isLeftHanded) {
+			    joysticks[1].setAlign(Align.BOTTOM_LEFT);
+			    joysticks[1].setAlpha(joypadOpacity);
+			}else{
+			    joysticks[1].setAlign(Align.BOTTOM_RIGHT);
+			    joysticks[1].setAlpha(joypadOpacity);
+			}
+			
+			rudderAndThrottleJoystick.setNeedsUpdate();
+		}
+		
+		for (int i=0; i<joysticks.length; ++i) {
+		    JoystickBase joystick = joysticks[i];
+		    
+			if (joystick != null) {
+				joystick.setInverseYWhenDraw(true);
+
+				int margin = context.getResources().getDimensionPixelSize(R.dimen.hud_joy_margin);
+				
+				joystick.setMargin(0, margin, bottomBarBg.getHeight() + margin, margin);
+			}
+		}
+		
+		renderer.removeSprite(JOY_ID_LEFT);
+		renderer.removeSprite(JOY_ID_RIGHT);
+
+		if (rollAndPitchJoystick != null) {
+			if (isLeftHanded) {
+				renderer.addSprite(JOY_ID_RIGHT, rollAndPitchJoystick);
+			}
+			else{
+				renderer.addSprite(JOY_ID_LEFT, rollAndPitchJoystick);
+			}
+		}
+		
+		if (rudderAndThrottleJoystick != null) {
+			if (isLeftHanded) {
+				renderer.addSprite(JOY_ID_LEFT, rudderAndThrottleJoystick);
+			}
+			else{
+				renderer.addSprite(JOY_ID_RIGHT, rudderAndThrottleJoystick);
+			}
+		}
+	}
+	
+	/*
 	public void setJoysticks(JoystickBase left, JoystickBase right)
 	{
 		joysticks[0] = left;
@@ -297,16 +371,16 @@ public class HudViewController extends ViewController
 		if (right != null) {
 			renderer.addSprite(JOY_ID_RIGHT, right);
 		}
+	}*/
+	
+	public JoystickBase getRollAndPitchJoystick()
+	{
+		return joysticks[0];
 	}
 	
-	public JoystickBase getJoystickLeft()
+	public JoystickBase getRudderAndThrottleJoystick()
 	{
-	    return joysticks[0];
-	}
-	
-	public JoystickBase getJoystickRight()
-	{
-	    return joysticks[1];
+			return joysticks[1];
 	}
 	
 	public void setInterfaceOpacity(float opacity)
@@ -453,86 +527,73 @@ public class HudViewController extends ViewController
 
 	@Override
 	public void leftHandedValueDidChange(boolean isLeftHanded) {
-        JoystickBase joystickLeft  = (!isLeftHanded ? getJoystickLeft() : getJoystickRight());
-        JoystickBase joystickRight = (!isLeftHanded ? getJoystickRight() : getJoystickLeft());
+		this.isLeftHanded = isLeftHanded;
 
-        if (!isLeftHanded) {
-        	joystickLeft.setIsRollPitchJoystick(true);
-        	joystickRight.setIsRollPitchJoystick(false);
-        } 
-        else {
-        	joystickLeft.setIsRollPitchJoystick(false);
-        	joystickRight.setIsRollPitchJoystick(true);
-        }
+		setJoysticks();
+		
+		Log.e(TAG, "THRO:" + throttleChannel.getValue());
+		
+		getRudderAndThrottleJoystick().setYValue(throttleChannel.getValue());
 	}
 
 	@Override
 	public void accModeValueDidChange(boolean isAccMode) {
-		// TODO Auto-generated method stub
-		
 	}
-
-    private void initJoysticks(JoystickType leftType, JoystickType rightType, boolean isLeftHanded)
+	
+    private void initJoysticks(JoystickType leftType, JoystickType rightType)
     {
-        JoystickBase joystickLeft  = (!isLeftHanded ? getJoystickLeft() : getJoystickRight());
-        JoystickBase joystickRight = (!isLeftHanded ? getJoystickRight() : getJoystickLeft());
+        JoystickBase rollAndPitchJoystick      = getRollAndPitchJoystick(); 
+        JoystickBase rudderAndThrottleJoystick = getRudderAndThrottleJoystick();
 
-
+        /*
 		ApplicationSettings settings = HexMiniApplication.sharedApplicaion().getAppSettings();
 		settings.setElevatorDeadBand(settings.getAileronDeadBand());
+		*/
         
-        if (joystickLeft == null || !(joystickLeft instanceof AnalogueJoystick)) {
-        	joystickLeft = JoystickFactory.createAnalogueJoystick(this.getContext(), false, rollPitchListener, true);
-        	joystickLeft.setXDeadBand(settings.getAileronDeadBand());
-        	joystickLeft.setYDeadBand(settings.getElevatorDeadBand());
-        	//((AnalogueJoystick)joystickLeft).setXDeadBand(0.12f);
-        //	((AnalogueJoystick)joystickLeft).setYDeadBand(0.12f);
+        if (rollAndPitchJoystick == null || !(rollAndPitchJoystick instanceof AnalogueJoystick)) {
+        	rollAndPitchJoystick = JoystickFactory.createAnalogueJoystick(this.getContext(), false, rollPitchListener, true);
+        	rollAndPitchJoystick.setXDeadBand(settings.getAileronDeadBand());
+        	rollAndPitchJoystick.setYDeadBand(settings.getElevatorDeadBand());
         } 
         else {
-        	joystickLeft.setOnAnalogueChangedListener(rollPitchListener);
-        	//joystickRight.setAbsolute(false);
+        	rollAndPitchJoystick.setOnAnalogueChangedListener(rollPitchListener);
         }
 
-        if (joystickRight == null || !(joystickRight instanceof AnalogueJoystick)) {
-        	joystickRight = JoystickFactory.createAnalogueJoystick(this.getContext(), false, rudderThrottleListener, false);
-        	joystickRight.setXDeadBand(settings.getRudderDeadBand());
+        if (rudderAndThrottleJoystick == null || !(rudderAndThrottleJoystick instanceof AnalogueJoystick)) {
+        	rudderAndThrottleJoystick = JoystickFactory.createAnalogueJoystick(this.getContext(), false, rudderThrottleListener, false);
+        	rudderAndThrottleJoystick.setXDeadBand(settings.getRudderDeadBand());
         } 
         else {
-        	joystickRight.setOnAnalogueChangedListener(rudderThrottleListener);
-        	//joystickRight.setAbsolute(false);
+        	rudderAndThrottleJoystick.setOnAnalogueChangedListener(rudderThrottleListener);
         }
-
-        if (!isLeftHanded) {
-        	setJoysticks(joystickLeft, joystickRight);
-        	joystickLeft.setIsRollPitchJoystick(true);
-        	joystickRight.setIsRollPitchJoystick(false);
-        } 
-        else {
-        	setJoysticks(joystickRight, joystickLeft);
-        	joystickLeft.setIsRollPitchJoystick(false);
-        	joystickRight.setIsRollPitchJoystick(true);
-        }
+        
+        rollAndPitchJoystick.setIsRollPitchJoystick(true);
+        rudderAndThrottleJoystick.setIsRollPitchJoystick(false);
+        
+        joysticks[0] = rollAndPitchJoystick;
+        joysticks[1] = rudderAndThrottleJoystick;
+        
+        setJoysticks();
+        
+        getRudderAndThrottleJoystick().setYValue(-1);
     }
-
     
 	@Override
 	public void headfreeModeValueDidChange(boolean isHeadfree) {
 	}
-
 	
 	@Override
 	public void aileronAndElevatorDeadBandValueDidChange(float newValue) {
-	    JoystickBase joystickLeft  = (!isLeftHanded ? getJoystickLeft() : getJoystickRight());
+	    JoystickBase rollAndPitchJoyStick  = getRollAndPitchJoystick();
         
-        joystickLeft.setXDeadBand(newValue);
-        joystickLeft.setYDeadBand(newValue);
+	    rollAndPitchJoyStick.setXDeadBand(newValue);
+	    rollAndPitchJoyStick.setYDeadBand(newValue);
 	}
 
 	@Override
 	public void rudderDeadBandValueDidChange(float newValue) {
-		JoystickBase joystickRight = (!isLeftHanded ? getJoystickRight() : getJoystickLeft());
-		
-		joystickRight.setXDeadBand(newValue);
-		//joystickRight.setYDeadBand(newValue);
+	    JoystickBase rudderAndThrottleStick  = getRudderAndThrottleJoystick();
+        
+	    rudderAndThrottleStick.setXDeadBand(newValue);
 	}
 }

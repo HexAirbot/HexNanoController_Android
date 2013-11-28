@@ -147,4 +147,10 @@ public class Image extends Sprite
     {
         sprite.freeResources();
     }
+
+
+	@Override
+	public void setNeedsUpdate() {
+		isInitialized = false;
+	}
 }

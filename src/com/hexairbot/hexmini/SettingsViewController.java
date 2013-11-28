@@ -138,7 +138,6 @@ public class SettingsViewController extends ViewController
     private OnSeekBarChangeListener rudderDeadBandSeekBarListener;
     
     private ListView bleDeviceListView;
-    
 
     private Resources res;
 
@@ -146,19 +145,12 @@ public class SettingsViewController extends ViewController
     
     private BluetoothAdapter mBluetoothAdapter;
     private boolean isScanning;
-//    private LeDeviceListAdapter mLeDeviceListAdapter;
-    private Handler mHandler;
     
     private BleDeviceListAdapter bleDeviceListAdapter; 
    
-    
     private BluetoothAdapter.LeScanCallback mLeScanCallback;
-    
     private boolean bleAvailabed;
-    
-    //private BleConnection bleConnection;
-    
-    
+
     
     public SettingsViewController(Context context, LayoutInflater inflater, ViewGroup container, SettingsViewControllerDelegate delegate)
     {	
@@ -227,7 +219,6 @@ public class SettingsViewController extends ViewController
         scanningProgressBar.setVisibility(View.INVISIBLE);
 
         bleDeviceListAdapter = new BleDeviceListAdapter();
-        
         
         BleConnection connection = Transmitter.sharedTransmitter().getBleConnectionManager().getCurrentConnection();
         
@@ -341,8 +332,6 @@ public class SettingsViewController extends ViewController
         
         updateSettingsUI();
         
-        mHandler = new Handler();
-       
         bleAvailabed = initBle();
         
         Log.d(TAG, "new settings view controller");
@@ -581,7 +570,7 @@ public class SettingsViewController extends ViewController
 				settings.setIsAccMode(isAccMode);
 				settings.save();
 				if (delegate != null) {
-					delegate.leftHandedValueDidChange(isAccMode);
+					delegate.accModeValueDidChange(isAccMode);
 				}
 			}
 		});

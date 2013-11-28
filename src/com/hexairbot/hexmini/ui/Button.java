@@ -208,4 +208,10 @@ public class Button extends Sprite
         spriteNormal.freeResources();
         spritePressed.freeResources();
     }
+
+
+	@Override
+	public void setNeedsUpdate() {
+		isInitialized = false;
+	}
 }

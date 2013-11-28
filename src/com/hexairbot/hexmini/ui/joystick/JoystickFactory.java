@@ -15,6 +15,13 @@ import android.content.Context;
 
 public class JoystickFactory 
 {
+	public enum JoystickType {
+		NONE,
+		ANALOGUE,
+		ACCELERO,
+		COMBINED,
+	}
+	
 	public static JoystickBase createAnalogueJoystick(Context context, boolean isRollPitchJoystick,
 															JoystickListener analogueListener,
 															boolean yStickIsBounced)

@@ -18,12 +18,10 @@ import android.util.Log;
 public class BleConnectinManager implements BleConnectionDelegate {
 	private static final String TAG = BleConnectionDelegate.class.getSimpleName();
 
-	
 	private BleConnection currentConnection;
 	private boolean isTryingConnect;
 	private Context context;
 	private BleConnectinManagerDelegate delegate;
-	
 	
 	public BleConnectinManager(){
 		super();

@@ -19,19 +19,18 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.renderscript.Sampler.Value;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 public abstract class JoystickBase extends Sprite
 {
-	private static final String TAG = "Joystick";
+	private static final String TAG = JoystickBase.class.getSimpleName();
 	
     private static final double CONTROL_RATIO = 1 / 3;
-
-    //private float controlRatio;
     
-	protected boolean isPressed;
+    private boolean isPressed;
 	
 	private float xValue;
 	private float yValue;
@@ -49,22 +48,22 @@ public abstract class JoystickBase extends Sprite
 	
 	protected RectF activationRect;
 	
-	protected GLSprite bg;
-	protected GLSprite thumbNormal;
-	protected GLSprite thumbRollPitch;
+	private GLSprite bg;
+	private GLSprite thumbNormal;
+	private GLSprite thumbRollPitch;
 	
-	protected JoystickListener analogueListener;
+	private JoystickListener analogueListener;
 
-	protected boolean inverseY;
-	protected int fingerId;
+	private boolean inverseY;
+	private int fingerId;
 
 	private boolean isInitialized;
 	
-	protected float xDeadBand;
-	protected float yDeadBand;
-	protected float operableRadiusRatio;
+	private float xDeadBand;
+	private float yDeadBand;
+	private float operableRadiusRatio;
 	
-	protected boolean isRollPitchJoystick;
+	private boolean isRollPitchJoystick;
 	private boolean yStickIsBounced;
 	
 	
@@ -81,6 +80,9 @@ public abstract class JoystickBase extends Sprite
 		
 		centerX = 0;
 		centerY = 0;
+		
+		xValue = 0;
+		yValue = 0;
 
 		int bgResId = getBackgroundDrawableId();
 		int thumbResId = getTumbDrawableId();
@@ -113,6 +115,8 @@ public abstract class JoystickBase extends Sprite
 	
     public void surfaceChanged(GL10 gl, int width, int height)
 	{	
+    	Log.d(TAG, "surfaceChanged(GL10 gl, int width, int height)");
+    	
 		if (bg != null) {
 			bg.onSurfaceChanged(gl, width, height);
 		}
@@ -136,6 +140,8 @@ public abstract class JoystickBase extends Sprite
 
 	public void surfaceChanged(Canvas canvas) 
 	{
+		Log.d(TAG, "surfaceChanged(Canvas canvas)");
+		
 		super.surfaceChanged(canvas);
 	
 		updateActivatonRegion(canvas.getWidth(), canvas.getHeight());
@@ -212,7 +218,21 @@ public abstract class JoystickBase extends Sprite
 		
 		Log.d("setActivationRect", "baseX:" + baseX + ";baseY:" + baseY);
 		
-		moveToBase(activationRect);
+		moveTo(baseX, inverseY(baseY));
+		
+		if(yStickIsBounced) {
+			moveThumbTo(baseX, inverseY(baseY));
+		}
+		else{
+			setYValue(this.yValue);
+		}
+		
+        if (analogueListener != null) {
+            analogueListener.onChanged(this, 0, 0);
+            analogueListener.onReleased(this);
+        }
+        
+		//moveToBase(activationRect);
 	}
 
 
@@ -528,7 +548,6 @@ public abstract class JoystickBase extends Sprite
             	analogueListener.onReleased(this);
     		}
         }
-
         
         Log.d("onActionUp", "centerX:"+ centerX + ";centerY:"+ centerY  + ";thumbCenterX:"+ thumbCenterX + ";thumbCenterY:"+ thumbCenterY);
     }
@@ -678,6 +697,38 @@ public abstract class JoystickBase extends Sprite
 	
 	public void setYValue(float yValue){
 		this.yValue = yValue;
-		// to do
+		
+		float refinedValue = yValue;
+		
+		if (yValue > 1) {
+			refinedValue = 1;
+		}
+		else if(yValue < -1){
+			refinedValue = -1;
+		}
+		
+		
+		float yOffset = bg.width / 2.0f * refinedValue;
+		
+		Log.e(TAG, "y offset" + yOffset);
+		
+        //if (yStickIsBounced == false) {
+        	//moveToBase(activationRect);
+        	
+        	//absolutMoveThumbTo(baseX,  inverseY(baseY - (thumbCenterY - centerY))); 
+        	
+		absolutMoveThumbTo(centerX,  centerY + yOffset); 
+        	
+        	//moveTo(baseX, inverseY(baseY));   
+        	
+//            if (analogueListener != null) {
+//            	analogueListener.onReleased(this);
+//    	//	}
+		//}
+	}
+	
+	@Override
+	public void setNeedsUpdate() {
+		isInitialized = false;
 	}
 }

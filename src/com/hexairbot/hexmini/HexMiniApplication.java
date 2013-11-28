@@ -16,12 +16,20 @@ import com.hexairbot.hexmini.util.FileHelper;
 public class HexMiniApplication 
 	extends Application 
 {   
-	private static final String TAG = "HexMiniApplication";
+	private static final String TAG = HexMiniApplication.class.getSimpleName();
     
 	private static HexMiniApplication instance;
 	
 	private ApplicationSettings settings;
 	private FileHelper fileHelper;
+	
+	private AppStage appStage = AppStage.UNKNOWN;
+	
+	public enum AppStage{
+		UNKNOWN,
+		HUD,
+		SETTINGS
+	};
 	  
 	@SuppressLint("NewApi")
     @Override
@@ -91,4 +99,14 @@ public class HexMiniApplication
 			}
 		}
     }
+
+
+	public AppStage getAppStage() {
+		return appStage;
+	}
+
+
+	public void setAppStage(AppStage appStage) {
+		this.appStage = appStage;
+	}
 }

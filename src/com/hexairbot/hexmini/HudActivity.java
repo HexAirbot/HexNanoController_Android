@@ -26,7 +26,7 @@ import com.hexairbot.hexmini.ui.joystick.AnalogueJoystick;
 import com.hexairbot.hexmini.ui.joystick.JoystickBase;
 import com.hexairbot.hexmini.ui.joystick.JoystickFactory;
 import com.hexairbot.hexmini.ui.joystick.JoystickListener;
-import com.hexairbot.hexmini.HudViewController.JoystickType;
+import com.hexairbot.hexmini.HexMiniApplication.AppStage;
 import com.hexairbot.hexmini.modal.ApplicationSettings;
 import com.hexairbot.hexmini.modal.Transmitter;
 
@@ -52,8 +52,9 @@ public class HudActivity extends FragmentActivity implements SettingsDialogDeleg
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
+		HexMiniApplication.sharedApplicaion().setAppStage(AppStage.HUD);
+		
 		super.onResume();
-
 	}
 	
     protected void showSettingsDialog()
@@ -107,7 +108,6 @@ public class HudActivity extends FragmentActivity implements SettingsDialogDeleg
 	
 	 @Override
 		protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-	        // User chose not to enable Bluetooth.
 	        if (requestCode == REQUEST_ENABLE_BT && resultCode == Activity.RESULT_CANCELED) {
 	            finish();
 	            return;

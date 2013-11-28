@@ -13,16 +13,16 @@ import com.dd.plist.NSNumber;
 
 
 public class ApplicationSettings {
-	public final static String INTERFACE_OPACITY  = "InterfaceOpacity";
-	public final static String IS_LEFT_HANDED     = "IsLeftHanded";
-	public final static String IS_ACC_MODE        = "IsAccMode";
-	public final static String IS_HEAD_FREE_MODE  = "IsHeadFreeMode";
-	public final static String IS_ALT_HOLD_MODE   = "IsAltHoldMode";
-	public final static String AILERON_DEAD_BAND  = "AileronDeadBand";
-	public final static String ELEVATOR_DEAD_BAND = "ElevatorDeadBand";
-	public final static String RUDDER_DEAD_BAND   = "RudderDeadBand";
-	public final static String TAKE_OFF_THROTTLE  = "TakeOffThrottle";
-	public final static String CHANNELS           = "Channels";
+	private final static String INTERFACE_OPACITY  = "InterfaceOpacity";
+	private final static String IS_LEFT_HANDED     = "IsLeftHanded";
+	private final static String IS_ACC_MODE        = "IsAccMode";
+	private final static String IS_HEAD_FREE_MODE  = "IsHeadFreeMode";
+	private final static String IS_ALT_HOLD_MODE   = "IsAltHoldMode";
+	private final static String AILERON_DEAD_BAND  = "AileronDeadBand";
+	private final static String ELEVATOR_DEAD_BAND = "ElevatorDeadBand";
+	private final static String RUDDER_DEAD_BAND   = "RudderDeadBand";
+	private final static String TAKE_OFF_THROTTLE  = "TakeOffThrottle";
+	public final  static  String CHANNELS           = "Channels";
 	
 	private String path;
 
