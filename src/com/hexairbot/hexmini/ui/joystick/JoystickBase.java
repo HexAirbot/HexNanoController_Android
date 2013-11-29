@@ -28,7 +28,6 @@ public abstract class JoystickBase extends Sprite
 {
 	private static final String TAG = JoystickBase.class.getSimpleName();
 	
-    private static final double CONTROL_RATIO = 1 / 3;
     
     private boolean isPressed;
 	
@@ -62,6 +61,9 @@ public abstract class JoystickBase extends Sprite
 	private float xDeadBand;
 	private float yDeadBand;
 	private float operableRadiusRatio;
+	
+	private float xOperableRadiusWidth;
+	private float yOperableRadiusWidth;
 	
 	private boolean isRollPitchJoystick;
 	private boolean yStickIsBounced;
@@ -104,7 +106,9 @@ public abstract class JoystickBase extends Sprite
 		fingerId = -1;
 		
         //controlRatio = (float) (0.5 - (CONTROL_RATIO / 2.0));
-        operableRadiusRatio = 1;
+        operableRadiusRatio = 0.82f;
+		xOperableRadiusWidth = bg.width / 2.0f * operableRadiusRatio;
+		yOperableRadiusWidth = bg.height / 2.0f * operableRadiusRatio;
 	}
 	
 
@@ -288,8 +292,8 @@ public abstract class JoystickBase extends Sprite
 		float dx = x - centerX;
 		float dy = y - centerY;
 		
-		float xOperableRadiusWidth = bg.width / 2.0f * operableRadiusRatio;
-		float yOperableRadiusWidth = bg.height / 2.0f * operableRadiusRatio;
+		//float xOperableRadiusWidth = bg.width / 2.0f * operableRadiusRatio;
+		//float yOperableRadiusWidth = bg.height / 2.0f * operableRadiusRatio;
 		
 		if (Math.abs(dx) > xOperableRadiusWidth) {
 			Log.d("moveThumbTo", "Math.abs(dx) > operableRadiusWidth" + ";dx:" + dx);
@@ -678,10 +682,6 @@ public abstract class JoystickBase extends Sprite
 		return operableRadiusRatio;
 	}
 	
-	public void setOperableRadiusRatio(float operableRadiusRatio) {
-		this.operableRadiusRatio = operableRadiusRatio;
-	}
-	
 	public float getXValue(){
 		return xValue;
 	}
@@ -706,9 +706,8 @@ public abstract class JoystickBase extends Sprite
 		else if(yValue < -1){
 			refinedValue = -1;
 		}
-		
-		
-		float yOffset = bg.width / 2.0f * refinedValue;
+
+		float yOffset = yOperableRadiusWidth * refinedValue;
 		
 		Log.e(TAG, "y offset" + yOffset);
 		
