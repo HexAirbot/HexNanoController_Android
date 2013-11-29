@@ -10,6 +10,7 @@ import com.dd.plist.NSArray;
 import com.dd.plist.NSDictionary;
 import com.dd.plist.PropertyListParser;
 import com.dd.plist.NSNumber;
+import com.hexairbot.hexmini.HexMiniApplication;
 
 
 public class ApplicationSettings {
@@ -22,7 +23,7 @@ public class ApplicationSettings {
 	private final static String ELEVATOR_DEAD_BAND = "ElevatorDeadBand";
 	private final static String RUDDER_DEAD_BAND   = "RudderDeadBand";
 	private final static String TAKE_OFF_THROTTLE  = "TakeOffThrottle";
-	public final  static  String CHANNELS           = "Channels";
+	public final  static String CHANNELS           = "Channels";
 	
 	private String path;
 
@@ -96,7 +97,44 @@ public class ApplicationSettings {
 	}
 	
 	public void resetToDefault(){
-		//to do
+		ApplicationSettings defaultSettings = new ApplicationSettings(HexMiniApplication.sharedApplicaion().getFilesDir() + "/DefaultSettings.plist");
+
+		this.data = defaultSettings.getData();
+		
+		this.interfaceOpacity = defaultSettings.getInterfaceOpacity();
+		this.isLeftHanded = defaultSettings.isLeftHanded();
+		this.isAccMode = defaultSettings.isAccMode();
+		this.isHeadFreeMode = defaultSettings.isHeadFreeMode;
+		this.isAltHoldMode = defaultSettings.isAltHoldMode();
+		this.aileronDeadBand = defaultSettings.getAileronDeadBand();
+		this.elevatorDeadBand = defaultSettings.getElevatorDeadBand();
+		this.rudderDeadBand = defaultSettings.getRudderDeadBand();
+		this.takeOffThrottle = defaultSettings.getTakeOffThrottle();
+		
+		int channelCount = defaultSettings.getChannelCount();
+		
+		for(int defaultChannelIdx = 0; defaultChannelIdx < channelCount; defaultChannelIdx++){
+			Channel defaultChannel = new Channel(defaultSettings, defaultChannelIdx);
+			Channel channel =  this.getChannel(defaultChannel.getName());
+			
+	        if(channel.getIdx() != defaultChannelIdx){
+	        	Channel needsReordedChannel =channels.get(defaultChannelIdx);
+	            needsReordedChannel.setIdx(channel.getIdx()); 
+	            
+	            Channel tmp = channels.get(defaultChannelIdx);
+	            
+	            channels.set(defaultChannelIdx, channels.get(channel.getIdx()));
+	            channels.set(channel.getIdx(), tmp);
+	            
+	            channel.setIdx(defaultChannelIdx);
+	        }
+	        
+	        channel.setReversed(defaultChannel.isReversed());
+	        channel.setTrimValue(defaultChannel.getTrimValue());
+	        channel.setOutputAdjustabledRange(defaultChannel.getOutputAdjustabledRange());
+	        channel.setDefaultOutputValue(defaultChannel.getDefaultOutputValue());
+	        channel.setValue(channel.getDefaultOutputValue());
+		}
 	}
 	
 	public NSDictionary getData() {

@@ -72,16 +72,42 @@ public class HexMiniApplication
     
     
     private void copyDefaultSettingsFileIfNeeded(){
-		String settingsFileName = "Settings.plist";
+		String settingsFileName = "Settings.plist";               //user
+		String defaultSettingsFileName = "DefaultSettings.plist"; //default
 
 		if (fileHelper.hasDataFile(settingsFileName) == false) {
 			AssetManager assetManager = getAssets();
-
+			
 			InputStream in = null;
 			OutputStream out = null;
 			try {
 				in = assetManager.open(settingsFileName);
-				out = openFileOutput(settingsFileName, MODE_PRIVATE);
+				out =  openFileOutput(settingsFileName, MODE_PRIVATE);
+
+				byte[] buffer = new byte[1024];
+				int read;
+				while ((read = in.read(buffer)) != -1) {
+					out.write(buffer, 0, read);
+				}
+
+				in.close();
+				in = null;
+				out.flush();
+				out.close();
+				out = null;
+			} catch (IOException e) {
+				Log.e("tag", "Failed to copy asset file: " + settingsFileName, e);
+			}
+		}
+		
+		if (fileHelper.hasDataFile(defaultSettingsFileName) == false) {
+			AssetManager assetManager = getAssets();
+			
+			InputStream in = null;
+			OutputStream out = null;
+			try {
+				in = assetManager.open(settingsFileName);
+				out =  openFileOutput(defaultSettingsFileName, MODE_PRIVATE);
 
 				byte[] buffer = new byte[1024];
 				int read;

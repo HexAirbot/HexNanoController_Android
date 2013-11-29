@@ -422,7 +422,6 @@ public class SettingsViewController extends ViewController
         return pageList;
     }
 
-
     private void initListeners()
     {
     	scanBtn.setOnClickListener(new OnClickListener() {
@@ -549,18 +548,36 @@ public class SettingsViewController extends ViewController
 			
 			@Override
 			public void onClick(View v) {
-				ApplicationSettings settings = HexMiniApplication.sharedApplicaion().getAppSettings();
+				new AlertDialog.Builder(SettingsViewController.this.context)
+				.setIcon(android.R.drawable.ic_dialog_alert).setTitle("提示")
+				.setMessage("恢复到默认设置?")
+				.setPositiveButton("是", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						ApplicationSettings settings = HexMiniApplication.sharedApplicaion().getAppSettings();
 
-				if (delegate != null) {
-					delegate.leftHandedValueDidChange(settings.isLeftHanded());
-					delegate.accModeValueDidChange(settings.isAccMode());
-					delegate.headfreeModeValueDidChange(settings.isHeadFreeMode());
-				}
-				
+						settings.resetToDefault();
+						
+						settings.save();
+						
+						SettingsViewController.this.updateSettingsUI();
+						
+						if (delegate != null) {
+							delegate.interfaceOpacityValueDidChange(settings.getInterfaceOpacity() * 100);
+						
+							delegate.leftHandedValueDidChange(settings.isLeftHanded());
+						
+							delegate.accModeValueDidChange(settings.isAccMode());
+							delegate.headfreeModeValueDidChange(settings.isHeadFreeMode());
+						
+							delegate.aileronAndElevatorDeadBandValueDidChange(settings.getAileronDeadBand());
+							delegate.rudderDeadBandValueDidChange(settings.getRudderDeadBand());
+						
+						}
+					}
+				}).setNegativeButton("否", null).show();	
 			}
 		});
     	
-  
         isLeftHandedCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(
         		) {
 			
