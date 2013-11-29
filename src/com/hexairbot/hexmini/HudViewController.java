@@ -16,6 +16,8 @@ import com.hexairbot.hexmini.HexMiniApplication.AppStage;
 import com.hexairbot.hexmini.gestures.EnhancedGestureDetector;
 import com.hexairbot.hexmini.modal.ApplicationSettings;
 import com.hexairbot.hexmini.modal.Channel;
+import com.hexairbot.hexmini.modal.OSDCommon;
+import com.hexairbot.hexmini.modal.Transmitter;
 import com.hexairbot.hexmini.ui.Button;
 import com.hexairbot.hexmini.ui.Image;
 import com.hexairbot.hexmini.ui.Indicator;
@@ -248,8 +250,7 @@ public class HudViewController extends ViewController
 			
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				
+				Transmitter.sharedTransmitter().transmmitSimpleCommand(OSDCommon.MSPCommnand.MSP_ARM);
 			}
 		});
 		
@@ -257,8 +258,7 @@ public class HudViewController extends ViewController
 			
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				
+				Transmitter.sharedTransmitter().transmmitSimpleCommand(OSDCommon.MSPCommnand.MSP_DISARM);
 			}
 		});
 	}

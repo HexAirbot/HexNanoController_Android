@@ -81,8 +81,12 @@ public class BleConnection {
             final String action = intent.getAction();
             if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {  //连接成功
             	Log.e(TAG, "Only gatt, just wait");
-            } else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) { //断开连接
+            } 
+            else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) { //断开连接
                 Log.e(TAG,  "ACTION_GATT_DISCONNECTED");
+                
+                Log.e(TAG, "thread name:" + Thread.currentThread().getName());
+                
             	isConnected = false;
                 if (delegate != null) {
 					delegate.didDisconnect(BleConnection.this);
@@ -138,6 +142,7 @@ public class BleConnection {
 		        };  
 		};
 		
+		/*
 		mGattUpdateReceiver = new BroadcastReceiver() {
 	        @Override
 	        public void onReceive(Context context, Intent intent) {
@@ -170,6 +175,7 @@ public class BleConnection {
 	            }
 	        }
 	    };
+	    */
 		
         Intent gattServiceIntent = new Intent(this.context, BluetoothLeService.class);
         Log.d(TAG, "Try to bindService=" + this.context.bindService(gattServiceIntent, mServiceConnection, android.content.Context.BIND_AUTO_CREATE));
@@ -289,6 +295,7 @@ public class BleConnection {
 
 
 	public void releaseSource(){
+		Log.e(TAG, "release resource");
 		disconnect();
 		
 		if (mGattUpdateReceiver != null) {
@@ -301,11 +308,16 @@ public class BleConnection {
 			mServiceConnection = null;
 		}
         
+		if(mBluetoothLeService != null){
+		   	mBluetoothLeService = null;
+		}
+		
+		/*
         if(mBluetoothLeService != null)
         {
         	mBluetoothLeService.close();
         	mBluetoothLeService = null;
-        }
+        }*/
         Log.d(TAG, "releaseSource");
 	}
 	

@@ -56,12 +56,12 @@ public class Transmitter {
 		}
 	}
 	
-	public void transmmitData(String data){
+	public void transmmitData(byte[] data){
 		bleConnectionManager.sendData(data);
 	}
 	
-	public boolean transmmitSimpleCommand(String data){
-		
+	public boolean transmmitSimpleCommand(OSDCommon.MSPCommnand commnand){
+		transmmitData(OSDCommon.getSimpleCommand(commnand));
 		return true;
 	}
 	

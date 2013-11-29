@@ -72,6 +72,7 @@ import com.hexairbot.hexmini.ble.BleConnectinManagerDelegate;
 import com.hexairbot.hexmini.ble.BleConnection;
 import com.hexairbot.hexmini.ble.BleConnectionDelegate;
 import com.hexairbot.hexmini.modal.ApplicationSettings;
+import com.hexairbot.hexmini.modal.OSDCommon;
 import com.hexairbot.hexmini.modal.Transmitter;
 //import  com.hexairbot.hexmini.ui.adapters.SettingsViewAdapter;
 //import  com.hexairbot.hexmini.ui.controls.ViewPagerIndicator;
@@ -148,7 +149,20 @@ public class SettingsViewController extends ViewController
     
     private BleDeviceListAdapter bleDeviceListAdapter; 
    
-    private BluetoothAdapter.LeScanCallback mLeScanCallback;
+    private BluetoothAdapter.LeScanCallback  mLeScanCallback =
+            new BluetoothAdapter.LeScanCallback() {
+        @Override
+        public void onLeScan(final BluetoothDevice device, final int rssi, final byte[] scanRecord) {
+            ((Activity)(SettingsViewController.this.context)).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                	 Log.d("LeScanCallback", "runOnUiThread");
+                	bleDeviceListAdapter.addDevice(device, rssi);
+                	bleDeviceListAdapter.notifyDataSetChanged();
+                }
+            });
+        }
+    };
     private boolean bleAvailabed;
 
     
@@ -337,42 +351,28 @@ public class SettingsViewController extends ViewController
         Log.d(TAG, "new settings view controller");
     }
     
-    private boolean initBle(){
-        if (!this.context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
-            Toast.makeText(this.context, R.string.ble_not_supported, Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        
-        final BluetoothManager bluetoothManager =
-                (BluetoothManager) this.context.getSystemService(Context.BLUETOOTH_SERVICE);
-        mBluetoothAdapter = bluetoothManager.getAdapter();
+	private boolean initBle() {
+		if (mBluetoothAdapter == null) {
+			if (!this.context.getPackageManager().hasSystemFeature(
+					PackageManager.FEATURE_BLUETOOTH_LE)) {
+				Toast.makeText(this.context, R.string.ble_not_supported,
+						Toast.LENGTH_SHORT).show();
+				return false;
+			}
 
-        // Checks if Bluetooth is supported on the device.
-        if (mBluetoothAdapter == null) {
-            Toast.makeText(this.context, R.string.bluetooth_not_supported, Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        
-       // sendBleEnableRequest();
-        
-        // Device scan callback.
-        mLeScanCallback =
-               new BluetoothAdapter.LeScanCallback() {
-           @Override
-           public void onLeScan(final BluetoothDevice device, final int rssi, final byte[] scanRecord) {
-               ((Activity)(SettingsViewController.this.context)).runOnUiThread(new Runnable() {
-                   @Override
-                   public void run() {
-                   	 Log.d("LeScanCallback", "runOnUiThread");
-                   	bleDeviceListAdapter.addDevice(device, rssi);
-                   	bleDeviceListAdapter.notifyDataSetChanged();
-                   }
-               });
-           }
-       };
-       
-       return true;
-    }
+			final BluetoothManager bluetoothManager = (BluetoothManager) this.context
+					.getSystemService(Context.BLUETOOTH_SERVICE);
+			mBluetoothAdapter = bluetoothManager.getAdapter();
+
+			// Checks if Bluetooth is supported on the device.
+			if (mBluetoothAdapter == null) {
+				Toast.makeText(this.context, R.string.bluetooth_not_supported,
+						Toast.LENGTH_SHORT).show();
+				return false;
+			}
+		}
+		return true;
+	}
     
     public void setBackBtnOnClickListner(OnClickListener listener) {
 		backBtn.setOnClickListener(listener);
@@ -429,6 +429,8 @@ public class SettingsViewController extends ViewController
 			
 			@Override
 			public void onClick(View arg0) {
+				bleAvailabed = initBle();
+				
 				if (isScanning) {
 					if (bleAvailabed) {
 						mBluetoothAdapter.stopLeScan(mLeScanCallback);
@@ -481,8 +483,8 @@ public class SettingsViewController extends ViewController
 			
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				
+				Log.d(TAG, "MSP_TRIM_UP");
+				Transmitter.sharedTransmitter().transmmitSimpleCommand(OSDCommon.MSPCommnand.MSP_TRIM_UP);
 			}
 		});
     	
@@ -490,8 +492,8 @@ public class SettingsViewController extends ViewController
 			
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				
+				Log.d(TAG, "MSP_TRIM_DOWN");
+				Transmitter.sharedTransmitter().transmmitSimpleCommand(OSDCommon.MSPCommnand.MSP_TRIM_DOWN);
 			}
 		});
     	
@@ -499,8 +501,8 @@ public class SettingsViewController extends ViewController
 			
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				
+				Log.d(TAG, "MSP_TRIM_LEFT");
+				Transmitter.sharedTransmitter().transmmitSimpleCommand(OSDCommon.MSPCommnand.MSP_TRIM_LEFT);
 			}
 		});
     	
@@ -508,8 +510,8 @@ public class SettingsViewController extends ViewController
 			
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				
+				Log.d(TAG, "MSP_TRIM_RIGHT");
+				Transmitter.sharedTransmitter().transmmitSimpleCommand(OSDCommon.MSPCommnand.MSP_TRIM_RIGHT);
 			}
 		});
     	
@@ -517,8 +519,14 @@ public class SettingsViewController extends ViewController
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				
+		      	new AlertDialog.Builder(SettingsViewController.this.context)
+				.setIcon(android.R.drawable.ic_dialog_alert).setTitle("提示")
+				.setMessage("校准AnyFlite的数字罗盘?")
+				.setPositiveButton("是", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						Transmitter.sharedTransmitter().transmmitSimpleCommand(OSDCommon.MSPCommnand.MSP_MAG_CALIBRATION);
+					}
+				}).setNegativeButton("否", null).show();				
 			}
 		});
     	
@@ -526,8 +534,14 @@ public class SettingsViewController extends ViewController
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				
+		      	new AlertDialog.Builder(SettingsViewController.this.context)
+				.setIcon(android.R.drawable.ic_dialog_alert).setTitle("提示")
+				.setMessage("校准AnyFlite的加速计?")
+				.setPositiveButton("是", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						Transmitter.sharedTransmitter().transmmitSimpleCommand(OSDCommon.MSPCommnand.MSP_ACC_CALIBRATION);
+					}
+				}).setNegativeButton("否", null).show();				
 			}
 		});
     	
@@ -828,6 +842,7 @@ public class SettingsViewController extends ViewController
 	public void didDisconnect(BleConnectinManager manager,
 			BleConnection connection) {
 		// TODO Auto-generated method stub
+		mBluetoothAdapter = null;
 		
 		Log.d(TAG, "didDisconnect");
 		
@@ -1024,6 +1039,7 @@ public class SettingsViewController extends ViewController
 
 		if (isScanning) {
 			if (bleAvailabed) {
+				
 				mBluetoothAdapter.stopLeScan(mLeScanCallback);
 
 				isScanning = false;

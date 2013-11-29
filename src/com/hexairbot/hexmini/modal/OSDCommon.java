@@ -61,7 +61,25 @@ public class OSDCommon {
 		return null;
 	}
 	
-	public static String getSimpleCommand(MSPCommnand command){
-		return null;
+	public static byte[] getSimpleCommand(MSPCommnand command){
+		byte dataPackage[] = new byte[6];
+		
+		dataPackage[0] = '$';
+		dataPackage[1] = 'M';
+		dataPackage[2] = '<';
+		dataPackage[3] = 0;
+		dataPackage[4] = (byte) command.value();
+		
+	    byte checkSum = 0;
+	    
+	    int dataSizeIdx = 3;
+	    int checkSumIdx = 5;
+	    
+	    checkSum ^= (dataPackage[dataSizeIdx] & 0xFF);
+	    checkSum ^= (dataPackage[dataSizeIdx + 1] & 0xFF);
+	    
+	    dataPackage[checkSumIdx] = checkSum;
+		
+		return dataPackage;
 	}
 }
