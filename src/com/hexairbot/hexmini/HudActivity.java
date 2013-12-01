@@ -45,8 +45,6 @@ public class HudActivity extends FragmentActivity implements SettingsDialogDeleg
 		super.onCreate(savedInstanceState);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); 
 		hudVC = new HudViewController(this, this);	
-		
-		Transmitter.sharedTransmitter().start();
 	}
 	
 	@Override
@@ -114,6 +112,15 @@ public class HudActivity extends FragmentActivity implements SettingsDialogDeleg
 	        }
 	        super.onActivityResult(requestCode, resultCode, data);
 	    }
+	 
+	 @Override
+	protected void onDestroy() {
+		super.onDestroy();
+		
+		if (Transmitter.sharedTransmitter().getBleConnectionManager() != null) {
+			Transmitter.sharedTransmitter().getBleConnectionManager().close();
+		}
+	}
 
 }
 

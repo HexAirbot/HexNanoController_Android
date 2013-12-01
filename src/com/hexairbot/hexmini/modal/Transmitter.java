@@ -4,12 +4,15 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.R.integer;
+import android.os.Handler;
+import android.text.StaticLayout;
+import android.util.Log;
 
 import com.hexairbot.hexmini.ble.BleConnectinManager;
 
 public class Transmitter {
 	private static final int  CHANNEL_COUNT = 8;
-	private static final int  FPS = 20;
+	private static final int  FPS = 17;
 	
 	private static Transmitter sharedTransmitter; 
 	private BleConnectinManager bleConnectionManager;
@@ -21,9 +24,13 @@ public class Transmitter {
 		return bleConnectionManager;
 	}
 
+	public void setBleConnectionManager(BleConnectinManager bleConnectionManager) {
+		this.bleConnectionManager = bleConnectionManager;
+	}
+
 	private Transmitter(){
 		super();
-		bleConnectionManager = new BleConnectinManager();
+		//bleConnectionManager = new BleConnectinManager();
 	}
 	
 	public static Transmitter sharedTransmitter(){
@@ -33,6 +40,8 @@ public class Transmitter {
 		
 		return sharedTransmitter;
 	}
+	
+	Handler handler = new Handler();
 	
 	public void start(){
 		stop();
@@ -57,7 +66,9 @@ public class Transmitter {
 	}
 	
 	public void transmmitData(byte[] data){
-		bleConnectionManager.sendData(data);
+		if (bleConnectionManager != null && bleConnectionManager.isConnected() && data != null){
+			bleConnectionManager.sendData(data);
+		}
 	}
 	
 	public boolean transmmitSimpleCommand(OSDCommon.MSPCommnand commnand){
@@ -67,10 +78,22 @@ public class Transmitter {
 	
 	private void transmmit(){
 		updateDataPackage();
-	    
-	    if (bleConnectionManager.isConnected() && dataPackage != null) {
+	    if (bleConnectionManager != null && bleConnectionManager.isConnected() && dataPackage != null) {
 			bleConnectionManager.sendData(dataPackage);
 		}
+		/*
+		handler.post(new Runnable() {
+			
+			@Override
+			public void run() {
+				Log.e("TEST", "handler.post");
+				
+				updateDataPackage();
+			    if (bleConnectionManager != null && bleConnectionManager.isConnected() && dataPackage != null) {
+					bleConnectionManager.sendData(dataPackage);
+				}
+			}
+		});*/
 	}
 	
 	private void initDataPackage(){
@@ -86,6 +109,8 @@ public class Transmitter {
 	public void setChannel(int channeIdx, float value){
 		channelList[channeIdx] = value;
 	}
+	
+	int check = 0;
 
 	//传输八个通道的数据，通道数据用5个字节来表示
     private void updateDataPackage(){
@@ -98,6 +123,18 @@ public class Transmitter {
 	    
 	    checkSum ^= (dataPackage[dataSizeIdx] & 0xFF);
 	    checkSum ^= (dataPackage[dataSizeIdx + 1] & 0xFF);
+	    
+	    /*
+	    if (check == 0) {
+	    	channelList[0] = -0.5f; 
+	    	check = 1;
+		}
+	    else{
+	    	channelList[0] = 0.5f; 
+	    	check = 0;
+	    }*/
+	    
+	    
 	    
 	    for(int channelIdx = 0; channelIdx < CHANNEL_COUNT - 4; channelIdx++){
 	        float scale =  channelList[channelIdx];

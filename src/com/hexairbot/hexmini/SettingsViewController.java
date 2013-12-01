@@ -69,8 +69,6 @@ import com.hexairbot.hexmini.R;
 import com.hexairbot.hexmini.adapter.SettingsViewAdapter;
 import com.hexairbot.hexmini.ble.BleConnectinManager;
 import com.hexairbot.hexmini.ble.BleConnectinManagerDelegate;
-import com.hexairbot.hexmini.ble.BleConnection;
-import com.hexairbot.hexmini.ble.BleConnectionDelegate;
 import com.hexairbot.hexmini.modal.ApplicationSettings;
 import com.hexairbot.hexmini.modal.OSDCommon;
 import com.hexairbot.hexmini.modal.Transmitter;
@@ -234,11 +232,11 @@ public class SettingsViewController extends ViewController
 
         bleDeviceListAdapter = new BleDeviceListAdapter();
         
-        BleConnection connection = Transmitter.sharedTransmitter().getBleConnectionManager().getCurrentConnection();
+        BluetoothDevice currentDevice = Transmitter.sharedTransmitter().getBleConnectionManager().getCurrentDevice();
         
-        if (connection != null
-        		&& connection.isConnected()) {
-        	bleDeviceListAdapter.addDevice(connection.getDevice(), 0);
+        if (currentDevice != null
+        		&& Transmitter.sharedTransmitter().getBleConnectionManager().isConnected()) {
+        	bleDeviceListAdapter.addDevice(currentDevice, 0);
         	connectionStateTextView.setText(R.string.settings_item_connection_state_conneceted);
 		}
         
@@ -247,22 +245,19 @@ public class SettingsViewController extends ViewController
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id){
 				final int selectedIdx = position;
-				final BluetoothDevice bleDevice = bleDeviceListAdapter.getDevice(selectedIdx);
+				final BluetoothDevice targetDevice = bleDeviceListAdapter.getDevice(selectedIdx);
 				
-				BleConnection bleConnection = Transmitter.sharedTransmitter().getBleConnectionManager().getCurrentConnection();
+				BluetoothDevice currentDevice = Transmitter.sharedTransmitter().getBleConnectionManager().getCurrentDevice();
 				
-				final String deviceName = bleDevice.getName();
-				final String deviceAddress = bleDevice.getAddress();
-				
-				if (bleConnection != null
-						&& bleConnection.getDeviceAdress().equals(deviceAddress)
-						&& bleConnection.getDeviceName().equals(deviceName)
-						&& bleConnection.isConnected()) {
+				if (currentDevice == targetDevice 
+						&& Transmitter.sharedTransmitter().getBleConnectionManager().isConnected()) {
 				      	new AlertDialog.Builder(SettingsViewController.this.context)
 						.setIcon(android.R.drawable.ic_dialog_alert).setTitle("提示")
 						.setMessage("断开连接?")
 						.setPositiveButton("是", new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int which) {
+								Transmitter.sharedTransmitter().stop();
+								
 								Transmitter.sharedTransmitter().getBleConnectionManager().disconnect();
 								connectionStateTextView.setText(R.string.settings_item_connection_state_not_conneceted);
 							}
@@ -280,22 +275,23 @@ public class SettingsViewController extends ViewController
 									
 									isScanning = false;
 									scanBtn.setText(R.string.btn_title_scan);
-									//connectionStateTextView.setText(R.string.s)
 									scanningStateTextView.setVisibility(View.INVISIBLE);
 									scanningProgressBar.setVisibility(View.INVISIBLE);
 									
-									Log.d("LeScanCallback", "stop scan");
+									Log.d(TAG, "stop scan");
 								}
 							}
 							
-							Transmitter.sharedTransmitter().getBleConnectionManager().disconnect();
 							connectionStateTextView.setText(R.string.settings_item_connection_state_not_conneceted);
-							
-							BleConnection bleConnection = new BleConnection(bleDevice, SettingsViewController.this.getContext());
-							Transmitter.sharedTransmitter().getBleConnectionManager().connect(bleConnection); 
-							 //new ConnectionAsyncTask(deviceName, deviceAddress).execute();
+							Transmitter.sharedTransmitter().getBleConnectionManager().connect(targetDevice); 
 						}
-					}).setNegativeButton("否", null).show();
+					}).setNegativeButton("否", 
+							new DialogInterface.OnClickListener() {
+								
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+								}
+							}).show();
 				}
 			}
 		});
@@ -430,48 +426,42 @@ public class SettingsViewController extends ViewController
 			public void onClick(View arg0) {
 				bleAvailabed = initBle();
 				
-				if (isScanning) {
-					if (bleAvailabed) {
+				if (bleAvailabed) {
+					if (isScanning) {
 						mBluetoothAdapter.stopLeScan(mLeScanCallback);
-						
+
 						isScanning = false;
 						scanBtn.setText(R.string.btn_title_scan);
-						//connectionStateTextView.setText(R.string.s)
 						scanningStateTextView.setVisibility(View.INVISIBLE);
 						scanningProgressBar.setVisibility(View.INVISIBLE);
-						
+
 						Log.d("LeScanCallback", "stop scan");
-					}
-				}
-				else{
-					if (bleAvailabed) {
-				        BleConnection connection = Transmitter.sharedTransmitter().getBleConnectionManager().getCurrentConnection();
-				        
-				        if (connection != null
-				        		&& connection.isConnected()) {
-				        	Transmitter.sharedTransmitter().getBleConnectionManager().getCurrentConnection().disconnect();
-				        	connectionStateTextView.setText(R.string.settings_item_connection_state_not_conneceted);
-				        }
+					} 
+					else {
+						Log.d(TAG, "start scan");
+						isScanning = true;
+
+						Transmitter.sharedTransmitter().stop();
 						
+						BluetoothDevice currentDevice = Transmitter.sharedTransmitter().getBleConnectionManager().getCurrentDevice();
+						if (currentDevice != null) {
+							Transmitter.sharedTransmitter().getBleConnectionManager().closeCurrentGatt();
+						}
+
+						connectionStateTextView.setText(R.string.settings_item_connection_state_not_conneceted);
+
 						bleDeviceListAdapter.clear();
 						bleDeviceListAdapter.notifyDataSetChanged();
-						Log.d("LeScanCallback", "start scan");
-						if (mLeScanCallback == null) {
-							Log.d("LeScanCallback", "null");
-						}
+
 						scanningStateTextView.setVisibility(View.VISIBLE);
 						scanningProgressBar.setVisibility(View.VISIBLE);
-					 
-						isScanning = true;
 						scanBtn.setText(R.string.btn_title_stop_scan);
-						//mBluetoothAdapter.stopLeScan(mLeScanCallback);
-					
-						if(mBluetoothAdapter.startLeScan(mLeScanCallback)){
+
+						if (mBluetoothAdapter.startLeScan(mLeScanCallback)) {
 							Log.d(TAG, "ble scan start successful");
-						}
-						else{
-							Log.d(TAG, "ble scan start failed, try again");
-							mBluetoothAdapter.startLeScan(mLeScanCallback);
+						} 
+						else {
+							Log.d(TAG, "ble scan start");
 						}
 					}
 				}
@@ -848,32 +838,52 @@ public class SettingsViewController extends ViewController
 
 
 	@Override
-	public void didConnect(BleConnectinManager manager, BleConnection connection) {
+	public void didConnect(BleConnectinManager manager) {
 		// TODO Auto-generated method stub
-		Toast.makeText(SettingsViewController.this.context, "连接成功!", Toast.LENGTH_LONG).show();
+		Toast.makeText(SettingsViewController.this.context, "连接成功!", Toast.LENGTH_SHORT).show();
 		Log.d(TAG, "didConnect"); 
 		connectionStateTextView.setText(R.string.settings_item_connection_state_conneceted);
+		Transmitter.sharedTransmitter().start();
+		
+		bleDeviceListView.setEnabled(false);
+		scanBtn.setEnabled(false);
+		
+		Handler handler = new Handler();
+		
+		handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+            	bleDeviceListView.setEnabled(true);
+        		scanBtn.setEnabled(true);
+            }
+        }, 3000);
 	}
 
 	@Override
-	public void didDisconnect(BleConnectinManager manager,
-			BleConnection connection) {
-		// TODO Auto-generated method stub
-		mBluetoothAdapter = null;
-		
+	public void didDisconnect(BleConnectinManager manager) {
 		Log.d(TAG, "didDisconnect");
 		
-		if (SettingsViewController.this.context == null) {
-			Log.d(TAG, "SettingsViewController context is null");
-		}
+		Transmitter.sharedTransmitter().stop();
 		
-		Toast.makeText(SettingsViewController.this.context, "失去连接!", Toast.LENGTH_LONG).show();	 
+		Toast.makeText(SettingsViewController.this.context, "失去连接!", Toast.LENGTH_SHORT).show();	 
 		connectionStateTextView.setText(R.string.settings_item_connection_state_not_conneceted);
+	
+		bleDeviceListView.setEnabled(false);
+		scanBtn.setEnabled(false);
+		
+		Handler handler = new Handler();
+		
+		handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+            	bleDeviceListView.setEnabled(true);
+        		scanBtn.setEnabled(true);
+            }
+        }, 3000);
 	}
 
 	@Override
-	public void didReceiveData(BleConnectinManager manager,
-			BleConnection connection, String data) {
+	public void didReceiveData(BleConnectinManager manager, String data) {
 		// TODO Auto-generated method stub
 		Log.d(TAG, "didReceiveData");
 		
@@ -883,161 +893,13 @@ public class SettingsViewController extends ViewController
 	}
 
 	@Override
-	public void didFailToConnect(BleConnectinManager manager,
-			BleConnection connection) {
+	public void didFailToConnect(BleConnectinManager manager) {
 		// TODO Auto-generated method stub
 		
-		Toast.makeText(SettingsViewController.this.context, "连接失败!", Toast.LENGTH_LONG).show();
+		Toast.makeText(SettingsViewController.this.context, "连接失败!", Toast.LENGTH_SHORT).show();
 		connectionStateTextView.setText(R.string.settings_item_connection_state_not_conneceted);
 	}
-
-
-//	@Override
-//	public void didConnect(BleConnection connection) {
-//		if (bleConnection != connection) {
-//			Log.d(TAG, "old connection, ignore, didConnect"); 
-//		}
-//		Log.d(TAG, "didConnect"); 
-//	}
-
-//	@Override
-//	public void didDisconnect(BleConnection connection) {
-//		if (bleConnection != connection) {
-//			Log.d(TAG, "old connection, ignore, didDisconnect"); 
-//		}
-//		Log.d(TAG, "didDisconnect"); 
-//		
-//		connectionStateTextView.setText(R.string.settings_item_connection_state_not_conneceted);
-//	}
-
-//	@Override
-//	public void didReceiveData(BleConnection connection, String data) {
-//		if (bleConnection != connection) {
-//			Log.d(TAG, "old connection, ignore, didReceiveData"); 
-//		}
-//		
-//		if (data == null) {
-//			Log.d(TAG, "didReceiveData:null"); 
-//		}
-//		else{
-//			Log.d(TAG, "didReceiveData:" + data); 
-//		}
-//	}
 	
-/*	
-	class ConnectionAsyncTask extends AsyncTask<String, Long, Boolean>{
-    	private Dialog progressDialog;
-    	private String errorInfo;
-    	private Map<String, Object> resultMap;
-    	private String deviceName;
-    	private String deviceAddress;
-    	
-    	public ConnectionAsyncTask(String deviceName, String deviceAddress){
-    		super();
-    		this.deviceName = deviceName;
-    		this.deviceAddress = deviceAddress;
-    	}
-    	
-    	@Override
-    	protected void onPreExecute() {
-    		super.onPreExecute();
-    		
-    		//resultTextView.setText(null);
-    		progressDialog = new Dialog(SettingsViewController.this.context);
-    		progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-    		progressDialog.setContentView(R.layout.progress_dialog);
-    		progressDialog.setCancelable(false);
-    		Button cancelBtn = (Button)progressDialog.findViewById(R.id.cancelBtn);
-    		cancelBtn.setOnClickListener(new OnClickListener() {
-				public void onClick(View v) {
-    				progressDialog.dismiss();
-    				ConnectionAsyncTask.this.cancel(true);
-				}
-			});
-    		
-            RotateAnimation rotation = new RotateAnimation(
-          	      0f,
-          	      360f,
-          	      Animation.RELATIVE_TO_SELF,
-          	      0.5f,
-          	      Animation.RELATIVE_TO_SELF,
-          	      0.5f);
-			rotation.setDuration(1300);
-			rotation.setInterpolator(new LinearInterpolator());
-			rotation.setRepeatMode(Animation.RESTART);
-			rotation.setRepeatCount(Animation.INFINITE);
-          	progressDialog.findViewById(R.id.activityIndicator).startAnimation(rotation);
-    		
-    		progressDialog.show();
-    	}
-    	
-    	@Override
-    	protected Boolean doInBackground(String... params) {
-    		int count = 0;
-    		boolean isTryingToConnect =  false;
-    		
-    		while (true) {
-    			boolean isReadyToConnect = bleConnection.isReadyToConnect();
-    			if (isReadyToConnect) {
-    				if (isTryingToConnect == false) {
-        				isTryingToConnect = true;
-        				bleConnection.connect();
-					}
-    				else{
-    					if (bleConnection.isConnected()) {
-							return true;
-						}
-    				}
-				}
-
-    			try {
-					Thread.sleep(250);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-    			count++;
-    			
-    			if (count > 40) { //10s
-					return false;
-				}
-			}
-    	}
-    	
-    	@Override
-    	protected void onCancelled() {
-    		super.onCancelled();
-    	}
-    	
-    	@Override
-    	protected void onPostExecute(Boolean successes){
-    		super.onPostExecute(successes);
-    		progressDialog.dismiss();
-    		
-    		if(successes.booleanValue()){
-    			Toast.makeText(SettingsViewController.this.context, "连接成功!", Toast.LENGTH_LONG).show();
-    			connectionStateTextView.setText(R.string.settings_item_connection_state_conneceted);
-    		}
-    		else{
-    			Toast.makeText(SettingsViewController.this.context, "连接失败!", Toast.LENGTH_LONG).show();
-    			connectionStateTextView.setText(R.string.settings_item_connection_state_not_conneceted);
-    			return;
-    		}
-    	}
-    }*/
-	
-	@Override
-	protected void finalize() throws Throwable {
-		// TODO Auto-generated method stub
-		super.finalize();
-		
-		/*
-		if (bleAvailabed) {
-			if (isScanning) {
-
-		}
-		*/
-	}
 	
 	@Override
 	public void viewWillAppear() {
@@ -1056,12 +918,10 @@ public class SettingsViewController extends ViewController
 
 		if (isScanning) {
 			if (bleAvailabed) {
-				
 				mBluetoothAdapter.stopLeScan(mLeScanCallback);
 
 				isScanning = false;
 				scanBtn.setText(R.string.btn_title_scan);
-				// connectionStateTextView.setText(R.string.s)
 				scanningStateTextView.setVisibility(View.INVISIBLE);
 				scanningProgressBar.setVisibility(View.INVISIBLE);
 

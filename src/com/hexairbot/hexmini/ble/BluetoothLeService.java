@@ -64,6 +64,7 @@ public class BluetoothLeService extends Service {
     
     public BluetoothGattCharacteristic mNotifyCharacteristic;
     
+    
     public void WriteValue(String strValue)
     {
     	if (mBluetoothGatt != null) {
@@ -100,6 +101,9 @@ public class BluetoothLeService extends Service {
     					Log.i(TAG, gattCharacteristic.getUuid().toString());
     					Log.i(TAG, UUID_NOTIFY.toString());
     					mNotifyCharacteristic = gattCharacteristic;
+    					
+    					Log.e(TAG, "find new gattCharacteristic");
+    					
     					setCharacteristicNotification(gattCharacteristic, true);
     					broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED);
     					return;
@@ -118,7 +122,6 @@ public class BluetoothLeService extends Service {
             Log.i(TAG, "oldStatus=" + status + " NewStates=" + newState);
             if(status == BluetoothGatt.GATT_SUCCESS)
             {
-            
             if (newState == BluetoothProfile.STATE_CONNECTED) {
                 intentAction = ACTION_GATT_CONNECTED;
                 
@@ -127,10 +130,12 @@ public class BluetoothLeService extends Service {
                 // Attempts to discover services after successful connection.
                 Log.i(TAG, "Attempting to start service discovery:" +
                 		mBluetoothGatt.discoverServices());
-            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {  //当蓝牙模块断电，也会发送此广播
                 intentAction = ACTION_GATT_DISCONNECTED;
-                mBluetoothGatt.close();
-                mBluetoothGatt = null;
+                //mBluetoothGatt.close();
+                //mBluetoothGatt = null;
+                //disconnect();
+                
                 Log.i(TAG, "Disconnected from GATT server.");
                 broadcastUpdate(intentAction);
             }
@@ -168,7 +173,12 @@ public class BluetoothLeService extends Service {
         public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic,
         								int status)
         {
-        	//Log.e(TAG, "OnCharacteristicWrite");
+        	if (status == BluetoothGatt.GATT_SUCCESS) {
+        		Log.e(TAG, "OnCharacteristicWrite SUCCESS");
+			}
+        	else{
+        		Log.e(TAG, "OnCharacteristicWrite FAILED");
+        	}
         }
         
         @Override
@@ -307,10 +317,11 @@ public class BluetoothLeService extends Service {
         // parameter to false.
         if(mBluetoothGatt != null)
         {
+        	mBluetoothGatt.disconnect();
         	mBluetoothGatt.close();
             mBluetoothGatt = null;
         }
-        mBluetoothGatt = device.connectGatt(this, false, mGattCallback);
+        mBluetoothGatt = device.connectGatt(this, true, mGattCallback);
         //mBluetoothGatt.connect();
         
         Log.d(TAG, "Trying to create a new connection.");
@@ -339,8 +350,10 @@ public class BluetoothLeService extends Service {
         if (mBluetoothGatt == null) {
             return;
         }
+        mBluetoothGatt.disconnect();
         mBluetoothGatt.close();
         mBluetoothGatt = null;
+        mNotifyCharacteristic = null;
     }
 
     /**

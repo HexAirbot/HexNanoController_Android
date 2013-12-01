@@ -3,6 +3,7 @@ package com.hexairbot.hexmini;
 
 import com.hexairbot.hexmini.HexMiniApplication.AppStage;
 import com.hexairbot.hexmini.modal.ApplicationSettings;
+import com.hexairbot.hexmini.modal.Transmitter;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -94,8 +95,15 @@ public class SettingsDialog extends DialogFragment
         
         settingsVC.viewWillDisappear();
     }
-
-
+    
+    @Override
+    public void onDestroy() {
+    	super.onDestroy();
+    	
+    	
+    }
+    
+    
     public void onOkClicked(View v)
     {
         dismiss();

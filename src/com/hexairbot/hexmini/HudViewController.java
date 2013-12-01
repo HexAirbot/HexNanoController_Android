@@ -13,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 
 import com.hexairbot.hexmini.HexMiniApplication.AppStage;
+import com.hexairbot.hexmini.ble.BleConnectinManager;
 import com.hexairbot.hexmini.gestures.EnhancedGestureDetector;
 import com.hexairbot.hexmini.modal.ApplicationSettings;
 import com.hexairbot.hexmini.modal.Channel;
@@ -92,6 +93,7 @@ public class HudViewController extends ViewController
 	{
 		this.delegate = delegate;
 		this.context = context;
+		Transmitter.sharedTransmitter().setBleConnectionManager(new BleConnectinManager(context));      
 		
 		settings = ((HexMiniApplication)context.getApplication()).getAppSettings();
 		
