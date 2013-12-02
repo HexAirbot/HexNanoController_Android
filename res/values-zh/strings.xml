@@ -1,8 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">HexMini</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="app_name">AnyFlite</string>
+    <string name="settings_title_connection">连接AnyFlite</string>
+    <string name="settings_title_personal">个人设置</string>
+    <string name="settings_title_angel_trim">飞行角度修正</string>
+    <string name="settings_title_mode">模式设置</string>
+    <string name="settings_title_about">关于AnyFlite</string>
+    
+    <string name="btn_title_default_settings">默认设置</string>
+    <string name="btn_title_calibrate_acc">校准加速计</string>
+    <string name="btn_title_calibrate_mag">校准罗盘</string>
+    <string name="btn_title_scan">扫描</string>
+    <string name="btn_title_stop_scan">停止扫描</string>
+    <string name="btn_title_scanning">扫描中</string>
+    <string name="btn_title_up_trim">上</string>
+    <string name="btn_title_down_trim">下</string>
+    <string name="btn_title_left_trim">左</string>
+    <string name="btn_title_right_trim">右</string>
+    <string name="settings_item_connection_state_not_conneceted">未连接</string>
+    <string name="settings_item_connection_state_conneceted">已连接</string>
+    
+    <string name="settings_item_left_handed">左手模式</string>
+    <string name="settings_item_interface_opacity">界面透明度</string>
+    <string name="settings_item_acc_mode">加速计控制模式</string>
+    <string name="settings_item_headfree_mode">无头模式</string>
+    <string name="settings_item_take_off_throttle">起飞油门</string>
+    <string name="settings_item_aileron_and_elevator_dead_band">AILERON/ELEVATOR操作无效区</string>
+    <string name="settings_item_rudder_dead_band">RUDDER操作无效区</string>
+    <string name="settings_item_stop_scan">停止扫描</string>
+    <string name="settings_item_scanning">扫描中</string>
+    <string name="settings_item_scan">扫描</string>
+    <string name="settings_item_not_connected">未连接</string>
+    <string name="settings_item_connected">已连接</string>
+    <string name="settings_item_scanning_anyflite">扫描AnyFlite中...</string>
+    <string name="ble_not_supported">此设备不支持BLE!</string>
+    <string name="bluetooth_not_supported">此设备不支持蓝牙!</string>
+    
+    <string name="dialog_title_info">提示</string>
+    <string name="dialog_connect">连接到AnyFlite?</string>
+    <string name="dialog_disconnect">断开连接?</string>
+    <string name="dialog_calibrate_acc">校准AnyFlite的加速计?</string>
+    <string name="dialog_calibrate_mag">校准AnyFlite的数字罗盘?</string>
+    <string name="dialog_reset">恢复到默认设置?</string>    
+    
+    <string name="dialog_btn_yes">是</string>
+    <string name="dialog_btn_no">否</string>
+    
+    <string name="connection_failed">连接失败!</string>
+    <string name="connection_successful">连接成功!</string>
+    <string name="connection_lost">失去连接!</string>
+    
 
 </resources>

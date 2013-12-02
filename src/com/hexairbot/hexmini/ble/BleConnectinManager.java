@@ -226,9 +226,8 @@ public class BleConnectinManager  {
 		this.context = context;
 	}
 
-	
-	
-    private  IntentFilter makeGattUpdateIntentFilter() {                        //注册接收的事件
+
+	private  IntentFilter makeGattUpdateIntentFilter() {                        //注册接收的事件
         final IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);

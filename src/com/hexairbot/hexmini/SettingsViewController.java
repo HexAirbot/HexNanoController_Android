@@ -154,7 +154,6 @@ public class SettingsViewController extends ViewController
             ((Activity)(SettingsViewController.this.context)).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                	 Log.d("LeScanCallback", "runOnUiThread");
                 	bleDeviceListAdapter.addDevice(device, rssi);
                 	bleDeviceListAdapter.notifyDataSetChanged();
                 }
@@ -225,7 +224,7 @@ public class SettingsViewController extends ViewController
         connectionStateTextView = (TextView)settingsViews.get(connectionPageIdx).findViewById(R.id.connectionStateTextView);
         connectionStateTextView.setText(R.string.settings_item_connection_state_not_conneceted);
         scanningStateTextView = (TextView)settingsViews.get(connectionPageIdx).findViewById(R.id.scanningStateTextView);
-        scanningStateTextView.setText(R.string.settings_item_scanning_hex_mini);
+        scanningStateTextView.setText(R.string.settings_item_scanning_anyflite);
         scanningStateTextView.setVisibility(View.INVISIBLE);
         scanningProgressBar = (ProgressBar)settingsViews.get(connectionPageIdx).findViewById(R.id.scanningProgressBar);
         scanningProgressBar.setVisibility(View.INVISIBLE);
@@ -251,23 +250,25 @@ public class SettingsViewController extends ViewController
 				
 				if (currentDevice == targetDevice 
 						&& Transmitter.sharedTransmitter().getBleConnectionManager().isConnected()) {
-				      	new AlertDialog.Builder(SettingsViewController.this.context)
-						.setIcon(android.R.drawable.ic_dialog_alert).setTitle("提示")
-						.setMessage("断开连接?")
-						.setPositiveButton("是", new DialogInterface.OnClickListener() {
+				     
+					
+					new AlertDialog.Builder(SettingsViewController.this.context)
+						.setIcon(android.R.drawable.ic_dialog_alert).setTitle(R.string.dialog_title_info)
+						.setMessage(R.string.dialog_disconnect)
+						.setPositiveButton(R.string.dialog_btn_yes, new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int which) {
 								Transmitter.sharedTransmitter().stop();
 								
 								Transmitter.sharedTransmitter().getBleConnectionManager().disconnect();
 								connectionStateTextView.setText(R.string.settings_item_connection_state_not_conneceted);
 							}
-						}).setNegativeButton("否", null).show();
+						}).setNegativeButton(R.string.dialog_btn_no, null).show();
 				}
 				else{
 					new AlertDialog.Builder(SettingsViewController.this.context)
-					.setIcon(android.R.drawable.ic_dialog_alert).setTitle("提示")
-					.setMessage("连接?")
-					.setPositiveButton("是", new DialogInterface.OnClickListener() {
+					.setIcon(android.R.drawable.ic_dialog_alert).setTitle(R.string.dialog_title_info)
+					.setMessage(R.string.dialog_connect)
+					.setPositiveButton(R.string.dialog_btn_yes, new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int which) {
 							if (isScanning) {
 								if (bleAvailabed) {
@@ -285,7 +286,7 @@ public class SettingsViewController extends ViewController
 							connectionStateTextView.setText(R.string.settings_item_connection_state_not_conneceted);
 							Transmitter.sharedTransmitter().getBleConnectionManager().connect(targetDevice); 
 						}
-					}).setNegativeButton("否", 
+					}).setNegativeButton(R.string.dialog_btn_no, 
 							new DialogInterface.OnClickListener() {
 								
 								@Override
@@ -509,13 +510,13 @@ public class SettingsViewController extends ViewController
 			@Override
 			public void onClick(View v) {
 		      	new AlertDialog.Builder(SettingsViewController.this.context)
-				.setIcon(android.R.drawable.ic_dialog_alert).setTitle("提示")
-				.setMessage("校准AnyFlite的数字罗盘?")
-				.setPositiveButton("是", new DialogInterface.OnClickListener() {
+				.setIcon(android.R.drawable.ic_dialog_alert).setTitle(R.string.dialog_title_info)
+				.setMessage(R.string.dialog_calibrate_mag)
+				.setPositiveButton(R.string.dialog_btn_yes, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						Transmitter.sharedTransmitter().transmmitSimpleCommand(OSDCommon.MSPCommnand.MSP_MAG_CALIBRATION);
 					}
-				}).setNegativeButton("否", null).show();				
+				}).setNegativeButton(R.string.dialog_btn_no, null).show();				
 			}
 		});
     	
@@ -524,13 +525,13 @@ public class SettingsViewController extends ViewController
 			@Override
 			public void onClick(View v) {
 		      	new AlertDialog.Builder(SettingsViewController.this.context)
-				.setIcon(android.R.drawable.ic_dialog_alert).setTitle("提示")
-				.setMessage("校准AnyFlite的加速计?")
-				.setPositiveButton("是", new DialogInterface.OnClickListener() {
+				.setIcon(android.R.drawable.ic_dialog_alert).setTitle(R.string.dialog_title_info)
+				.setMessage(R.string.dialog_calibrate_acc)
+				.setPositiveButton(R.string.dialog_btn_yes, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						Transmitter.sharedTransmitter().transmmitSimpleCommand(OSDCommon.MSPCommnand.MSP_ACC_CALIBRATION);
 					}
-				}).setNegativeButton("否", null).show();				
+				}).setNegativeButton(R.string.dialog_btn_no, null).show();				
 			}
 		});
     	
@@ -539,9 +540,9 @@ public class SettingsViewController extends ViewController
 			@Override
 			public void onClick(View v) {
 				new AlertDialog.Builder(SettingsViewController.this.context)
-				.setIcon(android.R.drawable.ic_dialog_alert).setTitle("提示")
-				.setMessage("恢复到默认设置?")
-				.setPositiveButton("是", new DialogInterface.OnClickListener() {
+				.setIcon(android.R.drawable.ic_dialog_alert).setTitle(R.string.dialog_title_info)
+				.setMessage(R.string.dialog_reset)
+				.setPositiveButton(R.string.dialog_btn_yes, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						ApplicationSettings settings = HexMiniApplication.sharedApplicaion().getAppSettings();
 
@@ -564,7 +565,7 @@ public class SettingsViewController extends ViewController
 						
 						}
 					}
-				}).setNegativeButton("否", null).show();	
+				}).setNegativeButton(R.string.dialog_btn_no, null).show();	
 			}
 		});
     	
@@ -840,7 +841,7 @@ public class SettingsViewController extends ViewController
 	@Override
 	public void didConnect(BleConnectinManager manager) {
 		// TODO Auto-generated method stub
-		Toast.makeText(SettingsViewController.this.context, "连接成功!", Toast.LENGTH_SHORT).show();
+		Toast.makeText(SettingsViewController.this.context, R.string.connection_successful, Toast.LENGTH_SHORT).show();
 		Log.d(TAG, "didConnect"); 
 		connectionStateTextView.setText(R.string.settings_item_connection_state_conneceted);
 		Transmitter.sharedTransmitter().start();
@@ -865,7 +866,7 @@ public class SettingsViewController extends ViewController
 		
 		Transmitter.sharedTransmitter().stop();
 		
-		Toast.makeText(SettingsViewController.this.context, "失去连接!", Toast.LENGTH_SHORT).show();	 
+		Toast.makeText(SettingsViewController.this.context, R.string.connection_lost, Toast.LENGTH_SHORT).show();	 
 		connectionStateTextView.setText(R.string.settings_item_connection_state_not_conneceted);
 	
 		bleDeviceListView.setEnabled(false);
@@ -896,7 +897,7 @@ public class SettingsViewController extends ViewController
 	public void didFailToConnect(BleConnectinManager manager) {
 		// TODO Auto-generated method stub
 		
-		Toast.makeText(SettingsViewController.this.context, "连接失败!", Toast.LENGTH_SHORT).show();
+		Toast.makeText(SettingsViewController.this.context, R.string.connection_failed, Toast.LENGTH_SHORT).show();
 		connectionStateTextView.setText(R.string.settings_item_connection_state_not_conneceted);
 	}
 	
