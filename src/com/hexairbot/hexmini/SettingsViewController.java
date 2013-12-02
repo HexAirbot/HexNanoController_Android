@@ -122,17 +122,14 @@ public class SettingsViewController extends ViewController
     private TextView isHeadfreeTitleTextView;
     
     private TextView interfaceOpacityValueTextView;
-    private TextView takeOffThrottleValueTextView;
     private TextView aileronAndElevatorDeadBandValueTextView;
     private TextView rudderDeadBandValueTextView;
     
     private SeekBar interfaceOpacitySeekBar;
-    private SeekBar takeOffThrottleSeekBar;
     private SeekBar aileronAndElevatorDeadBandSeekBar;
     private SeekBar rudderDeadBandSeekBar;
     
     private OnSeekBarChangeListener interfaceOpacitySeekBarListener;
-    private OnSeekBarChangeListener takeOffThrottleSeekBarListener;
     private OnSeekBarChangeListener aileronAndElevatorDeadBandSeekBarListener;
     private OnSeekBarChangeListener rudderDeadBandSeekBarListener;
     
@@ -321,17 +318,14 @@ public class SettingsViewController extends ViewController
         isHeadfreeTitleTextView.setText(R.string.settings_item_headfree_mode);
         
         interfaceOpacityValueTextView =  (TextView)settingsViews.get(interfacePageIdx).findViewById(R.id.interfaceOpacityValueTextView);
-        takeOffThrottleValueTextView = (TextView)settingsViews.get(modePageIdx).findViewById(R.id.takeOffThrottleValueTextView);
         aileronAndElevatorDeadBandValueTextView = (TextView)settingsViews.get(modePageIdx).findViewById(R.id.aileronAndElevatorDeadBandValueTextView);
         rudderDeadBandValueTextView = (TextView)settingsViews.get(modePageIdx).findViewById(R.id.rudderDeadBandValueTextView);
         
         interfaceOpacitySeekBar = (SeekBar)settingsViews.get(interfacePageIdx).findViewById(R.id.interfaceOpacitySeekBar);
-        takeOffThrottleSeekBar = (SeekBar)settingsViews.get(modePageIdx).findViewById(R.id.takeOffThrottleSeekBar);
         aileronAndElevatorDeadBandSeekBar = (SeekBar)settingsViews.get(modePageIdx).findViewById(R.id.aileronAndElevatorDeadBandSeekBar);
         rudderDeadBandSeekBar = (SeekBar)settingsViews.get(modePageIdx).findViewById(R.id.rudderDeadBandSeekBar);
         
         interfaceOpacitySeekBar.setMax(100);
-        takeOffThrottleSeekBar.setMax(1000);
         aileronAndElevatorDeadBandSeekBar.setMax(100);
         rudderDeadBandSeekBar.setMax(100);
         
@@ -384,9 +378,6 @@ public class SettingsViewController extends ViewController
         
         interfaceOpacitySeekBar.setProgress((int)(settings.getInterfaceOpacity() * 100));
         safeSetText(interfaceOpacityValueTextView, interfaceOpacitySeekBar.getProgress() + "%");
-        
-        takeOffThrottleSeekBar.setProgress((int)(settings.getTakeOffThrottle() - 1000));
-        safeSetText(takeOffThrottleValueTextView, (takeOffThrottleSeekBar.getProgress() + 1000) + "us");
         
         aileronAndElevatorDeadBandSeekBar.setProgress((int)(settings.getAileronDeadBand() * 100));
         safeSetText(aileronAndElevatorDeadBandValueTextView, aileronAndElevatorDeadBandSeekBar.getProgress() + "%");
@@ -634,26 +625,6 @@ public class SettingsViewController extends ViewController
 		};
 		interfaceOpacitySeekBar.setOnSeekBarChangeListener(interfaceOpacitySeekBarListener);
     	
-    	takeOffThrottleSeekBarListener = new OnSeekBarChangeListener() {
-			@Override
-			public void onStopTrackingTouch(SeekBar seekBar) {
-				ApplicationSettings settings = HexMiniApplication.sharedApplicaion().getAppSettings();
-				settings.setTakeOffThrottle(seekBar.getProgress() + 1000);
-				settings.save();
-			}
-			
-			@Override
-			public void onStartTrackingTouch(SeekBar seekBar) {
-			}
-			
-			@Override
-			public void onProgressChanged(SeekBar seekBar, int progress,
-					boolean fromUser) {
-              safeSetText(takeOffThrottleValueTextView, (progress + 1000) + "us");
-			}
-		};
-		takeOffThrottleSeekBar.setOnSeekBarChangeListener(takeOffThrottleSeekBarListener);
-		
     	aileronAndElevatorDeadBandSeekBarListener = new OnSeekBarChangeListener() {
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {

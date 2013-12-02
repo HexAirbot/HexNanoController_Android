@@ -8,7 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="38dp" >
 
-        <LinearLayout
+        <RelativeLayout
+            android:id="@+id/RelativeLayout1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" >
 
@@ -16,16 +17,21 @@
                 android:id="@+id/scanningStateTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentTop="false"
+                android:layout_centerVertical="true"
                 android:text="Scanning" />
 
             <ProgressBar
                 android:id="@+id/scanningProgressBar"
                 style="?android:attr/progressBarStyleLarge"
-                android:layout_width="41dp"
-                android:layout_height="41dp" />
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignParentTop="false"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/scanningStateTextView" />
 
-        </LinearLayout>
-
+        </RelativeLayout>
     </LinearLayout>
 
     <TextView
@@ -38,7 +44,9 @@
         android:id="@+id/scanBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:background="@drawable/btn_black"
+        android:text="Button"
+        android:textColor="@color/white" />
 
     <ListView
         android:id="@+id/bleDeviceListView"
