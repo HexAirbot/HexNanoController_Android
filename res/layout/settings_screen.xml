@@ -28,7 +28,7 @@
                     android:id="@+id/backBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Back" />
+                    android:background="@drawable/btn_back" />
 
                 <TextView
                     android:id="@+id/titleTextView"
