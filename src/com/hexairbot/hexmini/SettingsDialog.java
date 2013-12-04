@@ -16,7 +16,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.content.LocalBroadcastManager;
+//import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -32,7 +32,7 @@ public class SettingsDialog extends DialogFragment
     private SettingsViewController settingsVC;
     private Context context;
     private SettingsDialogDelegate delegate;
-
+    
     
     public SettingsDialog(Context context, SettingsDialogDelegate delegate)
     {
@@ -63,9 +63,9 @@ public class SettingsDialog extends DialogFragment
     			Log.d(TAG, "this.context == getActivity()");
     		}
             
-            settingsVC = new SettingsViewController(this.context, inflater, v, (SettingsViewControllerDelegate)(((HudActivity) delegate).getViewController()));
+        settingsVC = new SettingsViewController(this.context, inflater, v, (SettingsViewControllerDelegate)(((HudActivity) delegate).getViewController()));
             
-            initListeners();
+        initListeners();
         
         return v;
     }
@@ -95,6 +95,7 @@ public class SettingsDialog extends DialogFragment
         
         settingsVC.viewWillDisappear();
     }
+  
     
     @Override
     public void onDestroy() {

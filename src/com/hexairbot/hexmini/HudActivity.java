@@ -2,30 +2,16 @@ package com.hexairbot.hexmini;
 
 import com.hexairbot.hexmini.SettingsDialog;
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Point;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
-import android.widget.Button;
-import android.widget.ImageView;
-import com.hexairbot.hexmini.ui.*;
-import com.hexairbot.hexmini.ui.joystick.AnalogueJoystick;
-import com.hexairbot.hexmini.ui.joystick.JoystickBase;
-import com.hexairbot.hexmini.ui.joystick.JoystickFactory;
-import com.hexairbot.hexmini.ui.joystick.JoystickListener;
 import com.hexairbot.hexmini.HexMiniApplication.AppStage;
 import com.hexairbot.hexmini.modal.ApplicationSettings;
 import com.hexairbot.hexmini.modal.Transmitter;
@@ -45,14 +31,20 @@ public class HudActivity extends FragmentActivity implements SettingsDialogDeleg
 		super.onCreate(savedInstanceState);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); 
 		hudVC = new HudViewController(this, this);	
+		hudVC.onCreate();
 	}
 	
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
-		HexMiniApplication.sharedApplicaion().setAppStage(AppStage.HUD);
-		
 		super.onResume();
+		HexMiniApplication.sharedApplicaion().setAppStage(AppStage.HUD);
+		hudVC.onResume();
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		hudVC.onPause();
 	}
 	
     protected void showSettingsDialog()
@@ -120,6 +112,8 @@ public class HudActivity extends FragmentActivity implements SettingsDialogDeleg
 		if (Transmitter.sharedTransmitter().getBleConnectionManager() != null) {
 			Transmitter.sharedTransmitter().getBleConnectionManager().close();
 		}
+		
+		hudVC.onDestroy();
 	}
 
 }

@@ -19,7 +19,6 @@ public class JoystickFactory
 		NONE,
 		ANALOGUE,
 		ACCELERO,
-		COMBINED,
 	}
 	
 	public static JoystickBase createAnalogueJoystick(Context context, boolean isRollPitchJoystick,
@@ -32,14 +31,13 @@ public class JoystickFactory
 		return joy;
 	}
 	
-	public static JoystickBase createCombinedJoystick(Context context, 
-															boolean isRollPitchJoystick,
-															JoystickListener analogueListener,
+	
+	public static JoystickBase createAcceleroJoystick(Context context, boolean isRollPitchJoystick,
 															JoystickListener acceleroListener,
 															boolean yStickIsBounced)
 	{
-		JoystickBase joy = new AnalogueJoystick(context, Align.NO_ALIGN, isRollPitchJoystick, yStickIsBounced);
-		joy.setOnAnalogueChangedListener(analogueListener);
+		AcceleratorJoystick joy = new AcceleratorJoystick(context, Align.NO_ALIGN, isRollPitchJoystick, yStickIsBounced);
+		joy.setOnAnalogueChangedListener(acceleroListener);
 		
 		return joy;
 	}

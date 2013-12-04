@@ -7,14 +7,12 @@ import java.io.OutputStream;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.res.AssetManager;
-import android.provider.Settings;
 import android.util.Log;
 
 import com.hexairbot.hexmini.modal.ApplicationSettings;
 import com.hexairbot.hexmini.util.FileHelper;
 
-public class HexMiniApplication 
-	extends Application 
+public class HexMiniApplication extends Application 
 {   
 	private static final String TAG = HexMiniApplication.class.getSimpleName();
     
@@ -25,12 +23,14 @@ public class HexMiniApplication
 	
 	private AppStage appStage = AppStage.UNKNOWN;
 	
+	
 	public enum AppStage{
 		UNKNOWN,
 		HUD,
 		SETTINGS
 	};
 	  
+	
 	@SuppressLint("NewApi")
     @Override
 	public void onCreate() 
@@ -46,7 +46,7 @@ public class HexMiniApplication
 		
 		settings = new ApplicationSettings(getFilesDir() + "/Settings.plist");
 	}
-
+	
 	
 	@Override
 	public void onTerminate() 
@@ -72,7 +72,7 @@ public class HexMiniApplication
     
     
     private void copyDefaultSettingsFileIfNeeded(){
-		String settingsFileName = "Settings.plist";               //user
+		String settingsFileName        = "Settings.plist";        //user
 		String defaultSettingsFileName = "DefaultSettings.plist"; //default
 
 		if (fileHelper.hasDataFile(settingsFileName) == false) {

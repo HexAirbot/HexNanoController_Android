@@ -9,8 +9,8 @@
     <dimen name="settings_seek_width">255dp</dimen>
     <dimen name="settings_seek_text_padding_top">3dp</dimen>
     <dimen name="settings_h_gap">10dp</dimen>
-    <dimen name="settings_v_gap">22dp</dimen>
+    <dimen name="settings_v_gap">30dp</dimen>
     <dimen name="settings_v_gap_small">5dp</dimen>
-    <dimen name="settings_indicator_text_size">18sp</dimen>
-    
+    <dimen name="settings_indicator_text_size">16sp</dimen>
+    <dimen name="settings_btn_text_size">13sp</dimen>
 </resources>

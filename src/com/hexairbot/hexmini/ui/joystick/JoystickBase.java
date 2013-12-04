@@ -725,7 +725,7 @@ public abstract class JoystickBase extends Sprite
 //    	//	}
 		//}
 	}
-	
+	//ĞèÒªÖØ»æ
 	@Override
 	public void setNeedsUpdate() {
 		isInitialized = false;

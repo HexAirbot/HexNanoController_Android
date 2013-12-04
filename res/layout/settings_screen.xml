@@ -101,7 +101,8 @@
                 android:paddingLeft="@dimen/settings_button_left_padding"
                 android:paddingRight="@dimen/settings_button_right_padding"
                 android:text="@string/btn_title_calibrate_mag"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textSize="@dimen/settings_btn_text_size" />
 
             <Button
                 android:id="@+id/accCalibrateBtn"
@@ -115,7 +116,8 @@
                 android:paddingLeft="@dimen/settings_button_left_padding"
                 android:paddingRight="@dimen/settings_button_right_padding"
                 android:text="@string/btn_title_calibrate_acc"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textSize="@dimen/settings_btn_text_size" />
 
             <Button
                 android:id="@+id/defaultSettingsBtn"
@@ -129,7 +131,8 @@
                 android:paddingLeft="@dimen/settings_button_left_padding"
                 android:paddingRight="@dimen/settings_button_right_padding"
                 android:text="@string/btn_title_default_settings"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textSize="@dimen/settings_btn_text_size" />
 
         </RelativeLayout>
 

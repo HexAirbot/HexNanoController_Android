@@ -20,6 +20,19 @@ public abstract class ViewController {
 		
 	}
 	
+	public void onCreate(){
+		
+	}
+	
+	public void onResume(){
+		
+	}
+	
+	public void onPause(){
+		
+	}
+
+	
 	public void viewWillDisappear() {
 		
 	}

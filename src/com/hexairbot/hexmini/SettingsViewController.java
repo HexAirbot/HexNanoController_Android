@@ -326,8 +326,8 @@ public class SettingsViewController extends ViewController
         rudderDeadBandSeekBar = (SeekBar)settingsViews.get(modePageIdx).findViewById(R.id.rudderDeadBandSeekBar);
         
         interfaceOpacitySeekBar.setMax(100);
-        aileronAndElevatorDeadBandSeekBar.setMax(100);
-        rudderDeadBandSeekBar.setMax(100);
+        aileronAndElevatorDeadBandSeekBar.setMax(20);
+        rudderDeadBandSeekBar.setMax(20);
         
         WebView aboutWebView = (WebView)settingsViews.get(aboutPageIdx).findViewById(R.id.aboutWebView);
         aboutWebView.getSettings().setJavaScriptEnabled(true);  
@@ -576,7 +576,6 @@ public class SettingsViewController extends ViewController
 		});
         
         isAccModeCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean isAccMode) {
 				ApplicationSettings settings = HexMiniApplication.sharedApplicaion().getAppSettings();

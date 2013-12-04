@@ -43,7 +43,6 @@ public abstract class Sprite
 		enabled = true;
 		bounds = new Rect();
 		margin = new Rect();
-		
 	}
 	
 	public void surfaceChanged(GL10 gl, int width, int height)

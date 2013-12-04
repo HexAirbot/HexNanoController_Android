@@ -14,10 +14,10 @@ import com.hexairbot.hexmini.ui.Sprite.Align;
 import android.content.Context;
 
 
-public class AcceleroJoystick 
+public class AcceleratorJoystick 
 	extends JoystickBase
 {
-	public AcceleroJoystick(Context context, Align align, boolean isRollPitchJoystick, boolean yStickIsBounced) 
+	public AcceleratorJoystick(Context context, Align align, boolean isRollPitchJoystick, boolean yStickIsBounced) 
 	{
 		super(context, align, isRollPitchJoystick, yStickIsBounced);
 	}
@@ -26,18 +26,13 @@ public class AcceleroJoystick
 	@Override
 	protected int getBackgroundDrawableId() 
 	{
-		// Transparent background
-		//return R.drawable.accelero_background;
-		
-		return R.drawable.joystick_bg;
+		return R.drawable.joystick_bg2;
 	}
 
 
 	@Override
 	protected int getTumbDrawableId() 
 	{
-		//return R.drawable.joystick_gyro;
-		
 		return R.drawable.joystick_rudder_throttle;
 	}
 
@@ -45,6 +40,5 @@ public class AcceleroJoystick
 	@Override
 	protected void onActionMove(float x, float y) 
 	{
-		// Ignore action move.
 	}
 }

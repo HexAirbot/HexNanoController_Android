@@ -50,6 +50,7 @@ public class Button extends Sprite
 		isInitialized = true;
 	}
 
+	
 	public void surfaceChanged(Canvas canvas) 
 	{
 		super.surfaceChanged(canvas);

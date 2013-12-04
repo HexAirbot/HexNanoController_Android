@@ -19,7 +19,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="false"
                 android:layout_centerVertical="true"
-                android:text="Scanning" />
+                android:text="Scanning"
+                android:textSize="@dimen/settings_indicator_text_size" />
 
             <ProgressBar
                 android:id="@+id/scanningProgressBar"
@@ -38,7 +39,8 @@
         android:id="@+id/connectionStateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="未连接" />
+        android:text="未连接"
+        android:textSize="@dimen/settings_indicator_text_size" />
 
     <Button
         android:id="@+id/scanBtn"
