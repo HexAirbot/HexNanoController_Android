@@ -1,6 +1,9 @@
 package com.hexairbot.hexmini;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.opengl.GLSurfaceView;
@@ -58,6 +61,12 @@ public class HudViewController extends ViewController
 	private static final int SETTINGS_BTN_ID     = 8;
 	private static final int ALT_HOLD_TOGGLE_BTN = 9;
 	private static final int STATE_TEXT_VIEW     = 10;
+	private static final int HELP_BTN            = 11;
+	
+	private final float  BEGINNER_ELEVATOR_CHANNEL_RATIO  = 0.5f;
+	private final float  BEGINNER_AILERON_CHANNEL_RATIO   = 0.5f;
+	private final float  BEGINNER_RUDDER_CHANNEL_RATIO    = 0.0f;
+	private final float  BEGINNER_THROTTLE_CHANNEL_RATIO  = 0.8f;
 	
 	private Image bottomBarBg;
 
@@ -65,6 +74,8 @@ public class HudViewController extends ViewController
 	private Button takeOffBtn;
 	private Button settingsBtn;
 	private ToggleButton altHoldToggleBtn;
+	
+	private Text stateTextView;
 	
 	private boolean isAltHoldMode;
 	private boolean isAccMode;
@@ -89,8 +100,6 @@ public class HudViewController extends ViewController
     private JoystickListener rollPitchListener;
     private JoystickListener rudderThrottleListener;
     
-    
-    
     private ApplicationSettings settings;
     
     private Channel aileronChannel;
@@ -112,6 +121,8 @@ public class HudViewController extends ViewController
     
 	public HudViewController(Activity context, HudViewControllerDelegate delegate)
 	{
+
+		
 		this.delegate = delegate;
 		this.context = context;
 		Transmitter.sharedTransmitter().setBleConnectionManager(new BleConnectinManager(context));      
@@ -151,11 +162,15 @@ public class HudViewController extends ViewController
 		
 		settingsBtn = new Button(res, R.drawable.btn_settings_normal, R.drawable.btn_settings_hl, Align.TOP_RIGHT);
 		settingsBtn.setMargin(0, (int)res.getDimension(R.dimen.hud_btn_settings_margin_right), 0, 0);
+		
+		Button helpBtn = new Button(res, R.drawable.btn_settings_normal, R.drawable.btn_settings_hl, Align.TOP_RIGHT);
+		helpBtn.setMargin(0, (int)res.getDimension(R.dimen.hud_btn_settings_margin_right) * 3, 0, 0);
 			
 		takeOffBtn = new Button(res, R.drawable.btn_take_off_normal, R.drawable.btn_take_off_hl, Align.BOTTOM_CENTER);		
 		stopBtn = new Button(res, R.drawable.btn_stop_normal, R.drawable.btn_stop_hl, Align.TOP_CENTER);
 
-		Text stateTextView = new Text(context, "ÒÑÁ¬½Ó", Align.TOP_LEFT);
+		String state = context.getResources().getString(R.string.settings_item_connection_state_not_conneceted);
+		stateTextView = new Text(context, state, Align.TOP_LEFT);
 		stateTextView.setMargin((int)res.getDimension(R.dimen.hud_state_text_margin_top), 0, 0, (int)res.getDimension(R.dimen.hud_state_text_margin_left));
 		stateTextView.setTextColor(Color.WHITE);
 		stateTextView.setTypeface(FontUtils.TYPEFACE.Helvetica(context));
@@ -168,11 +183,12 @@ public class HudViewController extends ViewController
 		altHoldToggleBtn.setMargin(0, 0, 0, res.getDimensionPixelOffset(R.dimen.hud_alt_hold_toggle_btn_margin_left));
 		altHoldToggleBtn.setChecked(settings.isAltHoldMode());
 		
-		buttons = new Button[4];
+		buttons = new Button[5];
 		buttons[0] = settingsBtn;
 		buttons[1] = takeOffBtn;
 		buttons[2] = stopBtn;
 		buttons[3] = altHoldToggleBtn;
+		buttons[4] = helpBtn;
 		
 		renderer.addSprite(MIDLLE_BG_ID, middleBg);
 		renderer.addSprite(TOP_BAR_ID, topBarBg);
@@ -182,12 +198,23 @@ public class HudViewController extends ViewController
 		renderer.addSprite(SETTINGS_BTN_ID, settingsBtn);
 		renderer.addSprite(ALT_HOLD_TOGGLE_BTN, altHoldToggleBtn);
 		renderer.addSprite(STATE_TEXT_VIEW, stateTextView);
+		renderer.addSprite(HELP_BTN, helpBtn);
 		
 		isAccMode = settings.isAccMode();
 		deviceOrientationManager = new DeviceOrientationManager(new DeviceSensorManagerWrapper(this.context), this);
 		deviceOrientationManager.onCreate();
 		
+		
 		initJoystickListeners();
+		
+		helpBtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(HudViewController.this.context, HelpActivity.class);
+				HudViewController.this.context.startActivity(intent);
+			}
+		});
 		
 		if (isAccMode) {
 			initJoysticks(JoystickType.ACCELERO);
@@ -195,7 +222,6 @@ public class HudViewController extends ViewController
 		else{
 			initJoysticks(JoystickType.ANALOGUE);
 		}
-		
 		
 		initListeners();
 		
@@ -214,6 +240,17 @@ public class HudViewController extends ViewController
 		else{
 			aux2Channel.setValue(-1);
 		}
+		
+	    if (settings.isBeginnerMode()) {	       
+			new AlertDialog.Builder(context)
+			.setIcon(android.R.drawable.ic_dialog_alert).setTitle(R.string.dialog_title_info)
+			.setMessage(R.string.beginner_mode_info)
+			.setPositiveButton(R.string.dialog_btn_ok, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					
+				}
+			}).show();
+	    }
 	}
 	
 	private void initChannels() {
@@ -245,8 +282,15 @@ public class HudViewController extends ViewController
 	            	
 	            	if (isAccMode == false && rollAndPitchJoystickPressed == true) {
 		        		Log.e(TAG, "rollPitchListener onChanged x:" + x + "y:" + y);
-		                aileronChannel.setValue(x);
-		                elevatorChannel.setValue(y);
+		        		
+		        		if (settings.isBeginnerMode()) {
+		        			aileronChannel.setValue(x * BEGINNER_AILERON_CHANNEL_RATIO);
+		        			elevatorChannel.setValue(y * BEGINNER_ELEVATOR_CHANNEL_RATIO);
+						}
+		        		else{
+			                aileronChannel.setValue(x);
+			                elevatorChannel.setValue(y);
+		        		}
 					}
 	            }
 
@@ -278,8 +322,16 @@ public class HudViewController extends ViewController
 	            	
 	            	
 	        		Log.e(TAG, "rudderThrottleListener onChanged x:" + x + "y:" + y);
-	        		rudderChannel.setValue(x);
-	        		throttleChannel.setValue(y);
+	        		
+	        		
+	        		if (settings.isBeginnerMode()) {
+	        			rudderChannel.setValue(x * BEGINNER_RUDDER_CHANNEL_RATIO);
+		        		throttleChannel.setValue((BEGINNER_THROTTLE_CHANNEL_RATIO - 1) + y * BEGINNER_THROTTLE_CHANNEL_RATIO);
+
+					}else{
+		        		rudderChannel.setValue(x);
+		        		throttleChannel.setValue(y);
+					}
 	            }
 
 	            @Override
@@ -694,10 +746,38 @@ public class HudViewController extends ViewController
 					Log.d(TAG, "ROLL:" + (-x) + ",PITCH:" + y);
 					
 					if (Math.abs(x) > ACCELERO_TRESHOLD || Math.abs(y) > ACCELERO_TRESHOLD) {
-		                aileronChannel.setValue(-x);
-		                elevatorChannel.setValue(y);
+			            if (settings.isBeginnerMode()) {
+							aileronChannel.setValue(-x * BEGINNER_AILERON_CHANNEL_RATIO);
+			                elevatorChannel.setValue(y * BEGINNER_ELEVATOR_CHANNEL_RATIO);
+						}else{
+							aileronChannel.setValue(-x);
+			                elevatorChannel.setValue(y);
+						}
 					}
 				}
 	        }
+	}
+
+	@Override
+	public void didConnect() {
+		String state = context.getResources().getString(R.string.settings_item_connection_state_conneceted);
+		stateTextView.setText(state);
+	}
+
+	@Override
+	public void didDisconnect() {
+		String state = context.getResources().getString(R.string.settings_item_connection_state_not_conneceted);
+		stateTextView.setText(state);
+	}
+
+	@Override
+	public void didFailToConnect() {
+		String state = context.getResources().getString(R.string.settings_item_connection_state_not_conneceted);
+		stateTextView.setText(state);
+	}
+
+	@Override
+	public void beginnerModeValueDidChange(boolean isBeginnerMode) {
+		
 	}
 }

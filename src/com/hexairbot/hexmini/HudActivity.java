@@ -25,6 +25,8 @@ public class HudActivity extends FragmentActivity implements SettingsDialogDeleg
     private HudViewController hudVC;
     
     public static final int REQUEST_ENABLE_BT = 1;
+    
+    boolean isFirstRun =  true;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,16 @@ public class HudActivity extends FragmentActivity implements SettingsDialogDeleg
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); 
 		hudVC = new HudViewController(this, this);	
 		hudVC.onCreate();
+		
+		ApplicationSettings settings = HexMiniApplication.sharedApplicaion()
+				.getAppSettings();
+
+		if (settings.isFirstRun()) {
+			Intent intent = new Intent(this, HelpActivity.class);
+			startActivity(intent);
+			settings.setIsFirstRun(false);
+			settings.save();
+		}
 	}
 	
 	@Override

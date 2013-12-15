@@ -72,24 +72,5 @@
          android:text="@string/settings_item_acc_mode"
          android:textColor="@color/black"
          android:textSize="@dimen/settings_indicator_text_size" />
-     
-     <CheckBox
-         android:id="@+id/isHeadfreeModeCheckBox"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_alignLeft="@+id/isAccModeCheckBox"
-         android:layout_below="@+id/isAccModeCheckBox"
-         android:layout_marginTop="@dimen/settings_v_gap"
-         android:button="@drawable/checkbox" />
-     
-     <TextView
-         android:id="@+id/isHeadfreeModeTitleTextView"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_alignRight="@+id/isAccModeTitleTextView"
-         android:layout_alignTop="@+id/isHeadfreeModeCheckBox"
-         android:text="@string/settings_item_headfree_mode"
-         android:textColor="@color/black"
-         android:textSize="@dimen/settings_indicator_text_size" />
 
 </RelativeLayout>

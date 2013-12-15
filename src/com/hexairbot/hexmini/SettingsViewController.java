@@ -116,10 +116,7 @@ public class SettingsViewController extends ViewController
     private CheckBox isLeftHandedCheckBox;
     private CheckBox isAccModeCheckBox;
     private CheckBox isHeadfreeModeCheckBox;
-    
-    private TextView isLeftHandedTitleTextView;
-    private TextView isAccModeTextTitleView;
-    private TextView isHeadfreeTitleTextView;
+    private CheckBox isBeginnerModeCheckBox;
     
     private TextView interfaceOpacityValueTextView;
     private TextView aileronAndElevatorDeadBandValueTextView;
@@ -307,15 +304,8 @@ public class SettingsViewController extends ViewController
         
         isLeftHandedCheckBox   = (CheckBox)settingsViews.get(interfacePageIdx).findViewById(R.id.isLeftHandedCheckBox);
         isAccModeCheckBox      = (CheckBox)settingsViews.get(interfacePageIdx).findViewById(R.id.isAccModeCheckBox);
-        isHeadfreeModeCheckBox = (CheckBox)settingsViews.get(interfacePageIdx).findViewById(R.id.isHeadfreeModeCheckBox);
-        
-        isLeftHandedTitleTextView = (TextView)settingsViews.get(interfacePageIdx).findViewById(R.id.isLeftHandedTitleTextView);
-        isAccModeTextTitleView    = (TextView)settingsViews.get(interfacePageIdx).findViewById(R.id.isAccModeTitleTextView);
-        isHeadfreeTitleTextView   = (TextView)settingsViews.get(interfacePageIdx).findViewById(R.id.isHeadfreeModeTitleTextView);
-        
-        isLeftHandedTitleTextView.setText(R.string.settings_item_left_handed);
-        isAccModeTextTitleView.setText(R.string.settings_item_acc_mode);
-        isHeadfreeTitleTextView.setText(R.string.settings_item_headfree_mode);
+        isHeadfreeModeCheckBox = (CheckBox)settingsViews.get(modePageIdx).findViewById(R.id.isHeadfreeModeCheckBox);
+        isBeginnerModeCheckBox = (CheckBox)settingsViews.get(modePageIdx).findViewById(R.id.isBeginnerModeCheckBox);
         
         interfaceOpacityValueTextView =  (TextView)settingsViews.get(interfacePageIdx).findViewById(R.id.interfaceOpacityValueTextView);
         aileronAndElevatorDeadBandValueTextView = (TextView)settingsViews.get(modePageIdx).findViewById(R.id.aileronAndElevatorDeadBandValueTextView);
@@ -375,6 +365,7 @@ public class SettingsViewController extends ViewController
         isLeftHandedCheckBox.setChecked(settings.isLeftHanded());
         isAccModeCheckBox.setChecked(settings.isAccMode());
         isHeadfreeModeCheckBox.setChecked(settings.isHeadFreeMode());
+        isBeginnerModeCheckBox.setChecked(settings.isBeginnerMode());
         
         interfaceOpacitySeekBar.setProgress((int)(settings.getInterfaceOpacity() * 100));
         safeSetText(interfaceOpacityValueTextView, interfaceOpacitySeekBar.getProgress() + "%");
@@ -600,6 +591,19 @@ public class SettingsViewController extends ViewController
 			}
 		});
     	
+        isBeginnerModeCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			
+			@Override
+			public void onCheckedChanged(CompoundButton arg0, boolean isBeginnerMode) {
+				ApplicationSettings settings = HexMiniApplication.sharedApplicaion().getAppSettings();
+				settings.setIsHeadFreeMode(isBeginnerMode);
+				settings.save();
+				if (delegate != null) {
+					delegate.beginnerModeValueDidChange(isBeginnerMode);
+				}
+			}
+		});
+        
     	interfaceOpacitySeekBarListener = new OnSeekBarChangeListener() {
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
@@ -828,6 +832,10 @@ public class SettingsViewController extends ViewController
         		scanBtn.setEnabled(true);
             }
         }, 3000);
+		
+		if(delegate != null){
+			delegate.didConnect();
+		}
 	}
 
 	@Override
@@ -851,6 +859,10 @@ public class SettingsViewController extends ViewController
         		scanBtn.setEnabled(true);
             }
         }, 3000);
+		
+		if(delegate != null){
+			delegate.didDisconnect();
+		}
 	}
 
 	@Override
@@ -869,6 +881,10 @@ public class SettingsViewController extends ViewController
 		
 		Toast.makeText(SettingsViewController.this.context, R.string.connection_failed, Toast.LENGTH_SHORT).show();
 		connectionStateTextView.setText(R.string.settings_item_connection_state_not_conneceted);
+	
+		if(delegate != null){
+			delegate.didFailToConnect();
+		}
 	}
 	
 	

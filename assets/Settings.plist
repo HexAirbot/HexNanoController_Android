@@ -5,15 +5,17 @@
 	<key>InterfaceOpacity</key>
 	<integer>1</integer>
 	<key>IsLeftHanded</key>
-	<false/>
+	<true/>
 	<key>IsAccMode</key>
 	<false/>
 	<key>PpmPolarityIsNegative</key>
 	<false/>
 	<key>IsHeadFreeMode</key>
-	<true/>
+	<false/>
 	<key>IsAltHoldMode</key>
 	<false/>
+	<key>IsBeginnerMode</key>
+	<true/>
 	<key>AileronDeadBand</key>
 	<real>0.12</real>
 	<key>ElevatorDeadBand</key>
@@ -121,5 +123,7 @@
 			<integer>0</integer>
 		</dict>
 	</array>
+	<key>IsFirstRun</key>
+	<true/>
 </dict>
 </plist>

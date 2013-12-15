@@ -16,9 +16,11 @@ import com.hexairbot.hexmini.HexMiniApplication;
 public class ApplicationSettings {
 	private final static String INTERFACE_OPACITY  = "InterfaceOpacity";
 	private final static String IS_LEFT_HANDED     = "IsLeftHanded";
+	public final  static String IS_FIRST_RUN       = "IsFirstRun";
 	private final static String IS_ACC_MODE        = "IsAccMode";
 	private final static String IS_HEAD_FREE_MODE  = "IsHeadFreeMode";
 	private final static String IS_ALT_HOLD_MODE   = "IsAltHoldMode";
+	private final static String IS_BEGINNER_MODE   = "IsBeginnerMode";
 	private final static String AILERON_DEAD_BAND  = "AileronDeadBand";
 	private final static String ELEVATOR_DEAD_BAND = "ElevatorDeadBand";
 	private final static String RUDDER_DEAD_BAND   = "RudderDeadBand";
@@ -32,12 +34,15 @@ public class ApplicationSettings {
 	private float interfaceOpacity;
 	private boolean isLeftHanded;
 	private boolean isAccMode;
+	private boolean isFirstRun;
 	private boolean isHeadFreeMode;
 	private boolean isAltHoldMode;
+	private boolean isBeginnerMode;
 	private float aileronDeadBand;
 	private float elevatorDeadBand;
 	private float rudderDeadBand;
 	private float takeOffThrottle;
+	
 	
 	private List<Channel> channels;
 	
@@ -51,8 +56,10 @@ public class ApplicationSettings {
 			interfaceOpacity = ((NSNumber)data.objectForKey(INTERFACE_OPACITY)).floatValue();
 			isLeftHanded     = ((NSNumber)data.objectForKey(IS_LEFT_HANDED)).boolValue();
 			isAccMode        = ((NSNumber)data.objectForKey(IS_ACC_MODE)).boolValue();
+			isFirstRun       = ((NSNumber)data.objectForKey(IS_FIRST_RUN)).boolValue();
 			isHeadFreeMode   = ((NSNumber)data.objectForKey(IS_HEAD_FREE_MODE)).boolValue();
 			isAltHoldMode    = ((NSNumber)data.objectForKey(IS_ALT_HOLD_MODE)).boolValue();
+			isBeginnerMode   = ((NSNumber)data.objectForKey(IS_BEGINNER_MODE)).boolValue();
 			aileronDeadBand  = ((NSNumber)data.objectForKey(AILERON_DEAD_BAND)).floatValue();
 			elevatorDeadBand = ((NSNumber)data.objectForKey(ELEVATOR_DEAD_BAND)).floatValue();
 			rudderDeadBand   = ((NSNumber)data.objectForKey(RUDDER_DEAD_BAND)).floatValue();
@@ -104,12 +111,15 @@ public class ApplicationSettings {
 		this.interfaceOpacity = defaultSettings.getInterfaceOpacity();
 		this.isLeftHanded = defaultSettings.isLeftHanded();
 		this.isAccMode = defaultSettings.isAccMode();
-		this.isHeadFreeMode = defaultSettings.isHeadFreeMode;
+		this.isFirstRun = defaultSettings.isFirstRun();
+		this.isHeadFreeMode = defaultSettings.isHeadFreeMode();
 		this.isAltHoldMode = defaultSettings.isAltHoldMode();
+		this.isBeginnerMode = defaultSettings.isBeginnerMode();
 		this.aileronDeadBand = defaultSettings.getAileronDeadBand();
 		this.elevatorDeadBand = defaultSettings.getElevatorDeadBand();
 		this.rudderDeadBand = defaultSettings.getRudderDeadBand();
 		this.takeOffThrottle = defaultSettings.getTakeOffThrottle();
+		
 		
 		int channelCount = defaultSettings.getChannelCount();
 		
@@ -157,10 +167,19 @@ public class ApplicationSettings {
 	public boolean isLeftHanded() {
 		return isLeftHanded;
 	}
+	
+	public boolean isFirstRun(){
+		return isFirstRun;
+	}
 
 	public void setLeftHanded(boolean isLeftHanded) {
 		this.isLeftHanded = isLeftHanded;
 		data.put(IS_LEFT_HANDED, isLeftHanded);
+	}
+	
+	public void setIsFirstRun(boolean isFirstRun) {
+		this.isFirstRun = isFirstRun;
+		data.put(IS_FIRST_RUN, isFirstRun);
 	}
 	
 	public boolean isAccMode() {
@@ -184,6 +203,16 @@ public class ApplicationSettings {
 	public boolean isAltHoldMode() {
 		return isAltHoldMode;
 	}
+	
+	public boolean isBeginnerMode() {
+		return isBeginnerMode;
+	}
+
+	public void setIsBeginnerMode(boolean isBeginnerMode) {
+		this.isBeginnerMode = isBeginnerMode;
+		data.put(IS_BEGINNER_MODE, isBeginnerMode);
+	}
+	
 
 	public void setIsAltHoldMode(boolean isAltHoldMode) {
 		this.isAltHoldMode = isAltHoldMode;

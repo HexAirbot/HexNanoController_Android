@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">AnyFlite</string>
-    <string name="settings_title_connection">CONNECT TO HEX MINI</string>
+    <string name="app_name">Flexbot</string>
+    <string name="settings_title_connection">CONNECT TO FLEXBOT</string>
     <string name="settings_title_personal">PERSONAL SETTINGS</string>
-    <string name="settings_title_angel_trim">ANGEL TRIM</string>
+    <string name="settings_title_angel_trim">FLIGHT ANGEL TRIM</string>
     <string name="settings_title_mode">MODE SETTINGS</string>
     <string name="settings_title_about">ABOUT</string>
     
@@ -21,27 +21,28 @@
     <string name="settings_item_connection_state_not_conneceted">Not connected</string>
     <string name="settings_item_connection_state_conneceted">Connected</string>
     
-    <string name="settings_item_left_handed">LEFT HAND</string>
-    <string name="settings_item_interface_opacity">INTERFACE OPACITY</string>
-    <string name="settings_item_acc_mode">ACC MODE</string>
-    <string name="settings_item_headfree_mode">HEADFREE MODE</string>
-    <string name="settings_item_take_off_throttle">TAKE OFF THROTTLE</string>
-    <string name="settings_item_aileron_and_elevator_dead_band">AILERON/ELEVATOR DEAD BAND</string>
-    <string name="settings_item_rudder_dead_band">RUDDER DEAD BAND</string>
+    <string name="settings_item_left_handed">Left Handed</string>
+    <string name="settings_item_interface_opacity">Interface Opacity</string>
+    <string name="settings_item_acc_mode">Acc Mode</string>
+    <string name="settings_item_headfree_mode">Headfree Mode</string>
+    <string name="settings_item_beginner_mode">Beginner Mode</string>
+    <string name="settings_item_take_off_throttle">Take Off Throttle</string>
+    <string name="settings_item_aileron_and_elevator_dead_band">Aileron/Elevator Dead Band</string>
+    <string name="settings_item_rudder_dead_band">Rudder Dead Band</string>
     <string name="settings_item_stop_scan">Stop Scan</string>
     <string name="settings_item_scanning">Scanning</string>
     <string name="settings_item_scan">Scan</string>
     <string name="settings_item_not_connected">not connected</string>
     <string name="settings_item_connected">connected</string>
-    <string name="settings_item_scanning_anyflite">Sanning AnyFlite...</string>
+    <string name="settings_item_scanning_anyflite">Sanning Flexbot...</string>
     <string name="ble_not_supported">BLE is not available on this device.</string>
     <string name="bluetooth_not_supported">Bluetooth is not available on this device.</string>
     
     <string name="dialog_title_info">info</string>
-    <string name="dialog_connect">Connect to AnyFlite?</string>
-    <string name="dialog_disconnect">Disconnect to AnyFlite?</string>
-    <string name="dialog_calibrate_acc">Calibrate the accelerator of AnyFlite?</string>
-    <string name="dialog_calibrate_mag">Calibrate the magnetometer of AnyFlite?</string>
+    <string name="dialog_connect">Connect to Flexbot?</string>
+    <string name="dialog_disconnect">Disconnect to Flexbot?</string>
+    <string name="dialog_calibrate_acc">Calibrate the accelerator of Flexbot?</string>
+    <string name="dialog_calibrate_mag">Calibrate the magnetometer of Flexbot?</string>
     <string name="dialog_reset">Reset to defaut settings?</string>    
     
     <string name="dialog_btn_yes">YES</string>
@@ -51,5 +52,6 @@
     <string name="connection_successful">Connection successful</string>
     <string name="connection_lost">Connection lost</string>
     
-    
+    <string name="dialog_btn_ok">OK</string>
+    <string name="beginner_mode_info">Curerent control mode is beginner mode, if you can control Flexbot drone well, you can turn beggniner mode off in mode settings page.</string>    
 </resources>
