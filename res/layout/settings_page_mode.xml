@@ -26,11 +26,11 @@
          android:id="@+id/isBeginnerModeTitleTextView"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-		 android:layout_alignTop="@+id/isBeginnerModeCheckBox"
+         android:layout_alignTop="@+id/isBeginnerModeCheckBox"
          android:layout_marginRight="@dimen/settings_h_gap"
          android:layout_toLeftOf="@id/isBeginnerModeCheckBox"
          android:text="@string/settings_item_beginner_mode"
-         android:textColor="@color/black"
+         android:textColor="@color/white"
          android:textSize="@dimen/settings_indicator_text_size" />
 
     <SeekBar
@@ -49,7 +49,7 @@
         android:layout_marginRight="@dimen/settings_h_gap"
         android:layout_toLeftOf="@id/aileronAndElevatorDeadBandSeekBar"
         android:text="@string/settings_item_aileron_and_elevator_dead_band"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="@dimen/settings_indicator_text_size" />
 
     <TextView
@@ -77,7 +77,7 @@
         android:layout_alignRight="@+id/aileronAndElevatorDeadBandValueTextView"
         android:layout_alignTop="@+id/rudderDeadBandSeekBar"
         android:text="@string/settings_item_rudder_dead_band"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="@dimen/settings_indicator_text_size" />
 
     <TextView
@@ -107,7 +107,7 @@
          android:layout_alignRight="@id/rudderDeadBandValueTextView"
          android:layout_alignTop="@id/isHeadfreeModeCheckBox"
          android:text="@string/settings_item_headfree_mode"
-         android:textColor="@color/black"
+         android:textColor="@color/white"
          android:textSize="@dimen/settings_indicator_text_size" />
 
 </RelativeLayout>

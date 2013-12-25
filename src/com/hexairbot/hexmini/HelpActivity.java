@@ -29,11 +29,7 @@ import android.widget.TextView;
  */
 public class HelpActivity extends Activity implements OnPageChangeListener{
     private List<View> helpViews;
-    private TextView titleTextView;
-    private ViewPager viewPager;
-    
-    private int[] titles;
-    
+    private ViewPager viewPager;    
     private Button closeBtn;
     
 
@@ -46,7 +42,6 @@ public class HelpActivity extends Activity implements OnPageChangeListener{
 		setContentView(R.layout.help_screen);
 		
 		closeBtn = (Button)findViewById(R.id.closeBtn);
-		titleTextView = (TextView)findViewById(R.id.helpTitleTextView);
 		
 		closeBtn.setOnClickListener(new OnClickListener() {
 			
@@ -61,14 +56,10 @@ public class HelpActivity extends Activity implements OnPageChangeListener{
         		R.layout.help_page_02,
         		R.layout.help_page_03,
         		R.layout.help_page_04,
+        		R.layout.help_page_05,
+        		R.layout.help_page_06,
         };
         
-        titles = new int[] {
-                R.string.settings_title_connection,
-                R.string.settings_title_personal,
-                R.string.settings_title_angel_trim,
-                R.string.settings_title_mode,
-        };
         
        LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
        helpViews = initPages(inflater, pageIds);
@@ -79,10 +70,6 @@ public class HelpActivity extends Activity implements OnPageChangeListener{
        ViewPagerIndicator viewPagerIndicator = (ViewPagerIndicator)findViewById(R.id.helpPagerIndicator);
        viewPagerIndicator.setViewPager(viewPager);
        viewPagerIndicator.setOnPageChangeListener(this);
-	
-       titleTextView.setText(getResources().getString(titles[0]));
-       
-
 	}
 	
     private List<View> initPages(LayoutInflater inflater, int[] pageIds)
@@ -111,7 +98,6 @@ public class HelpActivity extends Activity implements OnPageChangeListener{
 
 	@Override
 	public void onPageSelected(int position) {
-		titleTextView.setText(getResources().getString(titles[position]));
 	}
 }
 

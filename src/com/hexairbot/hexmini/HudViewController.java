@@ -1,20 +1,27 @@
 package com.hexairbot.hexmini;
 
+import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.GestureDetector.OnGestureListener;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.widget.LinearLayout;
 
 import com.hexairbot.hexmini.HexMiniApplication.AppStage;
 import com.hexairbot.hexmini.ble.BleConnectinManager;
@@ -62,6 +69,10 @@ public class HudViewController extends ViewController
 	private static final int ALT_HOLD_TOGGLE_BTN = 9;
 	private static final int STATE_TEXT_VIEW     = 10;
 	private static final int HELP_BTN            = 11;
+	private static final int BOTTOM_LEFT_SKREW   = 12;
+	private static final int BOTTOM_RIGHT_SKREW  = 13;
+	private static final int LOGO                = 14;
+	private static final int STATUS_BAR          = 15;
 	
 	private final float  BEGINNER_ELEVATOR_CHANNEL_RATIO  = 0.5f;
 	private final float  BEGINNER_AILERON_CHANNEL_RATIO   = 0.5f;
@@ -121,8 +132,6 @@ public class HudViewController extends ViewController
     
 	public HudViewController(Activity context, HudViewControllerDelegate delegate)
 	{
-
-		
 		this.delegate = delegate;
 		this.context = context;
 		Transmitter.sharedTransmitter().setBleConnectionManager(new BleConnectinManager(context));      
@@ -140,6 +149,14 @@ public class HudViewController extends ViewController
 		glView = new GLSurfaceView(context);
 		glView.setEGLContextClientVersion(2);
 		
+		LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		
+		//LinearLayout hud = (LinearLayout)inflater.inflate(R.layout.hud, null);
+		//LayoutParams layoutParams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
+		
+		//hud.addView(glView, layoutParams);
+		//glView.setBackgroundResource(R.drawable.settings_bg);
+		
 		context.setContentView(glView);
 		
 		renderer = new UIRenderer(context, null);
@@ -156,9 +173,20 @@ public class HudViewController extends ViewController
 		bottomBarBg.setSizeParams(SizeParams.FILL_SCREEN, SizeParams.NONE);
 		bottomBarBg.setAlphaEnabled(false);
 		
-		Image middleBg = new Image(res, R.drawable.middle_bg, Align.CENTER);
+		Image middleBg = new Image(res, R.drawable.bg_tile, Align.CENTER);
+		middleBg.setAlpha(1f);
+		middleBg.setVisible(false);
 		middleBg.setSizeParams(SizeParams.FILL_SCREEN, SizeParams.FILL_SCREEN);  //Width水平伸缩至全屏，height保持不边
-		middleBg.setAlphaEnabled(false);
+		middleBg.setAlphaEnabled(true);
+		
+		Image bottomLeftSkrew = new Image(res, R.drawable.screw, Align.BOTTOM_LEFT);
+		Image bottomRightSkrew = new Image(res, R.drawable.screw, Align.BOTTOM_RIGHT);
+		
+		Image logo = new Image(res, R.drawable.logo, Align.TOP_RIGHT);
+		logo.setMargin((int)res.getDimension(R.dimen.hud_logo_margin_top), (int)res.getDimension(R.dimen.hud_logo_margin_right), 0, 0);
+		
+		Image statusBar = new Image(res, R.drawable.status_bar, Align.TOP_LEFT);
+		statusBar.setMargin((int)res.getDimension(R.dimen.hud_status_bar_margin_top), 0, 0, (int)res.getDimension(R.dimen.hud_status_bar_margin_left));
 		
 		settingsBtn = new Button(res, R.drawable.btn_settings_normal, R.drawable.btn_settings_hl, Align.TOP_RIGHT);
 		settingsBtn.setMargin(0, (int)res.getDimension(R.dimen.hud_btn_settings_margin_right), 0, 0);
@@ -176,11 +204,11 @@ public class HudViewController extends ViewController
 		stateTextView.setTypeface(FontUtils.TYPEFACE.Helvetica(context));
 		stateTextView.setTextSize(res.getDimensionPixelSize(R.dimen.hud_state_text_size));
 		
-		altHoldToggleBtn = new ToggleButton(res, R.drawable.btn_off_normal, R.drawable.btn_off_hl, 
-                R.drawable.btn_on_normal, R.drawable.btn_on_hl,
-                R.drawable.btn_on_normal, Align.TOP_LEFT);
+		altHoldToggleBtn = new ToggleButton(res, R.drawable.alt_hold_off, R.drawable.alt_hold_off_hl, 
+                R.drawable.alt_hold_on, R.drawable.alt_hold_on_hl,
+                R.drawable.alt_hold_on, Align.TOP_LEFT);
 		
-		altHoldToggleBtn.setMargin(0, 0, 0, res.getDimensionPixelOffset(R.dimen.hud_alt_hold_toggle_btn_margin_left));
+		altHoldToggleBtn.setMargin(res.getDimensionPixelOffset(R.dimen.hud_alt_hold_toggle_btn_margin_top), 0, 0, res.getDimensionPixelOffset(R.dimen.hud_alt_hold_toggle_btn_margin_left));
 		altHoldToggleBtn.setChecked(settings.isAltHoldMode());
 		
 		buttons = new Button[5];
@@ -193,12 +221,17 @@ public class HudViewController extends ViewController
 		renderer.addSprite(MIDLLE_BG_ID, middleBg);
 		renderer.addSprite(TOP_BAR_ID, topBarBg);
 		renderer.addSprite(BOTTOM_BAR_ID, bottomBarBg);
+		renderer.addSprite(BOTTOM_LEFT_SKREW, bottomLeftSkrew);
+		renderer.addSprite(BOTTOM_RIGHT_SKREW, bottomRightSkrew);
+		renderer.addSprite(LOGO, logo);
+		renderer.addSprite(STATUS_BAR, statusBar);
 		renderer.addSprite(TAKE_OFF_BTN_ID, takeOffBtn);
 		renderer.addSprite(STOP_BTN_ID, stopBtn);
 		renderer.addSprite(SETTINGS_BTN_ID, settingsBtn);
 		renderer.addSprite(ALT_HOLD_TOGGLE_BTN, altHoldToggleBtn);
 		renderer.addSprite(STATE_TEXT_VIEW, stateTextView);
 		renderer.addSprite(HELP_BTN, helpBtn);
+		
 		
 		isAccMode = settings.isAccMode();
 		deviceOrientationManager = new DeviceOrientationManager(new DeviceSensorManagerWrapper(this.context), this);
@@ -369,6 +402,8 @@ public class HudViewController extends ViewController
 			
 			@Override
 			public void onClick(View arg0) {
+			    throttleChannel.setValue(-1);
+			    getRudderAndThrottleJoystick().setYValue(-1);
 				Transmitter.sharedTransmitter().transmmitSimpleCommand(OSDCommon.MSPCommnand.MSP_ARM);
 			}
 		});

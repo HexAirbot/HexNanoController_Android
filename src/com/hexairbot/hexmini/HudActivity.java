@@ -127,6 +127,5 @@ public class HudActivity extends FragmentActivity implements SettingsDialogDeleg
 		
 		hudVC.onDestroy();
 	}
-
 }
 
