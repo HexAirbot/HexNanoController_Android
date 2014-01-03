@@ -14,10 +14,6 @@
     <string name="btn_title_scan">扫描</string>
     <string name="btn_title_stop_scan">停止扫描</string>
     <string name="btn_title_scanning">扫描中</string>
-    <string name="btn_title_up_trim">上</string>
-    <string name="btn_title_down_trim">下</string>
-    <string name="btn_title_left_trim">左</string>
-    <string name="btn_title_right_trim">右</string>
     <string name="settings_item_connection_state_not_conneceted">未连接</string>
     <string name="settings_item_connection_state_conneceted">已连接</string>
     
@@ -54,4 +50,7 @@
     
     <string name="dialog_btn_ok">好的</string>
     <string name="beginner_mode_info">当前控制模式是新手模式，若您已经能熟练操作Flexbot飞行器，您可以在模式设置界面中将新手模式关闭。</string>    
+
+	<string name="btn_close">关闭</string>
+	<string name="unknown">未知</string>
 </resources>

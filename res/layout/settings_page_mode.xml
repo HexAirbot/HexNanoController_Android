@@ -39,7 +39,9 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/isBeginnerModeCheckBox"
         android:layout_below="@+id/isBeginnerModeCheckBox"
-        android:layout_marginTop="@dimen/settings_v_gap" />
+        android:layout_marginTop="@dimen/settings_v_gap"
+        android:progressDrawable="@drawable/seekbar_image"
+        android:thumb="@drawable/seekbar_thumb" />
 
     <TextView
         android:id="@+id/TextView01"

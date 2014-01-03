@@ -4,6 +4,7 @@ package com.hexairbot.hexmini;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import android.app.Activity;
@@ -297,10 +298,6 @@ public class SettingsViewController extends ViewController
         rightTrimBtn = (Button)settingsViews.get(angelTrimPageIdx).findViewById(R.id.rightTrimBtn);
         
         scanBtn.setText(R.string.btn_title_scan);
-        upTrimBtn.setText(R.string.btn_title_up_trim);
-        downTrimBtn.setText(R.string.btn_title_down_trim);
-        leftTrimBtn.setText(R.string.btn_title_left_trim);
-        rightTrimBtn.setText(R.string.btn_title_right_trim);
         
         isLeftHandedCheckBox   = (CheckBox)settingsViews.get(interfacePageIdx).findViewById(R.id.isLeftHandedCheckBox);
         isAccModeCheckBox      = (CheckBox)settingsViews.get(interfacePageIdx).findViewById(R.id.isAccModeCheckBox);
@@ -321,7 +318,16 @@ public class SettingsViewController extends ViewController
         
         WebView aboutWebView = (WebView)settingsViews.get(aboutPageIdx).findViewById(R.id.aboutWebView);
         aboutWebView.getSettings().setJavaScriptEnabled(true);  
-        aboutWebView.loadUrl("file:///android_asset/About.html");
+        
+
+        String language = Locale.getDefault().getLanguage(); 
+        
+        if ("zh".equals(language)) {  
+        	aboutWebView.loadUrl("file:///android_asset/About-zh.html");
+        }
+        else{
+        	aboutWebView.loadUrl("file:///android_asset/About.html");
+        }
         
         initListeners();
         
@@ -781,13 +787,20 @@ public class SettingsViewController extends ViewController
 				}	
 		
 				TextView bleDeviceNameTextView = (TextView)row.findViewById(R.id.bleDeviceNameTextView);
-				TextView bleDeviceAddressTextView = (TextView)row.findViewById(R.id.bleDeviceAddressTextView);
+				//TextView bleDeviceAddressTextView = (TextView)row.findViewById(R.id.bleDeviceAddressTextView);
 			
-				 bleDeviceNameTextView.setTextColor(Color.BLACK);
-				 bleDeviceAddressTextView.setTextColor(Color.BLACK);
-				 	 
-				bleDeviceNameTextView.setText(mLeDevices.get(position).getName());
-				bleDeviceAddressTextView.setText(mLeDevices.get(position).getAddress());
+				 bleDeviceNameTextView.setTextColor(Color.WHITE);
+				 bleDeviceNameTextView.setBackgroundColor(Color.BLUE);
+				//bleDeviceAddressTextView.setTextColor(Color.BLACK);
+				if ("Any Flite".equals(mLeDevices.get(position).getName())
+						|| "Flexbot".equals(mLeDevices.get(position).getName())) {
+					bleDeviceNameTextView.setText("Flexbot");
+				}
+				else{
+					bleDeviceNameTextView.setText(R.string.unknown);
+				}
+				 
+								//bleDeviceAddressTextView.setText(mLeDevices.get(position).getAddress());
 				
 				return row;
 		}

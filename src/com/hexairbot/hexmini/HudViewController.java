@@ -182,17 +182,17 @@ public class HudViewController extends ViewController
 		Image bottomLeftSkrew = new Image(res, R.drawable.screw, Align.BOTTOM_LEFT);
 		Image bottomRightSkrew = new Image(res, R.drawable.screw, Align.BOTTOM_RIGHT);
 		
-		Image logo = new Image(res, R.drawable.logo, Align.TOP_RIGHT);
-		logo.setMargin((int)res.getDimension(R.dimen.hud_logo_margin_top), (int)res.getDimension(R.dimen.hud_logo_margin_right), 0, 0);
+		Image logo = new Image(res, R.drawable.logo, Align.BOTTOM_LEFT);
+		logo.setMargin(0, 0, (int)res.getDimension(R.dimen.hud_logo_margin_bottom), (int)res.getDimension(R.dimen.hud_logo_margin_left));
 		
 		Image statusBar = new Image(res, R.drawable.status_bar, Align.TOP_LEFT);
 		statusBar.setMargin((int)res.getDimension(R.dimen.hud_status_bar_margin_top), 0, 0, (int)res.getDimension(R.dimen.hud_status_bar_margin_left));
 		
 		settingsBtn = new Button(res, R.drawable.btn_settings_normal, R.drawable.btn_settings_hl, Align.TOP_RIGHT);
-		settingsBtn.setMargin(0, (int)res.getDimension(R.dimen.hud_btn_settings_margin_right), 0, 0);
+		settingsBtn.setMargin((int)res.getDimension(R.dimen.hud_btn_settings_margin_top), (int)res.getDimension(R.dimen.hud_btn_settings_margin_right), 0, 0);
 		
-		Button helpBtn = new Button(res, R.drawable.btn_settings_normal, R.drawable.btn_settings_hl, Align.TOP_RIGHT);
-		helpBtn.setMargin(0, (int)res.getDimension(R.dimen.hud_btn_settings_margin_right) * 3, 0, 0);
+		Button helpBtn = new Button(res, R.drawable.btn_help_normal, R.drawable.btn_help_hl, Align.TOP_RIGHT);
+		helpBtn.setMargin((int)res.getDimension(R.dimen.hud_btn_settings_margin_top), (int)res.getDimension(R.dimen.hud_btn_settings_margin_right) * 4, 0, 0);
 			
 		takeOffBtn = new Button(res, R.drawable.btn_take_off_normal, R.drawable.btn_take_off_hl, Align.BOTTOM_CENTER);		
 		stopBtn = new Button(res, R.drawable.btn_stop_normal, R.drawable.btn_stop_hl, Align.TOP_CENTER);

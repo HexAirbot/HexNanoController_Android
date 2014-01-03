@@ -7,17 +7,10 @@
 
     <TextView
         android:id="@+id/bleDeviceNameTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/bleDeviceAddressTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:visibility="gone"
-        android:text="TextView" />
+        android:padding="15dp"
+        android:text="TextView"
+        android:textColor="@color/white" />
 
 </LinearLayout>

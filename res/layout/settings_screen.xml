@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="34dp"
+                android:layout_marginLeft="15dp"
                 android:background="@drawable/btn_back" />
 
             <TextView
@@ -60,7 +60,7 @@
                 style="@style/SettingsNavigationButton.Prev"
                 android:layout_width="@dimen/setttings_navigation_buton_width"
                 android:layout_height="fill_parent"
-                android:src="@drawable/arrow_left_orange"
+                android:src="@drawable/btn_arrow_left"
                 android:visibility="invisible" />
 
             <android.support.v4.view.ViewPager
@@ -78,7 +78,7 @@
                 android:layout_height="fill_parent"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:src="@drawable/arrow_right_orange" />
+                android:src="@drawable/btn_arrow_right" />
         </RelativeLayout>
 
         <RelativeLayout
