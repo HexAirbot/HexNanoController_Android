@@ -3,15 +3,20 @@ package com.hexairbot.hexmini;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.wifi.WifiManager;
 import android.opengl.GLSurfaceView;
+import android.os.BatteryManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnDoubleTapListener;
@@ -49,6 +54,11 @@ import com.hexairbot.hexmini.ui.joystick.JoystickFactory;
 import com.hexairbot.hexmini.ui.joystick.JoystickFactory.JoystickType;
 import com.hexairbot.hexmini.ui.joystick.JoystickListener;
 import com.hexairbot.hexmini.util.FontUtils;
+import com.hexairbot.hexmini.R;
+import com.hexairbot.hexmini.services.IpcProxy;
+import com.hexairbot.hexmini.services.IpcControlService;
+import com.hexairbot.hexmini.util.DebugHandler;
+import com.hexairbot.hexmini.util.SystemUtil;
 
 
 public class HudViewController extends ViewController
@@ -58,21 +68,22 @@ public class HudViewController extends ViewController
 {
 	private static final String TAG = "HudViewController";
 	
-	private static final int JOY_ID_LEFT         = 1;
-	private static final int JOY_ID_RIGHT        = 2;
-	private static final int MIDLLE_BG_ID        = 3;
-	private static final int TOP_BAR_ID          = 4;
-	private static final int BOTTOM_BAR_ID       = 5;
-	private static final int TAKE_OFF_BTN_ID     = 6;
-	private static final int STOP_BTN_ID         = 7;
-	private static final int SETTINGS_BTN_ID     = 8;
-	private static final int ALT_HOLD_TOGGLE_BTN = 9;
-	private static final int STATE_TEXT_VIEW     = 10;
-	private static final int HELP_BTN            = 11;
-	private static final int BOTTOM_LEFT_SKREW   = 12;
-	private static final int BOTTOM_RIGHT_SKREW  = 13;
-	private static final int LOGO                = 14;
-	private static final int STATUS_BAR          = 15;
+	private static final int JOY_ID_LEFT          = 1;
+	private static final int JOY_ID_RIGHT         = 2;
+	private static final int MIDLLE_BG_ID         = 3;
+	private static final int TOP_BAR_ID           = 4;
+	private static final int BOTTOM_BAR_ID        = 5;
+	private static final int TAKE_OFF_BTN_ID      = 6;
+	private static final int STOP_BTN_ID          = 7;
+	private static final int SETTINGS_BTN_ID      = 8;
+	private static final int ALT_HOLD_TOGGLE_BTN  = 9;
+	private static final int STATE_TEXT_VIEW      = 10;
+	private static final int BATTERY_INDICATOR_ID = 11;
+	private static final int HELP_BTN             = 12;
+	private static final int BOTTOM_LEFT_SKREW    = 13;
+	private static final int BOTTOM_RIGHT_SKREW   = 14;
+	private static final int LOGO                 = 15;
+	private static final int STATUS_BAR           = 16;
 	
 	private final float  BEGINNER_ELEVATOR_CHANNEL_RATIO  = 0.5f;
 	private final float  BEGINNER_AILERON_CHANNEL_RATIO   = 0.5f;
@@ -129,6 +140,10 @@ public class HudViewController extends ViewController
     private float pitchBase;
     private float rollBase;
     private boolean rollAndPitchJoystickPressed;
+    
+    
+    private LocalBroadcastManager mLocalBroadcastManager;
+    
     
 	public HudViewController(Activity context, HudViewControllerDelegate delegate)
 	{
@@ -206,6 +221,16 @@ public class HudViewController extends ViewController
 		stateTextView.setTypeface(FontUtils.TYPEFACE.Helvetica(context));
 		stateTextView.setTextSize(res.getDimensionPixelSize(R.dimen.hud_state_text_size));
 		
+		int batteryIndicatorRes[] = {R.drawable.btn_battery_0,
+				R.drawable.btn_battery_1,
+				R.drawable.btn_battery_2,
+				R.drawable.btn_battery_3,
+				R.drawable.btn_battery_4
+		};
+
+		batteryIndicator = new Indicator(res, batteryIndicatorRes, Align.TOP_LEFT);
+		batteryIndicator.setMargin((int)res.getDimension(R.dimen.hud_batterry_indicator_margin_top), 0, 0, (int)res.getDimension(R.dimen.hud_batterry_indicator_margin_left));
+		
 		altHoldToggleBtn = new ToggleButton(res, R.drawable.alt_hold_off, R.drawable.alt_hold_off_hl, 
                 R.drawable.alt_hold_on, R.drawable.alt_hold_on_hl,
                 R.drawable.alt_hold_on, Align.TOP_LEFT);
@@ -227,6 +252,7 @@ public class HudViewController extends ViewController
 		renderer.addSprite(BOTTOM_RIGHT_SKREW, bottomRightSkrew);
 		renderer.addSprite(LOGO, logo);
 		renderer.addSprite(STATUS_BAR, statusBar);
+		renderer.addSprite(BATTERY_INDICATOR_ID, batteryIndicator);
 		renderer.addSprite(TAKE_OFF_BTN_ID, takeOffBtn);
 		renderer.addSprite(STOP_BTN_ID, stopBtn);
 		renderer.addSprite(SETTINGS_BTN_ID, settingsBtn);
@@ -286,6 +312,9 @@ public class HudViewController extends ViewController
 				}
 			}).show();
 	    }
+	    
+	    mLocalBroadcastManager = LocalBroadcastManager.getInstance(this.context);
+	    registerAllBroadcastReceiver();
 	}
 	
 	private void initChannels() {
@@ -589,15 +618,15 @@ public class HudViewController extends ViewController
 			return;
 		}
 				
-		int imgNum = Math.round((float) percent / 100.0f * 3.0f);
+		int imgNum = Math.round((float) percent / 100.0f * 4.0f);
 
-		txtBatteryStatus.setText(percent + "%");
+		//txtBatteryStatus.setText(percent + "%");
 		
 		if (imgNum < 0)
 			imgNum = 0;
 		
-		if (imgNum > 3) 
-			imgNum = 3;
+		if (imgNum > 4) 
+			imgNum = 4;
 
 		if (batteryIndicator != null) {
 			batteryIndicator.setValue(imgNum);
@@ -664,6 +693,7 @@ public class HudViewController extends ViewController
 	{
 	    renderer.clearSprites();
 	    deviceOrientationManager.destroy();
+	    unregisterAllBroadcastReceiver();
 	}
 
 	public boolean onDown(MotionEvent e) 
@@ -817,4 +847,41 @@ public class HudViewController extends ViewController
 	public void beginnerModeValueDidChange(boolean isBeginnerMode) {
 		
 	}
+	
+	
+	private void registerAllBroadcastReceiver() {
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(Intent.ACTION_BATTERY_CHANGED);
+		this.context.registerReceiver(receiver, filter);
+		IntentFilter decodeFilter = new IntentFilter();
+		mLocalBroadcastManager.registerReceiver(receiver, decodeFilter);
+	}
+
+	private void unregisterAllBroadcastReceiver() {
+		this.context.unregisterReceiver(receiver);
+		mLocalBroadcastManager.unregisterReceiver(receiver);
+	}
+
+	private BroadcastReceiver receiver = new BroadcastReceiver() {
+
+		@Override
+		public void onReceive(Context arg0, Intent intent) {
+			// TODO Auto-generated method stub
+			String action = intent.getAction();
+			if (action.equals(Intent.ACTION_BATTERY_CHANGED)) {
+				final int level = intent.getIntExtra(
+						BatteryManager.EXTRA_LEVEL, 0);
+				final int scale = intent.getIntExtra(
+						BatteryManager.EXTRA_SCALE, 0);
+				final int status = intent.getIntExtra(
+						BatteryManager.EXTRA_STATUS, 0);
+				Log.d(TAG, String.format("level=%d,scale=%d,status=%d", level,
+						scale, status));
+				
+				setBatteryValue(level);
+				//battery_phone.setImageLevel(level / 25);
+				//battery_phone_text.setText(level + "%");
+			}
+		};
+	};
 }

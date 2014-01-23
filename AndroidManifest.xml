@@ -35,6 +35,7 @@
             </intent-filter>
         </activity>
         <service android:name="com.hexairbot.hexmini.ble.BluetoothLeService" android:enabled="true"/>
+        <service android:name=".services.IpcControlService"></service>
         <activity android:name=".HelpActivity" android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity> 
     </application>
 
