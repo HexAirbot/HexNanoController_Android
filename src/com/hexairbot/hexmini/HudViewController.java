@@ -167,11 +167,11 @@ public class HudViewController extends ViewController
 
 		Image topBarBg = new Image(res, R.drawable.bar_top, Align.TOP_CENTER);
 		topBarBg.setSizeParams(SizeParams.FILL_SCREEN, SizeParams.NONE);  //Width水平伸缩至全屏，height保持不边
-		topBarBg.setAlphaEnabled(false);
+		topBarBg.setAlphaEnabled(true);
 		
 		bottomBarBg = new Image(res, R.drawable.bar_bottom, Align.BOTTOM_CENTER);
 		bottomBarBg.setSizeParams(SizeParams.FILL_SCREEN, SizeParams.NONE);
-		bottomBarBg.setAlphaEnabled(false);
+		bottomBarBg.setAlphaEnabled(true);
 		
 		Image middleBg = new Image(res, R.drawable.bg_tile, Align.CENTER);
 		middleBg.setAlpha(1f);
@@ -195,8 +195,10 @@ public class HudViewController extends ViewController
 		helpBtn.setMargin((int)res.getDimension(R.dimen.hud_btn_settings_margin_top), (int)res.getDimension(R.dimen.hud_btn_settings_margin_right) * 4, 0, 0);
 			
 		takeOffBtn = new Button(res, R.drawable.btn_take_off_normal, R.drawable.btn_take_off_hl, Align.BOTTOM_CENTER);		
+		takeOffBtn.setAlphaEnabled(true);
 		stopBtn = new Button(res, R.drawable.btn_stop_normal, R.drawable.btn_stop_hl, Align.TOP_CENTER);
-
+		stopBtn.setAlphaEnabled(true);
+		
 		String state = context.getResources().getString(R.string.settings_item_connection_state_not_conneceted);
 		stateTextView = new Text(context, state, Align.TOP_LEFT);
 		stateTextView.setMargin((int)res.getDimension(R.dimen.hud_state_text_margin_top), 0, 0, (int)res.getDimension(R.dimen.hud_state_text_margin_left));

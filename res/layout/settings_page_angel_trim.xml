@@ -18,7 +18,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/dummyImageView"
-        android:layout_alignParentLeft="false"
         android:layout_centerHorizontal="true"
         android:background="@drawable/btn_trim_up" />
     
@@ -26,7 +25,6 @@
             android:id="@+id/downTrimBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="false"
             android:layout_below="@id/dummyImageView"
             android:layout_centerHorizontal="true"
             android:background="@drawable/btn_trim_down" />
@@ -35,7 +33,7 @@
             android:id="@+id/rightTrimBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/upTrimBtn"
+            android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/upTrimBtn"
             android:background="@drawable/btn_trim_right" />
 
