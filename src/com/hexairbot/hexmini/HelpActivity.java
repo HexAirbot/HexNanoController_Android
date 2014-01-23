@@ -141,6 +141,5 @@ class HelpViewAdapter extends PagerAdapter
 	public boolean isViewFromObject(View arg0, Object arg1) {
 		return arg0.equals(arg1);
 	}
-
 }
 
