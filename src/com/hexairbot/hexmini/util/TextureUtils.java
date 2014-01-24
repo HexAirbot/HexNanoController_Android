@@ -8,6 +8,7 @@
 
 package com.hexairbot.hexmini.util;
 
+import android.R.bool;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -52,5 +53,34 @@ public class TextureUtils
 		
 		return result;
 	}
+	
+	public static Bitmap makeTexture(Resources res, Bitmap bmp, int destWidth, int destHeight, boolean isTileMode) 
+	{
+		/*
+		if (bmp == null) {
+			throw new IllegalArgumentException("Bitmap can't be null");
+		}
+		
+		int height = (int) roundPower2(bmp.getHeight());
+		int width = (int) roundPower2(bmp.getWidth());
+		
+		Bitmap result = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+		
+		Canvas canvas = new Canvas(result);
+		canvas.drawBitmap(bmp, 0, 0, null);
+		
+		return result;
+		*/
+		
+		int count = (destWidth + bmp.getWidth() - 1) / bmp.getWidth();
 
+		Bitmap bitmap = Bitmap.createBitmap(destWidth, bmp.getHeight(), Bitmap.Config.ARGB_8888);
+		Canvas canvas = new Canvas(bitmap);
+
+		for(int idx = 0; idx < count; ++ idx){
+			canvas.drawBitmap(bmp, idx * bmp.getWidth(), 0, null);
+		}
+
+		return bitmap;
+	}
 }

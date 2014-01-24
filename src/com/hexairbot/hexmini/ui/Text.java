@@ -40,6 +40,7 @@ public class Text extends Sprite{
 		paint.setAntiAlias(true);
 		paint.setSubpixelText(true);
 		
+		
 		this.text = text;
 		
 		initSprite();
@@ -63,7 +64,7 @@ public class Text extends Sprite{
 		
 		if (text.length() > 0) {  
 			width = paint.measureText(text);
-			height = paint.getTextSize();
+			height = paint.getTextSize() + 3; //＋3，修正字显示不全的bug
 		}
 		
 		Bitmap bitmap = Bitmap.createBitmap(Math.round(width), Math.round(height), Bitmap.Config.ARGB_4444);
