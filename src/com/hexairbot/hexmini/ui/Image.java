@@ -3,8 +3,10 @@ package com.hexairbot.hexmini.ui;
 import javax.microedition.khronos.opengles.GL10;
 
 import com.hexairbot.hexmini.ui.gl.GLSprite;
-
+import com.hexairbot.hexmini.util.TextureUtils;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.view.MotionEvent;
@@ -15,7 +17,8 @@ public class Image extends Sprite
 {
 	public enum SizeParams {
 		NONE,
-		FILL_SCREEN
+		FILL_SCREEN,
+		REPEATED
 	}
 	
 	private GLSprite sprite;
@@ -24,7 +27,12 @@ public class Image extends Sprite
 	
 	private boolean isInitialized;
 	
+	private boolean updateTexture;
+	
    
+    private Resources res;  
+    private int resId;
+	
 	public Image(Resources resources, int resId, Align align)
 	{
 		super(align);
@@ -34,6 +42,8 @@ public class Image extends Sprite
 		
 		isInitialized = false;
 		sprite = new GLSprite(resources, resId);	
+		this.res = resources;
+		this.resId = resId;
 	}
 	
 	
@@ -66,11 +76,30 @@ public class Image extends Sprite
 	{
 		super.surfaceChanged(canvas);
 	}
+	
+	private void invalidate()
+	{
+		updateTexture = true;
+	}
 
+	private Bitmap createBitmapToRender(boolean xRepeated, boolean yRepeated) {
+		return TextureUtils.makeTexture(res, BitmapFactory.decodeResource(res, resId), surfaceWidth, surfaceHeight, true, true);
+	}
 	
 	@Override
 	public void draw(GL10 gl) 
 	{
+		if (updateTexture) {
+			boolean xRepated = (widthParam == SizeParams.REPEATED) ? true : false;
+			boolean yRepated = (heightParam == SizeParams.REPEATED) ? true : false;			
+			
+			Bitmap bitmap = createBitmapToRender(xRepated ,yRepated);
+			sprite.updateTexture(res, bitmap);
+			layout(surfaceWidth, surfaceHeight);
+			
+			updateTexture = false;
+		}
+		
 		sprite.onDraw(gl, bounds.left, surfaceHeight - bounds.top - sprite.height);
 	}
 
@@ -139,6 +168,10 @@ public class Image extends Sprite
 	{
 		widthParam = width;
 		heightParam = height;
+		
+		if (width == SizeParams.REPEATED || height == SizeParams.REPEATED) {
+			invalidate();
+		}
 	}
 
 	

@@ -89,7 +89,6 @@ public class GLSprite
 
     private boolean useWorkaroundsForSDK8 = false;
 
-
     public GLSprite(Resources resources, int bitmapId)
     {
         this(resources, BitmapFactory.decodeResource(resources, bitmapId));
@@ -250,7 +249,7 @@ public class GLSprite
         updateVertexBuffer = true;
     }
 
-
+    
     protected void onUpdateTexture()
     {
         if (updateTexture) {
@@ -384,7 +383,7 @@ public class GLSprite
 
         updateTexture = true;
     }
-
+    
 
     private void checkGlError(String op) {
         int error;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="hud_top_text_margin_top">15dp</dimen>
+    <dimen name="hud_top_text_margin_top">14dp</dimen>
     <dimen name="hud_btn_settings_margin_right">20dp</dimen>
     <dimen name="hud_btn_settings_margin_top">5dp</dimen>
     <dimen name="help_btn_settings_margin_top">@dimen/hud_btn_settings_margin_top</dimen>
@@ -12,6 +12,8 @@
     <dimen name="hud_battery_text_margin_top">@dimen/hud_top_text_margin_top</dimen>
     <dimen name="hud_state_text_margin_top">@dimen/hud_top_text_margin_top</dimen>
     <dimen name="hud_state_text_margin_left">90dp</dimen>
+    <dimen name="hud_batterry_indicator_margin_top">13dp</dimen>
+    <dimen name="hud_batterry_indicator_margin_left">185dp</dimen>
     <dimen name="hud_alt_hold_toggle_btn_margin_top">5dp</dimen>
     <dimen name="hud_alt_hold_toggle_btn_margin_left">10dp</dimen>
     <dimen name="hud_joy_margin">25dp</dimen> 
