@@ -191,7 +191,7 @@ public class HudViewController extends ViewController
 		Image middleBg = new Image(res, R.drawable.bg_tile, Align.CENTER);
 		middleBg.setAlpha(1f);
 		middleBg.setVisible(false);
-		middleBg.setSizeParams(SizeParams.FILL_SCREEN, SizeParams.FILL_SCREEN);  //Width水平伸缩至全屏，height保持不边
+		middleBg.setSizeParams(SizeParams.REPEATED, SizeParams.REPEATED);  //Width水平伸缩至全屏，height保持不边
 		middleBg.setAlphaEnabled(true);
 		
 		Image bottomLeftSkrew = new Image(res, R.drawable.screw, Align.BOTTOM_LEFT);

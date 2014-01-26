@@ -54,31 +54,46 @@ public class TextureUtils
 		return result;
 	}
 	
-	public static Bitmap makeTexture(Resources res, Bitmap bmp, int destWidth, int destHeight, boolean isTileMode) 
+	public static Bitmap makeTexture(Resources res, Bitmap srcBitmap, int destWidth, int destHeight, boolean xRepeated, boolean yRepeated) 
 	{
-		/*
-		if (bmp == null) {
-			throw new IllegalArgumentException("Bitmap can't be null");
+		int xCnt = (destWidth + srcBitmap.getWidth() - 1) / srcBitmap.getWidth();
+		int yCnt = (destHeight + srcBitmap.getHeight() - 1) / srcBitmap.getHeight();
+		
+
+		int width = destWidth;
+		int height = destHeight;
+		
+		if (!xRepeated) {
+			width = srcBitmap.getWidth();
+		}
+
+		if (!yRepeated) {
+			height = srcBitmap.getHeight();
 		}
 		
-		int height = (int) roundPower2(bmp.getHeight());
-		int width = (int) roundPower2(bmp.getWidth());
+		Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 		
-		Bitmap result = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-		
-		Canvas canvas = new Canvas(result);
-		canvas.drawBitmap(bmp, 0, 0, null);
-		
-		return result;
-		*/
-		
-		int count = (destWidth + bmp.getWidth() - 1) / bmp.getWidth();
-
-		Bitmap bitmap = Bitmap.createBitmap(destWidth, bmp.getHeight(), Bitmap.Config.ARGB_8888);
 		Canvas canvas = new Canvas(bitmap);
-
-		for(int idx = 0; idx < count; ++ idx){
-			canvas.drawBitmap(bmp, idx * bmp.getWidth(), 0, null);
+		
+		if (xRepeated && yRepeated) {
+			for(int xIdx = 0; xIdx < xCnt; ++xIdx){
+				for(int yIdx = 0; yIdx < yCnt; ++yIdx){
+					canvas.drawBitmap(srcBitmap, xIdx * srcBitmap.getWidth(), yIdx * srcBitmap.getHeight(), null);
+				}
+			}
+		}
+		else if(xRepeated && !yRepeated){
+			for(int xIdx = 0; xIdx < xCnt; ++xIdx){
+				canvas.drawBitmap(srcBitmap, xIdx * srcBitmap.getWidth(), 0, null);
+			}
+		}
+		else if(!xRepeated && yRepeated){
+			for(int yIdx = 0; yIdx < yCnt; ++yIdx){
+				canvas.drawBitmap(srcBitmap, 0, yIdx * srcBitmap.getHeight(), null);
+			}
+		}
+		else{
+			canvas.drawBitmap(srcBitmap, 0, 0, null);
 		}
 
 		return bitmap;
