@@ -38,12 +38,14 @@ public class HudActivity extends FragmentActivity implements SettingsDialogDeleg
 		ApplicationSettings settings = HexMiniApplication.sharedApplicaion()
 				.getAppSettings();
 
+		/*
 		if (settings.isFirstRun()) {
 			Intent intent = new Intent(this, HelpActivity.class);
 			startActivity(intent);
 			settings.setIsFirstRun(false);
 			settings.save();
 		}
+		*/
 	}
 	
 	@Override

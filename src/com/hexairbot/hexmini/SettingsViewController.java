@@ -602,7 +602,7 @@ public class SettingsViewController extends ViewController
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean isBeginnerMode) {
 				ApplicationSettings settings = HexMiniApplication.sharedApplicaion().getAppSettings();
-				settings.setIsHeadFreeMode(isBeginnerMode);
+				settings.setIsBeginnerMode(isBeginnerMode);
 				settings.save();
 				if (delegate != null) {
 					delegate.beginnerModeValueDidChange(isBeginnerMode);

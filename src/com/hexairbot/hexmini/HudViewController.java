@@ -258,7 +258,7 @@ public class HudViewController extends ViewController
 		renderer.addSprite(SETTINGS_BTN_ID, settingsBtn);
 		renderer.addSprite(ALT_HOLD_TOGGLE_BTN, altHoldToggleBtn);
 		renderer.addSprite(STATE_TEXT_VIEW, stateTextView);
-		renderer.addSprite(HELP_BTN, helpBtn);
+		//renderer.addSprite(HELP_BTN, helpBtn);
 		
 		
 		isAccMode = settings.isAccMode();

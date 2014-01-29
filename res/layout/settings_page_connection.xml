@@ -49,7 +49,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/btn_black"
-        android:text="Button"
+        android:paddingLeft="15dp"
+        android:paddingRight="10dp"
+        android:text="Stop Scanning"
         android:textColor="@color/white" />
 
     <ListView

@@ -12,7 +12,7 @@ import com.hexairbot.hexmini.ble.BleConnectinManager;
 
 public class Transmitter {
 	private static final int  CHANNEL_COUNT = 8;
-	private static final int  FPS = 17;
+	private static final int  FPS = 12; //max 17
 	
 	private static Transmitter sharedTransmitter; 
 	private BleConnectinManager bleConnectionManager;
