@@ -73,7 +73,7 @@ public class Button extends Sprite
 	
 	public void draw(Canvas canvas) 
 	{
-		if (bounds != null) {
+		if (bounds != null  && visible) {
 			if (isPressed) {
 				spritePressed.onDraw(canvas, bounds.left, bounds.top);
 			} else {
