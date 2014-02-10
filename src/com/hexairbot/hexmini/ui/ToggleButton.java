@@ -58,7 +58,7 @@ public class ToggleButton extends Button
 	@Override
 	public void draw(GL10 gl) 
 	{
-		if (bounds != null) {
+		if (bounds != null && visible) {
 			if (checked) {
 				long nano = System.nanoTime();
 				if (nano - prevNano > 100) {
@@ -95,7 +95,7 @@ public class ToggleButton extends Button
 	
 	@Override
 	public void draw(Canvas canvas) {
-		if (bounds != null) {
+		if (bounds != null && visible) {
 			if (checked) {
 				spritePressed.onDraw(canvas, bounds.left, bounds.top);
 			} else {

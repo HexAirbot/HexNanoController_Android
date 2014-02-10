@@ -237,6 +237,8 @@ public class HudViewController extends ViewController
 		
 		altHoldToggleBtn.setMargin(res.getDimensionPixelOffset(R.dimen.hud_alt_hold_toggle_btn_margin_top), 0, 0, res.getDimensionPixelOffset(R.dimen.hud_alt_hold_toggle_btn_margin_left));
 		altHoldToggleBtn.setChecked(settings.isAltHoldMode());
+		altHoldToggleBtn.setVisible(false);
+		//altHoldToggleBtn.setAlphaEnabled(true);
 		
 		buttons = new Button[5];
 		buttons[0] = settingsBtn;
