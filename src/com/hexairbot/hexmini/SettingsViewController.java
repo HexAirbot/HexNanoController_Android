@@ -252,6 +252,8 @@ public class SettingsViewController extends ViewController
 						.setMessage(R.string.dialog_disconnect)
 						.setPositiveButton(R.string.dialog_btn_yes, new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int which) {
+								Transmitter.sharedTransmitter().transmmitSimpleCommand(OSDCommon.MSPCommnand.MSP_DISARM);
+								
 								Transmitter.sharedTransmitter().stop();
 								
 								Transmitter.sharedTransmitter().getBleConnectionManager().disconnect();
@@ -434,6 +436,7 @@ public class SettingsViewController extends ViewController
 						
 						BluetoothDevice currentDevice = Transmitter.sharedTransmitter().getBleConnectionManager().getCurrentDevice();
 						if (currentDevice != null) {
+							Transmitter.sharedTransmitter().transmmitSimpleCommand(OSDCommon.MSPCommnand.MSP_DISARM);
 							Transmitter.sharedTransmitter().getBleConnectionManager().closeCurrentGatt();
 						}
 

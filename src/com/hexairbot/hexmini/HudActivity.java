@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import com.hexairbot.hexmini.HexMiniApplication.AppStage;
 import com.hexairbot.hexmini.modal.ApplicationSettings;
+import com.hexairbot.hexmini.modal.OSDCommon;
 import com.hexairbot.hexmini.modal.Transmitter;
 
 
@@ -124,6 +125,7 @@ public class HudActivity extends FragmentActivity implements SettingsDialogDeleg
 		super.onDestroy();
 		
 		if (Transmitter.sharedTransmitter().getBleConnectionManager() != null) {
+			Transmitter.sharedTransmitter().transmmitSimpleCommand(OSDCommon.MSPCommnand.MSP_DISARM);
 			Transmitter.sharedTransmitter().getBleConnectionManager().close();
 		}
 		
