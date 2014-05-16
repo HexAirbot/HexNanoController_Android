@@ -254,9 +254,18 @@ public class SettingsViewController extends ViewController
 							public void onClick(DialogInterface dialog, int which) {
 								Transmitter.sharedTransmitter().transmmitSimpleCommand(OSDCommon.MSPCommnand.MSP_DISARM);
 								
-								Transmitter.sharedTransmitter().stop();
+								Handler handler = new Handler();
 								
-								Transmitter.sharedTransmitter().getBleConnectionManager().disconnect();
+								handler.postDelayed(new Runnable() {
+									
+									@Override
+									public void run() {
+										Transmitter.sharedTransmitter().stop();
+										
+										Transmitter.sharedTransmitter().getBleConnectionManager().disconnect();
+									}
+								}, 10);
+								
 								connectionStateTextView.setText(R.string.settings_item_connection_state_not_conneceted);
 							}
 						}).setNegativeButton(R.string.dialog_btn_no, null).show();
@@ -437,7 +446,16 @@ public class SettingsViewController extends ViewController
 						BluetoothDevice currentDevice = Transmitter.sharedTransmitter().getBleConnectionManager().getCurrentDevice();
 						if (currentDevice != null) {
 							Transmitter.sharedTransmitter().transmmitSimpleCommand(OSDCommon.MSPCommnand.MSP_DISARM);
-							Transmitter.sharedTransmitter().getBleConnectionManager().closeCurrentGatt();
+							
+							Handler handler = new Handler();
+							
+							handler.postDelayed(new Runnable() {
+								
+								@Override
+								public void run() {
+									Transmitter.sharedTransmitter().getBleConnectionManager().closeCurrentGatt();
+								}
+							}, 10);
 						}
 
 						connectionStateTextView.setText(R.string.settings_item_connection_state_not_conneceted);
