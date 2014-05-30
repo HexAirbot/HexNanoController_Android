@@ -15,10 +15,10 @@ git clone https://github.com/HexAirbot/HexNanoController_Android.git
 ####Latest release
 
 [version 1.0.3 source code](https://github.com/HexAirbot/HexNanoController_Android/archive/v1.0.3.zip)
+
 [version 1.0.3 apk](https://github.com/HexAirbot/HexNanoController_Android/releases/download/v1.0.3/Flexbot_1.0.3.apk)
 
-####
-How to compile 
+####How to compile 
 
 1.Download the latest SDK Bundle for android
 
@@ -40,11 +40,11 @@ now make changes to the source files as you like
 
 8.Connect your android device
 
-9.Right click on the project and select [Run As] > [Android Application] to actually run the app on your device
+9.Right click on the project and select 'Run As' > 'Android Application' to actually run the app on your device
 
 
 ##Development
-The FlexBot Project is open source.To contribute, you can send a pull request on Github, or share your idea to the [forum](http://makedesignshare.com)
+The FlexBot Project is open source.To contribute, you can send a pull request on Github, or share your idea to the [forum](http://makedesignshare.com).
 
 
 ##Support
