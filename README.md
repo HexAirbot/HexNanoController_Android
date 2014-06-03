@@ -2,7 +2,7 @@
 
 This code here is FlexBot Controller App for Android platform.
 
-And the project is one part of the [FlexBot Project](http://http://flexbot.cc/wiki/).
+And the project is one part of the [FlexBot Project](http://flexbot.cc/wiki/).
 
 ##Source Code
 
