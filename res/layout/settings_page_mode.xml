@@ -12,109 +12,64 @@
         android:layout_height="10dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
-    
-    
-     <CheckBox
-         android:id="@+id/isBeginnerModeCheckBox"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_alignLeft="@+id/view1"
-         android:layout_below="@+id/view1" 
-         android:button="@drawable/checkbox" />
 
-     <TextView
-         android:id="@+id/isBeginnerModeTitleTextView"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_alignTop="@+id/isBeginnerModeCheckBox"
-         android:layout_marginRight="@dimen/settings_h_gap"
-         android:layout_toLeftOf="@id/isBeginnerModeCheckBox"
-         android:text="@string/settings_item_beginner_mode"
-         android:textColor="@color/white"
-         android:textSize="@dimen/settings_indicator_text_size" />
-
-    <SeekBar
-        android:id="@+id/aileronAndElevatorDeadBandSeekBar"
-        android:layout_width="255dp"
+    <CheckBox
+        android:id="@+id/isBeginnerModeCheckBox"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/isBeginnerModeCheckBox"
+        android:layout_alignLeft="@+id/view1"
+        android:layout_below="@+id/view1"
+        android:button="@drawable/checkbox" />
+
+    <TextView
+        android:id="@+id/isBeginnerModeTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/isBeginnerModeCheckBox"
+        android:layout_marginRight="@dimen/settings_h_gap"
+        android:layout_toLeftOf="@id/isBeginnerModeCheckBox"
+        android:text="@string/settings_item_beginner_mode"
+        android:textColor="@color/white"
+        android:textSize="@dimen/settings_indicator_text_size" />
+    
+    
+    <CheckBox
+        android:id="@+id/yawEnableCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/view1"
         android:layout_below="@+id/isBeginnerModeCheckBox"
         android:layout_marginTop="@dimen/settings_v_gap"
-        android:progressDrawable="@drawable/seekbar_image"
-        android:thumb="@drawable/seekbar_thumb"
-        android:thumbOffset="0dp"
-         />
+        android:button="@drawable/checkbox" />
 
     <TextView
-        android:id="@+id/TextView01"
+        android:id="@+id/yawEnableTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/aileronAndElevatorDeadBandSeekBar"
+        android:layout_alignTop="@id/yawEnableCheckBox"
         android:layout_marginRight="@dimen/settings_h_gap"
-        android:layout_toLeftOf="@id/aileronAndElevatorDeadBandSeekBar"
-        android:text="@string/settings_item_aileron_and_elevator_dead_band"
+        android:layout_toLeftOf="@id/yawEnableCheckBox"
+        android:text="@string/settings_item_yaw_channel"
         android:textColor="@color/white"
         android:textSize="@dimen/settings_indicator_text_size" />
 
-    <TextView
-        android:id="@+id/aileronAndElevatorDeadBandValueTextView"
+    <CheckBox
+        android:id="@+id/isHeadfreeModeCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/TextView01"
-        android:layout_below="@+id/TextView01"
-        android:text="50%"
-        android:textColor="@color/orange"
-        android:textSize="@dimen/settings_indicator_text_size" />
-
-    <SeekBar
-        android:id="@+id/rudderDeadBandSeekBar"
-        android:layout_width="255dp"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/aileronAndElevatorDeadBandSeekBar"
-        android:layout_below="@+id/aileronAndElevatorDeadBandSeekBar"
+        android:layout_alignLeft="@+id/yawEnableCheckBox"
+        android:layout_below="@+id/yawEnableCheckBox"
         android:layout_marginTop="@dimen/settings_v_gap"
-        android:progressDrawable="@drawable/seekbar_image"
-        android:thumb="@drawable/seekbar_thumb"
-        android:thumbOffset="0dp" />
+        android:button="@drawable/checkbox" />
 
     <TextView
-        android:id="@+id/TextView04"
+        android:id="@+id/isHeadfreeModeTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/aileronAndElevatorDeadBandValueTextView"
-        android:layout_alignTop="@+id/rudderDeadBandSeekBar"
-        android:text="@string/settings_item_rudder_dead_band"
+        android:layout_alignTop="@id/isHeadfreeModeCheckBox"
+        android:layout_toLeftOf="@id/isBeginnerModeCheckBox"
+        android:text="@string/settings_item_headfree_mode"
         android:textColor="@color/white"
         android:textSize="@dimen/settings_indicator_text_size" />
-
-    <TextView
-        android:id="@+id/rudderDeadBandValueTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/TextView04"
-        android:layout_below="@+id/TextView04"
-        android:text="50%"
-        android:textColor="@color/orange"
-        android:textSize="@dimen/settings_indicator_text_size" />
-
-     <CheckBox
-         android:id="@+id/isHeadfreeModeCheckBox"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_alignLeft="@id/rudderDeadBandSeekBar"
-         android:layout_below="@id/rudderDeadBandSeekBar"
-         android:layout_marginTop="@dimen/settings_v_gap"
-         android:layout_toRightOf="@+id/TextView01"
-         android:button="@drawable/checkbox" />
-
-     <TextView
-         android:id="@+id/isHeadfreeModeTitleTextView"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_alignRight="@id/rudderDeadBandValueTextView"
-         android:layout_alignTop="@id/isHeadfreeModeCheckBox"
-         android:text="@string/settings_item_headfree_mode"
-         android:textColor="@color/white"
-         android:textSize="@dimen/settings_indicator_text_size" />
 
 </RelativeLayout>

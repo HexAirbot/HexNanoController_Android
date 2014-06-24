@@ -117,19 +117,20 @@ public class SettingsViewController extends ViewController
     private CheckBox isLeftHandedCheckBox;
     private CheckBox isAccModeCheckBox;
     private CheckBox isHeadfreeModeCheckBox;
+    private CheckBox yawEnableCheckBox;
     private CheckBox isBeginnerModeCheckBox;
     
     private TextView interfaceOpacityValueTextView;
-    private TextView aileronAndElevatorDeadBandValueTextView;
-    private TextView rudderDeadBandValueTextView;
+    //private TextView aileronAndElevatorDeadBandValueTextView;
+    //private TextView rudderDeadBandValueTextView;
     
     private SeekBar interfaceOpacitySeekBar;
-    private SeekBar aileronAndElevatorDeadBandSeekBar;
-    private SeekBar rudderDeadBandSeekBar;
+   // private SeekBar aileronAndElevatorDeadBandSeekBar;
+   // private SeekBar rudderDeadBandSeekBar;
     
     private OnSeekBarChangeListener interfaceOpacitySeekBarListener;
-    private OnSeekBarChangeListener aileronAndElevatorDeadBandSeekBarListener;
-    private OnSeekBarChangeListener rudderDeadBandSeekBarListener;
+   //private OnSeekBarChangeListener aileronAndElevatorDeadBandSeekBarListener;
+   //private OnSeekBarChangeListener rudderDeadBandSeekBarListener;
     
     private ListView bleDeviceListView;
 
@@ -313,19 +314,20 @@ public class SettingsViewController extends ViewController
         isLeftHandedCheckBox   = (CheckBox)settingsViews.get(interfacePageIdx).findViewById(R.id.isLeftHandedCheckBox);
         isAccModeCheckBox      = (CheckBox)settingsViews.get(interfacePageIdx).findViewById(R.id.isAccModeCheckBox);
         isHeadfreeModeCheckBox = (CheckBox)settingsViews.get(modePageIdx).findViewById(R.id.isHeadfreeModeCheckBox);
+        yawEnableCheckBox      = (CheckBox)settingsViews.get(modePageIdx).findViewById(R.id.yawEnableCheckBox);
         isBeginnerModeCheckBox = (CheckBox)settingsViews.get(modePageIdx).findViewById(R.id.isBeginnerModeCheckBox);
         
         interfaceOpacityValueTextView =  (TextView)settingsViews.get(interfacePageIdx).findViewById(R.id.interfaceOpacityValueTextView);
-        aileronAndElevatorDeadBandValueTextView = (TextView)settingsViews.get(modePageIdx).findViewById(R.id.aileronAndElevatorDeadBandValueTextView);
-        rudderDeadBandValueTextView = (TextView)settingsViews.get(modePageIdx).findViewById(R.id.rudderDeadBandValueTextView);
+        //aileronAndElevatorDeadBandValueTextView = (TextView)settingsViews.get(modePageIdx).findViewById(R.id.aileronAndElevatorDeadBandValueTextView);
+       // rudderDeadBandValueTextView = (TextView)settingsViews.get(modePageIdx).findViewById(R.id.rudderDeadBandValueTextView);
         
         interfaceOpacitySeekBar = (SeekBar)settingsViews.get(interfacePageIdx).findViewById(R.id.interfaceOpacitySeekBar);
-        aileronAndElevatorDeadBandSeekBar = (SeekBar)settingsViews.get(modePageIdx).findViewById(R.id.aileronAndElevatorDeadBandSeekBar);
-        rudderDeadBandSeekBar = (SeekBar)settingsViews.get(modePageIdx).findViewById(R.id.rudderDeadBandSeekBar);
+        //aileronAndElevatorDeadBandSeekBar = (SeekBar)settingsViews.get(modePageIdx).findViewById(R.id.aileronAndElevatorDeadBandSeekBar);
+        //rudderDeadBandSeekBar = (SeekBar)settingsViews.get(modePageIdx).findViewById(R.id.rudderDeadBandSeekBar);
         
         interfaceOpacitySeekBar.setMax(100);
-        aileronAndElevatorDeadBandSeekBar.setMax(20);
-        rudderDeadBandSeekBar.setMax(20);
+        //aileronAndElevatorDeadBandSeekBar.setMax(20);
+        //rudderDeadBandSeekBar.setMax(20);
         
         WebView aboutWebView = (WebView)settingsViews.get(aboutPageIdx).findViewById(R.id.aboutWebView);
         aboutWebView.getSettings().setJavaScriptEnabled(true);  
@@ -382,16 +384,17 @@ public class SettingsViewController extends ViewController
         isLeftHandedCheckBox.setChecked(settings.isLeftHanded());
         isAccModeCheckBox.setChecked(settings.isAccMode());
         isHeadfreeModeCheckBox.setChecked(settings.isHeadFreeMode());
+        yawEnableCheckBox.setChecked(settings.yawEnable());
         isBeginnerModeCheckBox.setChecked(settings.isBeginnerMode());
         
         interfaceOpacitySeekBar.setProgress((int)(settings.getInterfaceOpacity() * 100));
         safeSetText(interfaceOpacityValueTextView, interfaceOpacitySeekBar.getProgress() + "%");
         
-        aileronAndElevatorDeadBandSeekBar.setProgress((int)(settings.getAileronDeadBand() * 100));
-        safeSetText(aileronAndElevatorDeadBandValueTextView, aileronAndElevatorDeadBandSeekBar.getProgress() + "%");
+        //aileronAndElevatorDeadBandSeekBar.setProgress((int)(settings.getAileronDeadBand() * 100));
+        //safeSetText(aileronAndElevatorDeadBandValueTextView, aileronAndElevatorDeadBandSeekBar.getProgress() + "%");
         
-        rudderDeadBandSeekBar.setProgress((int)(settings.getRudderDeadBand() * 100));
-        safeSetText(rudderDeadBandValueTextView, rudderDeadBandSeekBar.getProgress() + "%");  	
+        //rudderDeadBandSeekBar.setProgress((int)(settings.getRudderDeadBand() * 100));
+        //safeSetText(rudderDeadBandValueTextView, rudderDeadBandSeekBar.getProgress() + "%");  	
     }
 
     private void sendBleEnableRequest(){
@@ -617,6 +620,20 @@ public class SettingsViewController extends ViewController
 				}
 			}
 		});
+        
+        yawEnableCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			
+			@Override
+			public void onCheckedChanged(CompoundButton arg0, boolean yawEnable) {
+				ApplicationSettings settings = HexMiniApplication.sharedApplicaion().getAppSettings();
+				settings.setYawEnable(yawEnable);
+				settings.save();
+				if (delegate != null) {
+					delegate.yawEnableValueDidChange(yawEnable);
+				}
+			}
+		});
+        
     	
         isBeginnerModeCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
@@ -655,6 +672,7 @@ public class SettingsViewController extends ViewController
 		};
 		interfaceOpacitySeekBar.setOnSeekBarChangeListener(interfaceOpacitySeekBarListener);
     	
+		/*
     	aileronAndElevatorDeadBandSeekBarListener = new OnSeekBarChangeListener() {
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
@@ -705,6 +723,7 @@ public class SettingsViewController extends ViewController
 			}
 		};
 		rudderDeadBandSeekBar.setOnSeekBarChangeListener(rudderDeadBandSeekBarListener);
+		*/
     }
     
 
