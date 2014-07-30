@@ -15,6 +15,8 @@ import java.nio.ShortBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import com.hexairbot.hexmini.util.TextureUtils;
+
 import android.annotation.SuppressLint;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -27,7 +29,6 @@ import android.opengl.GLUtils;
 import android.opengl.Matrix;
 import android.os.Build;
 import android.util.Log;
-import com.hexairbot.hexmini.util.TextureUtils;;
 
 public class GLSprite
 {
@@ -289,7 +290,7 @@ public class GLSprite
             prevX = x;
             prevY = y;
         }
-
+        
         GLES20.glUseProgram(program);
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textures[0]);

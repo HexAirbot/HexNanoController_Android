@@ -2,6 +2,8 @@ package com.hexairbot.hexmini.ui;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import com.hexairbot.hexmini.ui.gl.GLSprite;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -11,7 +13,6 @@ import android.graphics.Typeface;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.hexairbot.hexmini.ui.gl.GLSprite;
 
 public class Text extends Sprite{
 

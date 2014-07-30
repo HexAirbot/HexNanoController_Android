@@ -1,6 +1,11 @@
 package com.hexairbot.hexmini;
 
 import com.hexairbot.hexmini.SettingsDialog;
+import com.hexairbot.hexmini.HexMiniApplication.AppStage;
+import com.hexairbot.hexmini.modal.ApplicationSettings;
+import com.hexairbot.hexmini.modal.OSDCommon;
+import com.hexairbot.hexmini.modal.Transmitter;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -12,10 +17,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import com.hexairbot.hexmini.HexMiniApplication.AppStage;
-import com.hexairbot.hexmini.modal.ApplicationSettings;
-import com.hexairbot.hexmini.modal.OSDCommon;
-import com.hexairbot.hexmini.modal.Transmitter;
 
 
 @SuppressLint("NewApi")
@@ -61,6 +62,23 @@ public class HudActivity extends FragmentActivity implements SettingsDialogDeleg
 		super.onPause();
 		hudVC.onPause();
 	}
+	
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+        
+        hudVC.viewWillAppear();
+    }
+
+
+    @Override
+    public void onStop()
+    {
+        super.onStop();
+        
+        HexMiniApplication.sharedApplicaion().setAppStage(AppStage.HUD);
+    }
 	
     protected void showSettingsDialog()
     {        
@@ -130,6 +148,7 @@ public class HudActivity extends FragmentActivity implements SettingsDialogDeleg
 		}
 		
 		hudVC.onDestroy();
+		hudVC = null;
 	}
 }
 

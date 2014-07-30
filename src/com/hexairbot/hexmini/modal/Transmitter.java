@@ -3,12 +3,13 @@ package com.hexairbot.hexmini.modal;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.hexairbot.hexmini.ble.BleConnectinManager;
+
 import android.R.integer;
 import android.os.Handler;
 import android.text.StaticLayout;
 import android.util.Log;
 
-import com.hexairbot.hexmini.ble.BleConnectinManager;
 
 public class Transmitter {
 	private static final int  CHANNEL_COUNT = 8;

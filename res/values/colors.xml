@@ -10,4 +10,11 @@
     <color name="black">#000000</color>
     <color name="orange">#FFA500</color>
     <color name="yellow">#FFFF00</color>
+    <color name="accent">#ffff7800</color>
+    
+    <color name="top_bar_background">@color/accent</color>
+    <color name="top_bar_accent">#FF777777</color>
+    <color name="panel_dark_button_bg">#ff000000</color>
+    <color name="top_bar_title">@color/white</color>
+    <color name="bottom_bar_background">@color/top_bar_accent</color>
 </resources>

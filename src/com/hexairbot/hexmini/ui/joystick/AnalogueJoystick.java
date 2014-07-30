@@ -7,10 +7,10 @@
 
 package com.hexairbot.hexmini.ui.joystick;
 
-import com.hexairbot.hexmini.R;
 import com.hexairbot.hexmini.ui.Sprite;
 import com.hexairbot.hexmini.ui.Sprite.Align;
 
+import com.hexairbot.hexmini.R;
 import android.content.Context;
 
 

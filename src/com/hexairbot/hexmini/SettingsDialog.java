@@ -1,6 +1,7 @@
 
 package com.hexairbot.hexmini;
 
+
 import com.hexairbot.hexmini.HexMiniApplication.AppStage;
 import com.hexairbot.hexmini.modal.ApplicationSettings;
 import com.hexairbot.hexmini.modal.Transmitter;
@@ -22,7 +23,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import com.hexairbot.hexmini.R;
 
 @SuppressLint("ValidFragment")
 public class SettingsDialog extends DialogFragment

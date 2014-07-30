@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gallery_video_title">VIDEO</string>
+    <string name="gallery_photo_title">PHOTO</string>
+    
+    <string name="wifi_disabled">Please check the WIFI setting,be sure WIFI was enabled and was connected to IPC.</string>
+    <string name="enable_wifi">set</string>
+    
+    <!-- settings -->
+    <string name="set_video_setting">VIDEO_SETTING</string>
+    <string name="set_connect_setting">CONNET_SETTING</string>
+    <string name="set_video_decode_mode">Decode Mode</string>
+    <string name="set_video_decode_encode_auto">Auto</string>
+    <string name="set_video_decode_encode_hardware">Hardware</string>
+    <string name="set_video_decode_encode_software">Software</string>
+    <string name="set_video_preview_resolution">Resolution</string>
+    <string name="set_video_preview_resolution720P">1280*720</string>
+    <string name="set_video_preview_resolution576P">720*576</string>
+    <string name="set_video_preview_resolution360P">640*360</string>
+    <string name="set_video_preview_resolution540P">960*540</string>
+    <string name="set_video_preview_bitrate">Bitrate Control</string>
+    <string name="set_video_preview_bitrate_fps">FPS</string>
+    <string name="set_video_preview_bitrate_quality">Quality</string>
+    <string name="set_store_in_remote">Remote Store</string>
+    
+    <string name="current_ap_setting">Current Connect</string>
+    <string name="last_available_ap_setting">Last Connect</string>
+    <string name="auto_connect_last_ap_setting">Auto Connect Available</string>
+    <string name="select_ap_to_connect">select AP to connect</string>
+    <string name="enable_wifi_force">Your Wifi was close,we will open it Automatically.</string>
+    <string name="enable_wifi_fail">Your wifi could not be opened,please check it in system settings.</string>
+    <string name="no_ap_to_connect">none</string>
+    <string name="no_ipc_to_connected">none</string>
+    <string name="connect_success">Connect successfully.</string>
+    <string name="connect_fail">Connect unsuccessful.Retry immediately.</string>
+    
+    <string name="media_multiChoice_count">%d items selected</string>
+    
+    <string name="remote_image_is_undownloaded">the selected picture has not been downloaded from the FTP.</string>
+    
+     <string name="VIDEO_CONNECTION_ALERT">VIDEO CONNECTION ALERT</string>
+     <string name="BATTERY_LOW_ALERT">BATTERY LOW ALERT</string>
+    
+    <string-array name="entries_array_decode_mode">
+        <item>auto</item>
+        <item>software</item>
+        <item>hardware</item>  
+    </string-array>
+    <string-array name="entryvalue_array_decode_mode">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>  
+    </string-array>
+    <string-array name="entries_array_recode_resolution">
+        <item>720P</item>
+        <item>1080P</item>
+    </string-array>
+    <string-array name="entryvalue_array_recode_resolution">
+        <item>720P</item>
+        <item>1080P</item>
+    </string-array>
+    
+</resources>

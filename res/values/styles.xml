@@ -43,4 +43,32 @@
     <style name="SettingsNavigationButton.Next">
         <item name="android:src" >@drawable/btn_arrow_right</item>
     </style>
+    
+ <style name="TopBarButton" parent="@android:style/Widget.DeviceDefault.ImageButton"></style>
+
+    <style name="TopBarButton.Dark">
+        <item name="android:background">@color/panel_dark_button_bg</item>
+    </style>
+
+    <style name="TopBarButton.Dark.Back">
+        <item name="android:src">@drawable/btn_back_arrow</item>
+    </style>
+    
+        <style name="TopBarTitleBase" parent="@android:style/Widget.DeviceDefault.TextView">
+        <item name="android:textColor">@color/top_bar_title</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+    
+        <style name="TopBarTitle" parent="TopBarTitleBase">
+        <item name="android:textSize">@dimen/settings_header_text_size</item>
+    </style>
+    
+            <style name="BottomBarButton" parent="@android:style/Widget.DeviceDefault.Button">
+        <item name="android:background">@drawable/bottom_button_bar_bg</item>
+        
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:padding">4dip</item>
+        <item name="android:textSize">@dimen/settings_statusbar_button_text_size</item>
+    </style>
 </resources>

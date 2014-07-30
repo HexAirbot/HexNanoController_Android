@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    <!-- selected state -->
+	<item android:state_focused="true" android:state_pressed="true"
+		android:drawable="@drawable/btn_photos_pressed" />
+	<item android:state_focused="false" android:state_pressed="true"
+		android:drawable="@drawable/btn_photos_pressed" />
+
+	<!-- normal state -->	
+	<item android:drawable="@drawable/btn_photos" android:state_enabled="true"/>
+	<item android:drawable="@drawable/btn_photos_pressed" android:state_enabled="false"/>
+</selector>

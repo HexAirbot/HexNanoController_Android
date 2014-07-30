@@ -1,7 +1,6 @@
 package com.hexairbot.hexmini.ui.control;
 
 import com.hexairbot.hexmini.R;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;

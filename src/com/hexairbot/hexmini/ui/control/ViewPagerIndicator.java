@@ -1,12 +1,6 @@
 package com.hexairbot.hexmini.ui.control;
 
 import com.hexairbot.hexmini.R;
-import com.hexairbot.hexmini.R.attr;
-import com.hexairbot.hexmini.R.color;
-import com.hexairbot.hexmini.R.dimen;
-import com.hexairbot.hexmini.R.style;
-import com.hexairbot.hexmini.R.styleable;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;

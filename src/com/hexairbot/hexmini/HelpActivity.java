@@ -8,6 +8,9 @@ import java.util.List;
 
 import com.hexairbot.hexmini.ui.control.ViewPagerIndicator;
 
+import com.hexairbot.hexmini.R;
+
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;

@@ -9,8 +9,13 @@ import android.app.Application;
 import android.content.res.AssetManager;
 import android.util.Log;
 
+
 import com.hexairbot.hexmini.modal.ApplicationSettings;
 import com.hexairbot.hexmini.util.FileHelper;
+import com.vmc.ipc.config.ConfigStoreHandler;
+import com.vmc.ipc.config.VmcConfig;
+import com.vmc.ipc.util.MediaUtil;
+
 
 public class HexMiniApplication extends Application 
 {   
@@ -22,6 +27,10 @@ public class HexMiniApplication extends Application
 	private FileHelper fileHelper;
 	
 	private AppStage appStage = AppStage.UNKNOWN;
+	
+    static {
+    	System.loadLibrary("vmcipc");
+    }
 	
 	
 	public enum AppStage{
@@ -45,6 +54,10 @@ public class HexMiniApplication extends Application
 		copyDefaultSettingsFileIfNeeded();
 		
 		settings = new ApplicationSettings(getFilesDir() + "/Settings.plist");
+
+		MediaUtil.createIPCDir();
+		VmcConfig.getInstance().setConfigStoreHandler(new ConfigStoreHandler(this));
+		VmcConfig.getInstance().initNativeConfig(MediaUtil.getAppConfigDir());
 	}
 	
 	

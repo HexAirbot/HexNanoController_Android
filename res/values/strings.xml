@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Flexbot</string>
+    <string name="app_name">FlexCam</string>
     <string name="settings_title_connection">CONNECT TO FLEXBOT</string>
     <string name="settings_title_personal">PERSONAL SETTINGS</string>
+    <string name="settings_title_video">VIDEO SETTINGS</string>
     <string name="settings_title_angel_trim">FLIGHT ANGLE TRIM</string>
     <string name="settings_title_mode">MODE SETTINGS</string>
     <string name="settings_title_about">ABOUT</string>
@@ -21,7 +22,6 @@
     <string name="settings_item_interface_opacity">Interface Opacity</string>
     <string name="settings_item_acc_mode">Acc Mode</string>
     <string name="settings_item_headfree_mode">Headfree Mode</string>
-    <string name="settings_item_yaw_channel">Yaw Channel</string>
     <string name="settings_item_beginner_mode">Beginner Mode</string>
     <string name="settings_item_take_off_throttle">Take Off Throttle</string>
     <string name="settings_item_aileron_and_elevator_dead_band">Aileron/Elevator Dead Band</string>

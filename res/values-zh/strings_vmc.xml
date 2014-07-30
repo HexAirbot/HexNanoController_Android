@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gallery_video_title">录像</string>
+    <string name="gallery_photo_title">照片</string>
+    
+    <!-- settings -->
+    <string name="set_video_setting">视频设置</string>
+    <string name="set_connect_setting">连接设置</string>
+    <string name="set_video_decode_mode">解码方式</string>
+    <string name="set_video_decode_encode_auto">自动</string>
+    <string name="set_video_decode_encode_hardware">硬解</string>
+    <string name="set_video_decode_encode_software">软解</string>
+    <string name="set_video_preview_resolution">分辨率</string>
+    <string name="set_video_preview_resolution720P">1280*720</string>
+    <string name="set_video_preview_resolution576P">720*576</string>
+    <string name="set_video_preview_bitrate">码率控制</string>
+    <string name="set_video_preview_bitrate_fps">FPS</string>
+    <string name="set_video_preview_bitrate_quality">Quality</string>
+    <string name="set_store_in_remote">远程存储</string>
+    
+    <string name="current_ap_setting">已连接上热点</string>
+    <string name="last_available_ap_setting">上次连接的IPC</string>
+    <string name="auto_connect_last_ap_setting">自动连接有效的IPC</string>
+    <string name="select_ap_to_connect">选择正确热点接入</string>
+    <string name="enable_wifi_force">您的WIFI功能已关闭，我们将为您自动打开</string>
+    <string name="enable_wifi_fail">无法打开您的wifi功能，请到系统设置检查你的wifi功能</string>
+    <string name="no_ap_to_connect">没有连上任何热点</string>
+    <string name="no_ipc_to_connected">没有连上过任何IPC</string>
+    <string name="connect_success">连接成功</string>
+    <string name="connect_fail">连接失败，立即重连</string>
+    
+    <string name="media_multiChoice_count">已选择%d项</string>
+    
+    <string name="remote_image_is_undownloaded">您选择的照片还没有从FTP服务器上完全下载</string>
+    
+    <string name="VIDEO_CONNECTION_ALERT">注意: 视频连接异常</string>
+    
+    
+    <string-array name="entries_array_decode_mode">
+        <item>auto</item>
+        <item>software</item>
+        <item>hardware</item>  
+    </string-array>
+    <string-array name="entryvalue_array_decode_mode">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>  
+    </string-array>
+    <string-array name="entries_array_recode_resolution">
+        <item>720P</item>
+        <item>1080P</item>
+    </string-array>
+    <string-array name="entryvalue_array_recode_resolution">
+        <item>720P</item>
+        <item>1080P</item>
+    </string-array>
+    
+        <string name="wifi_disabled">Please check the WIFI setting,be sure WIFI was enabled and was connected to IPC.</string>
+    <string name="enable_wifi">set</string>
+        <string name="set_video_preview_resolution360P">640*360</string>
+    <string name="set_video_preview_resolution540P">960*540</string>
+         <string name="BATTERY_LOW_ALERT">BATTERY LOW ALERT</string>
+    
+</resources>

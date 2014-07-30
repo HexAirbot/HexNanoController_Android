@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_bg1"
+    tools:context=".activity.MainActivity" >
+
+	<com.hexairbot.hexmini.ipc.view.MainActivityLayout
+	    android:id="@+id/btn_layout"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:layout_alignParentRight="true"
+	    android:layout_centerVertical="true"
+	    android:layout_marginRight="20dp" />
+
+    <TextView
+        android:id="@+id/main_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="30dp"
+        android:text="FlexBot\nFlexCam"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#FFFFFFFF"
+        android:textSize="30sp" />
+    
+    <LinearLayout
+        android:id="@+id/server_select"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@id/btn_layout"
+        android:orientation="vertical" 
+	    android:visibility="gone">
+
+        <TextView 
+	        android:id="@+id/ssid"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="ssid"
+	        android:textColor="#ffff0000"/>
+	    <Spinner
+	        android:id="@+id/spinner1"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" />
+	    <!-- 
+	    <TextView 
+	        android:id="@+id/connect_state"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="connect state"
+	        android:textColor="#ffff0000"/>
+	         -->
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/connect_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/main_title"
+        android:layout_below="@+id/main_title"
+	    android:text="connect state"
+	    android:visibility="gone"
+	    android:textColor="#ffff0000"/>
+
+</RelativeLayout>

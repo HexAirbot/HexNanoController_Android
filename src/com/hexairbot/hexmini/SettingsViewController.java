@@ -13,9 +13,11 @@ import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
@@ -24,6 +26,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.InputFilter;
@@ -64,21 +67,24 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
-import com.hexairbot.hexmini.R;
-//import com.hexairbot.hexmini.drone.DroneConfig;
-//import com.hexairbot.hexmini.drone.DroneConfig.EDroneVersion;
 import com.hexairbot.hexmini.adapter.SettingsViewAdapter;
 import com.hexairbot.hexmini.ble.BleConnectinManager;
 import com.hexairbot.hexmini.ble.BleConnectinManagerDelegate;
+import com.hexairbot.hexmini.ipc.view.VideoSettingView;
 import com.hexairbot.hexmini.modal.ApplicationSettings;
 import com.hexairbot.hexmini.modal.OSDCommon;
 import com.hexairbot.hexmini.modal.Transmitter;
+import com.hexairbot.hexmini.ui.control.ViewPagerIndicator;
+//import com.hexairbot.hexmini.drone.DroneConfig;
+//import com.hexairbot.hexmini.drone.DroneConfig.EDroneVersion;
 //import  com.hexairbot.hexmini.ui.adapters.SettingsViewAdapter;
 //import  com.hexairbot.hexmini.ui.controls.ViewPagerIndicator;
 //import  com.hexairbot.hexmini.ui.filters.NetworkNameFilter;
 //import  com.hexairbot.hexmini.ui.listeners.OnSeekChangedListener;
 //import  com.hexairbot.hexmini.utils.FontUtils;
-import com.hexairbot.hexmini.ui.control.ViewPagerIndicator;
+import com.vmc.ipc.proxy.IpcProxy;
+
+import com.hexairbot.hexmini.R;
 
 
 public class SettingsViewController extends ViewController
@@ -117,20 +123,19 @@ public class SettingsViewController extends ViewController
     private CheckBox isLeftHandedCheckBox;
     private CheckBox isAccModeCheckBox;
     private CheckBox isHeadfreeModeCheckBox;
-    private CheckBox yawEnableCheckBox;
     private CheckBox isBeginnerModeCheckBox;
     
     private TextView interfaceOpacityValueTextView;
-    //private TextView aileronAndElevatorDeadBandValueTextView;
-    //private TextView rudderDeadBandValueTextView;
+    private TextView aileronAndElevatorDeadBandValueTextView;
+    private TextView rudderDeadBandValueTextView;
     
     private SeekBar interfaceOpacitySeekBar;
-   // private SeekBar aileronAndElevatorDeadBandSeekBar;
-   // private SeekBar rudderDeadBandSeekBar;
+    private SeekBar aileronAndElevatorDeadBandSeekBar;
+    private SeekBar rudderDeadBandSeekBar;
     
     private OnSeekBarChangeListener interfaceOpacitySeekBarListener;
-   //private OnSeekBarChangeListener aileronAndElevatorDeadBandSeekBarListener;
-   //private OnSeekBarChangeListener rudderDeadBandSeekBarListener;
+    private OnSeekBarChangeListener aileronAndElevatorDeadBandSeekBarListener;
+    private OnSeekBarChangeListener rudderDeadBandSeekBarListener;
     
     private ListView bleDeviceListView;
 
@@ -157,10 +162,16 @@ public class SettingsViewController extends ViewController
         }
     };
     private boolean bleAvailabed;
+    
+    
+    LocalBroadcastManager mLocalBroadcastManager;
+    VideoSettingView videoSetting;
 
     
     public SettingsViewController(Context context, LayoutInflater inflater, ViewGroup container, SettingsViewControllerDelegate delegate)
     {	
+        mLocalBroadcastManager = LocalBroadcastManager.getInstance(context);
+    	
     	Transmitter.sharedTransmitter().getBleConnectionManager().setDelegate(this);
     	
     	isScanning = false;
@@ -185,6 +196,7 @@ public class SettingsViewController extends ViewController
         titles = new int[] {
                 R.string.settings_title_connection,
                 R.string.settings_title_personal,
+                R.string.settings_title_video,
                 R.string.settings_title_angel_trim,
                 R.string.settings_title_mode,
                 R.string.settings_title_about
@@ -195,6 +207,7 @@ public class SettingsViewController extends ViewController
         int[] pageIds = new int[]{
         		R.layout.settings_page_connection,
         		R.layout.settings_page_personal,
+        		R.layout.settings_page_video,
         		R.layout.settings_page_angel_trim,
         		R.layout.settings_page_mode,
         		R.layout.settings_page_about
@@ -211,9 +224,10 @@ public class SettingsViewController extends ViewController
         
         final int connectionPageIdx = 0;
         final int interfacePageIdx  = 1;
-        final int angelTrimPageIdx  = 2;
-        final int modePageIdx       = 3;
-        final int aboutPageIdx      = 4;
+        final int videoPageIdx      = 2;
+        final int angelTrimPageIdx  = 3;
+        final int modePageIdx       = 4;
+        final int aboutPageIdx      = 5;
       
         scanBtn = (Button)settingsViews.get(connectionPageIdx).findViewById(R.id.scanBtn);
         bleDeviceListView = (ListView)settingsViews.get(connectionPageIdx).findViewById(R.id.bleDeviceListView);
@@ -314,20 +328,19 @@ public class SettingsViewController extends ViewController
         isLeftHandedCheckBox   = (CheckBox)settingsViews.get(interfacePageIdx).findViewById(R.id.isLeftHandedCheckBox);
         isAccModeCheckBox      = (CheckBox)settingsViews.get(interfacePageIdx).findViewById(R.id.isAccModeCheckBox);
         isHeadfreeModeCheckBox = (CheckBox)settingsViews.get(modePageIdx).findViewById(R.id.isHeadfreeModeCheckBox);
-        yawEnableCheckBox      = (CheckBox)settingsViews.get(modePageIdx).findViewById(R.id.yawEnableCheckBox);
         isBeginnerModeCheckBox = (CheckBox)settingsViews.get(modePageIdx).findViewById(R.id.isBeginnerModeCheckBox);
         
         interfaceOpacityValueTextView =  (TextView)settingsViews.get(interfacePageIdx).findViewById(R.id.interfaceOpacityValueTextView);
-        //aileronAndElevatorDeadBandValueTextView = (TextView)settingsViews.get(modePageIdx).findViewById(R.id.aileronAndElevatorDeadBandValueTextView);
-       // rudderDeadBandValueTextView = (TextView)settingsViews.get(modePageIdx).findViewById(R.id.rudderDeadBandValueTextView);
+        aileronAndElevatorDeadBandValueTextView = (TextView)settingsViews.get(modePageIdx).findViewById(R.id.aileronAndElevatorDeadBandValueTextView);
+        rudderDeadBandValueTextView = (TextView)settingsViews.get(modePageIdx).findViewById(R.id.rudderDeadBandValueTextView);
         
         interfaceOpacitySeekBar = (SeekBar)settingsViews.get(interfacePageIdx).findViewById(R.id.interfaceOpacitySeekBar);
-        //aileronAndElevatorDeadBandSeekBar = (SeekBar)settingsViews.get(modePageIdx).findViewById(R.id.aileronAndElevatorDeadBandSeekBar);
-        //rudderDeadBandSeekBar = (SeekBar)settingsViews.get(modePageIdx).findViewById(R.id.rudderDeadBandSeekBar);
+        aileronAndElevatorDeadBandSeekBar = (SeekBar)settingsViews.get(modePageIdx).findViewById(R.id.aileronAndElevatorDeadBandSeekBar);
+        rudderDeadBandSeekBar = (SeekBar)settingsViews.get(modePageIdx).findViewById(R.id.rudderDeadBandSeekBar);
         
         interfaceOpacitySeekBar.setMax(100);
-        //aileronAndElevatorDeadBandSeekBar.setMax(20);
-        //rudderDeadBandSeekBar.setMax(20);
+        aileronAndElevatorDeadBandSeekBar.setMax(20);
+        rudderDeadBandSeekBar.setMax(20);
         
         WebView aboutWebView = (WebView)settingsViews.get(aboutPageIdx).findViewById(R.id.aboutWebView);
         aboutWebView.getSettings().setJavaScriptEnabled(true);  
@@ -384,17 +397,16 @@ public class SettingsViewController extends ViewController
         isLeftHandedCheckBox.setChecked(settings.isLeftHanded());
         isAccModeCheckBox.setChecked(settings.isAccMode());
         isHeadfreeModeCheckBox.setChecked(settings.isHeadFreeMode());
-        yawEnableCheckBox.setChecked(settings.yawEnable());
         isBeginnerModeCheckBox.setChecked(settings.isBeginnerMode());
         
         interfaceOpacitySeekBar.setProgress((int)(settings.getInterfaceOpacity() * 100));
         safeSetText(interfaceOpacityValueTextView, interfaceOpacitySeekBar.getProgress() + "%");
         
-        //aileronAndElevatorDeadBandSeekBar.setProgress((int)(settings.getAileronDeadBand() * 100));
-        //safeSetText(aileronAndElevatorDeadBandValueTextView, aileronAndElevatorDeadBandSeekBar.getProgress() + "%");
+        aileronAndElevatorDeadBandSeekBar.setProgress((int)(settings.getAileronDeadBand() * 100));
+        safeSetText(aileronAndElevatorDeadBandValueTextView, aileronAndElevatorDeadBandSeekBar.getProgress() + "%");
         
-        //rudderDeadBandSeekBar.setProgress((int)(settings.getRudderDeadBand() * 100));
-        //safeSetText(rudderDeadBandValueTextView, rudderDeadBandSeekBar.getProgress() + "%");  	
+        rudderDeadBandSeekBar.setProgress((int)(settings.getRudderDeadBand() * 100));
+        safeSetText(rudderDeadBandValueTextView, rudderDeadBandSeekBar.getProgress() + "%");  	
     }
 
     private void sendBleEnableRequest(){
@@ -413,9 +425,17 @@ public class SettingsViewController extends ViewController
         ArrayList<View> pageList = new ArrayList<View>(pageIds.length);
 
         for (int i = 0; i < pageIds.length; ++i) {
-            View view = inflater.inflate(pageIds[i], null);
-            //FontUtils.applyFont(inflater.getContext(), (ViewGroup) view);
-            pageList.add(view);
+        	if(pageIds[i] == R.layout.settings_page_video){
+        		videoSetting = new VideoSettingView(context,inflater);
+        		//videoSetting.setTitle(this.getActivity().getResources().getString(R.string.set_video_setting));
+        		pageList.add(videoSetting.getContent());
+        		
+        	}
+        	else{
+        		View view = inflater.inflate(pageIds[i], null);
+        		//FontUtils.applyFont(inflater.getContext(), (ViewGroup) view);
+        		pageList.add(view);
+        	}
         }
 
         return pageList;
@@ -620,20 +640,6 @@ public class SettingsViewController extends ViewController
 				}
 			}
 		});
-        
-        yawEnableCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
-			@Override
-			public void onCheckedChanged(CompoundButton arg0, boolean yawEnable) {
-				ApplicationSettings settings = HexMiniApplication.sharedApplicaion().getAppSettings();
-				settings.setYawEnable(yawEnable);
-				settings.save();
-				if (delegate != null) {
-					delegate.yawEnableValueDidChange(yawEnable);
-				}
-			}
-		});
-        
     	
         isBeginnerModeCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
@@ -672,7 +678,6 @@ public class SettingsViewController extends ViewController
 		};
 		interfaceOpacitySeekBar.setOnSeekBarChangeListener(interfaceOpacitySeekBarListener);
     	
-		/*
     	aileronAndElevatorDeadBandSeekBarListener = new OnSeekBarChangeListener() {
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
@@ -723,7 +728,6 @@ public class SettingsViewController extends ViewController
 			}
 		};
 		rudderDeadBandSeekBar.setOnSeekBarChangeListener(rudderDeadBandSeekBarListener);
-		*/
     }
     
 
@@ -946,6 +950,12 @@ public class SettingsViewController extends ViewController
 		// TODO Auto-generated method stub
 		super.viewWillAppear();
 		sendBleEnableRequest();
+		
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(IpcProxy.ACTION_BITRATE_CHANGED);
+		filter.addAction(IpcProxy.ACTION_DECODEMODE_CHANGED);
+		filter.addAction(IpcProxy.ACTION_RESOLUTION_CHANGED);
+		mLocalBroadcastManager.registerReceiver(receiver, filter);
 	}
 	
 	
@@ -968,5 +978,30 @@ public class SettingsViewController extends ViewController
 				Log.d("LeScanCallback", "stop scan");
 			}
 		}
+		
+		mLocalBroadcastManager.unregisterReceiver(receiver);
 	}
+	
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+
+	@Override
+	public void onReceive(Context context, Intent intent) {
+	    // TODO Auto-generated method stub
+	    String action = intent.getAction();
+	    if(action.equals(IpcProxy.ACTION_RESOLUTION_CHANGED)) {
+		if(videoSetting != null) {
+		    videoSetting.refreshResolutionConfig();
+		}
+	    }
+	    else if(action.equals(IpcProxy.ACTION_DECODEMODE_CHANGED)) {
+		if(videoSetting != null) {
+		    videoSetting.refreshDecodeConfig();
+		}
+	    }
+	    else if(action.equals(IpcProxy.ACTION_BITRATE_CHANGED)) {
+		
+	    }
+	}
+	
+    };
 }

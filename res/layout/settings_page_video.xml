@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical" >
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="80dip"
+        android:layout_height="1dp"
+        android:layout_alignLeft="@id/view1"
+        android:layout_alignParentTop="false"
+        android:layout_centerHorizontal="true" />
+
+    <RadioGroup
+        android:id="@+id/preview_codec_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/view1"
+        android:layout_below="@id/view1"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/codec_mode_auto"
+            android:layout_width="@dimen/settings_section_video_item_width"
+            android:layout_height="@dimen/settings_section_video_item_height"
+            android:background="@drawable/section_left"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:paddingBottom="1dp"
+            android:paddingTop="1dp"
+            android:shadowColor="#FF000000"
+            android:shadowDy="-0.5"
+            android:shadowRadius="1"
+            android:text="@string/set_video_decode_encode_auto"
+            android:textColor="#FFFFFFFF"
+            android:textSize="@dimen/settings_section_check_text_size" />
+
+        <RadioButton
+            android:id="@+id/codec_mode_software"
+            android:layout_width="@dimen/settings_section_video_item_width"
+            android:layout_height="@dimen/settings_section_video_item_height"
+            android:background="@drawable/section_center"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:paddingBottom="1dp"
+            android:paddingTop="1dp"
+            android:shadowColor="#FF000000"
+            android:shadowDy="-0.5"
+            android:shadowRadius="1"
+            android:text="@string/set_video_decode_encode_software"
+            android:textColor="#FFFFFFFF"
+            android:textSize="@dimen/settings_section_check_text_size" />
+
+        <RadioButton
+            android:id="@+id/codec_mode_hardware"
+            android:layout_width="@dimen/settings_section_video_item_width"
+            android:layout_height="@dimen/settings_section_video_item_height"
+            android:background="@drawable/section_right"
+            android:button="@null"
+            android:checked="false"
+            android:gravity="center"
+            android:paddingBottom="1dp"
+            android:paddingTop="1dp"
+            android:shadowColor="#FF000000"
+            android:shadowDy="-0.5"
+            android:shadowRadius="1"
+            android:text="@string/set_video_decode_encode_hardware"
+            android:textColor="#FFFFFFFF"
+            android:textSize="@dimen/settings_section_check_text_size" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/preview_codec_mode"
+        android:layout_alignTop="@id/preview_codec_mode"
+        android:layout_marginRight="@dimen/settings_hor_gap"
+        android:layout_toLeftOf="@id/preview_codec_mode"
+        android:textColor="@color/white"
+        android:text="@string/set_video_decode_mode" />
+
+    <RadioGroup
+        android:id="@+id/preview_resolution"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/preview_codec_mode"
+        android:layout_below="@id/preview_codec_mode"
+        android:layout_marginTop="@dimen/settings_vertical_gap"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/preview_resolution720P"
+            android:layout_width="@dimen/settings_section_video_item_width"
+            android:layout_height="@dimen/settings_section_video_item_height"
+            android:background="@drawable/section_left"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:paddingBottom="1dp"
+            android:paddingTop="1dp"
+            android:shadowColor="#FF000000"
+            android:shadowDy="-0.5"
+            android:shadowRadius="1"
+            android:text="@string/set_video_preview_resolution720P"
+            android:textColor="#FFFFFFFF"
+            android:textSize="@dimen/settings_section_check_text_size" />
+
+        <RadioButton
+            android:id="@+id/preview_resolution576P"
+            android:layout_width="@dimen/settings_section_video_item_width"
+            android:layout_height="@dimen/settings_section_video_item_height"
+            android:background="@drawable/section_center"
+            android:button="@null"
+            android:checked="false"
+            android:gravity="center"
+            android:paddingBottom="1dp"
+            android:paddingTop="1dp"
+            android:shadowColor="#FF000000"
+            android:shadowDy="-0.5"
+            android:shadowRadius="1"
+            android:text="@string/set_video_preview_resolution576P"
+            android:textColor="#FFFFFFFF"
+            android:textSize="@dimen/settings_section_check_text_size" 
+            android:visibility="gone"/>
+
+        <RadioButton
+            android:id="@+id/preview_resolution540P"
+            android:layout_width="@dimen/settings_section_video_item_width"
+            android:layout_height="@dimen/settings_section_video_item_height"
+            android:background="@drawable/section_center"
+            android:button="@null"
+            android:checked="false"
+            android:gravity="center"
+            android:paddingBottom="1dp"
+            android:paddingTop="1dp"
+            android:shadowColor="#FF000000"
+            android:shadowDy="-0.5"
+            android:shadowRadius="1"
+            android:text="@string/set_video_preview_resolution540P"
+            android:textColor="#FFFFFFFF"
+            android:textSize="@dimen/settings_section_check_text_size" />
+
+        <RadioButton
+            android:id="@+id/preview_resolution360P"
+            android:layout_width="@dimen/settings_section_video_item_width"
+            android:layout_height="@dimen/settings_section_video_item_height"
+            android:background="@drawable/section_right"
+            android:button="@null"
+            android:checked="false"
+            android:gravity="center"
+            android:paddingBottom="1dp"
+            android:paddingTop="1dp"
+            android:shadowColor="#FF000000"
+            android:shadowDy="-0.5"
+            android:shadowRadius="1"
+            android:text="@string/set_video_preview_resolution360P"
+            android:textColor="#FFFFFFFF"
+            android:textSize="@dimen/settings_section_check_text_size" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/preview_bitrate_control"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/preview_resolution"
+        android:layout_below="@id/preview_resolution"
+        android:layout_marginTop="@dimen/settings_vertical_gap"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/preview_bitrate_fps"
+            android:layout_width="@dimen/settings_section_video_item_width"
+            android:layout_height="@dimen/settings_section_video_item_height"
+            android:background="@drawable/section_left"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:paddingBottom="1dp"
+            android:paddingTop="1dp"
+            android:shadowColor="#FF000000"
+            android:shadowDy="-0.5"
+            android:shadowRadius="1"
+            android:text="@string/set_video_preview_bitrate_fps"
+            android:textColor="#FFFFFFFF"
+            android:textSize="@dimen/settings_section_check_text_size" />
+
+        <RadioButton
+            android:id="@+id/preview_bitrate_quality"
+            android:layout_width="@dimen/settings_section_video_item_width"
+            android:layout_height="@dimen/settings_section_video_item_height"
+            android:background="@drawable/section_right"
+            android:button="@null"
+            android:checked="false"
+            android:gravity="center"
+            android:paddingBottom="1dp"
+            android:paddingTop="1dp"
+            android:shadowColor="#FF000000"
+            android:shadowDy="-0.5"
+            android:shadowRadius="1"
+            android:text="@string/set_video_preview_bitrate_quality"
+            android:textColor="#FFFFFFFF"
+            android:textSize="@dimen/settings_section_check_text_size" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/media_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/preview_resolution"
+        android:layout_alignRight="@+id/textView2"
+        android:layout_alignTop="@+id/preview_resolution"
+        android:textColor="@color/white"
+        android:text="@string/set_video_preview_resolution" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/preview_bitrate_control"
+        android:layout_alignRight="@+id/media_name"
+        android:layout_alignTop="@+id/preview_bitrate_control"
+        android:textColor="@color/white"
+        android:text="@string/set_video_preview_bitrate" />
+
+    <CheckBox
+        android:id="@+id/check_remote_store"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/preview_bitrate_control"
+        android:layout_below="@+id/preview_bitrate_control"
+        android:layout_marginTop="@dimen/settings_vertical_gap" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/check_remote_store"
+        android:layout_alignRight="@+id/textView3"
+        android:layout_alignTop="@+id/check_remote_store"
+        android:textColor="@color/white"
+        android:text="@string/set_store_in_remote" />
+
+    <ImageView
+        android:id="@+id/debug_switch"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignTop="@+id/textView2"
+        android:layout_toLeftOf="@+id/textView2"
+        android:src="@null" />
+
+</RelativeLayout>

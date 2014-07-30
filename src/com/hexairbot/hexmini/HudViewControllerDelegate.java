@@ -3,9 +3,10 @@
  */
 package com.hexairbot.hexmini;
 
+import com.hexairbot.hexmini.ui.Button;
+
 import android.view.View;
 
-import com.hexairbot.hexmini.ui.Button;
 
 /**
  * @author koupoo

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.hexairbot.hexmini"
-    android:versionCode="3"
-    android:versionName="1.0.6" >
+    android:versionCode="1"
+    android:versionName="1.0.0" >
 
     <uses-sdk
         android:minSdkVersion="18"
-        android:targetSdkVersion="18" />
+        android:targetSdkVersion="19" />
     <uses-feature android:required="true" android:glEsVersion="0x00020000"/>
 
         <!-- Declare this required feature if you want to make the app available to BLE-capable
@@ -15,16 +15,39 @@
     PackageManager.hasSystemFeature(FEATURE_BLUETOOTH_LE) -->
     <uses-feature android:name="android.hardware.bluetooth_le" android:required="true"/>
 
+    <uses-feature
+        android:name="android.hardware.faketouch.multitouch.distinct"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.multitouch.distinct"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.wifi"
+        android:required="true" />
+    
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
+    
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" ></uses-permission> 
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" ></uses-permission> 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" ></uses-permission> 
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" ></uses-permission>
+    
     
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" android:name=".HexMiniApplication">
+        android:theme="@style/AppTheme" android:name="com.hexairbot.hexmini.HexMiniApplication">
         <activity
-            android:name=".HudActivity"
+            android:name="com.hexairbot.hexmini.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" 
@@ -34,9 +57,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name="com.hexairbot.hexmini.ble.BluetoothLeService" android:enabled="true"/>
-        <service android:name=".services.IpcControlService"></service>
-        <activity android:name=".HelpActivity" android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity> 
+        <service android:name="com.hexairbot.hexmini.ble.BluetoothLeServiceervice" android:enabled="true"></service>
+        <service android:name="com.vmc.ipc.service.IpcControlService"></service>
+        <service android:name="com.vmc.ipc.service.ApConnectService"></service>
+        <activity android:name="com.hexairbot.hexmini.HudActivity" android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity> 
+        <activity android:name="com.hexairbot.hexmini.HelpActivity" android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+        <activity android:name="com.hexairbot.hexmini.ipc.activity.GalleryActivity" android:screenOrientation="landscape"></activity>  
     </application>
 
 </manifest>

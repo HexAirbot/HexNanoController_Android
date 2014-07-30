@@ -118,6 +118,20 @@ public class UIRenderer implements Renderer {
 	public void onDrawFrame(GL10 gl) 
 	{
 	    // Limiting framerate in order to save some CPU time
+		
+     //   GLES20.glClearColor( 0.0f,  0.0f,  0.0f,  0.0f); 
+        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT); 
+        /*
+        GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT);       
+        GLES20.glEnable(GLES20.GL_BLEND);  
+        GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);  
+        GLES20. glColor4f(1.0, 0.0, 0.0, 0.3);  
+        GLES20.glRectf(100, 100,200, 200);       
+        GLES20. glColor4f(0.0, 1.0, 0.0, 0.3);  
+        GLES20.glRectf(150, 150, 250, 250);  
+        GLES20.glDisable(GLES20.GL_BLEND);  
+        GLES20.glFlush();  
+		*/
 	    endTime = System.currentTimeMillis();
 	    long dt = endTime - startTime;
 

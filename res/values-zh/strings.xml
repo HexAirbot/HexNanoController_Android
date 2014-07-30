@@ -4,6 +4,7 @@
     <string name="app_name">Flexbot</string>
     <string name="settings_title_connection">连接FLEXBOT</string>
     <string name="settings_title_personal">个人设置</string>
+    <string name="settings_title_video">视频设置</string>
     <string name="settings_title_angel_trim">飞行角度修正</string>
     <string name="settings_title_mode">模式设置</string>
     <string name="settings_title_about">关于Flexbot</string>
@@ -21,7 +22,6 @@
     <string name="settings_item_interface_opacity">界面透明度</string>
     <string name="settings_item_acc_mode">加速计控制模式</string>
     <string name="settings_item_headfree_mode">无头模式</string>
-    <string name="settings_item_yaw_channel">Yaw通道</string>
     <string name="settings_item_beginner_mode">新手模式</string>
     <string name="settings_item_take_off_throttle">起飞油门</string>
     <string name="settings_item_aileron_and_elevator_dead_band">Aileron/Elevator操作无效区</string>

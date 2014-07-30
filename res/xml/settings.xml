@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory
+            android:title="@string/set_video_setting">
+
+        <ListPreference
+                android:key="decode_mode"
+                android:title="@string/set_video_decode_mode"
+                android:entries="@array/entries_array_decode_mode"
+                android:entryValues="@array/entryvalue_array_decode_mode"
+                android:dialogTitle="@string/set_video_decode_mode"
+                android:defaultValue="0"/>
+        
+        <ListPreference
+                android:key="record_resolution"
+                android:title="@string/set_video_preview_resolution"
+                android:entries="@array/entries_array_recode_resolution"
+                android:entryValues="@array/entryvalue_array_recode_resolution"
+                android:dialogTitle="@string/set_video_preview_resolution" />
+
+    </PreferenceCategory>
+</PreferenceScreen>
