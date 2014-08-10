@@ -130,7 +130,7 @@ public class BluetoothLeService extends Service {
                 // Attempts to discover services after successful connection.
                 Log.i(TAG, "Attempting to start service discovery:" +
                 		mBluetoothGatt.discoverServices());
-            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {  //当蓝牙模块断电，也会发送此广播
+            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) { 
                 intentAction = ACTION_GATT_DISCONNECTED;
                 //mBluetoothGatt.close();
                 //mBluetoothGatt = null;
@@ -157,16 +157,21 @@ public class BluetoothLeService extends Service {
         public void onCharacteristicRead(BluetoothGatt gatt,
                                          BluetoothGattCharacteristic characteristic,
                                          int status) {
+            Log.e(TAG, "onCharacteristicRead");
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
+                Log.d(TAG, "onCharacteristicRead SUCCESS");
+            } else {
+                Log.e(TAG, "onCharacteristicRead FAILED");
             }
+            
         }
 
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt,
                                             BluetoothGattCharacteristic characteristic) {
             broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
-            //Log.e(TAG, "OnCharacteristicWrite");
+            Log.e(TAG, "onCharacteristicChanged");
         }
         
         @Override
@@ -174,7 +179,7 @@ public class BluetoothLeService extends Service {
         								int status)
         {
         	if (status == BluetoothGatt.GATT_SUCCESS) {
-        		Log.e(TAG, "OnCharacteristicWrite SUCCESS");
+        		Log.d(TAG, "OnCharacteristicWrite SUCCESS");
 			}
         	else{
         		Log.e(TAG, "OnCharacteristicWrite FAILED");
