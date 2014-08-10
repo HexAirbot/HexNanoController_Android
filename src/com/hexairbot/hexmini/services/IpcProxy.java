@@ -12,7 +12,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.hexairbot.hexmini.services.ConnectStateManager;
 import com.hexairbot.hexmini.util.DebugHandler;
 
 public class IpcProxy {

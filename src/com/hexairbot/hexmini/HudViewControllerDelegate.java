@@ -5,8 +5,6 @@ package com.hexairbot.hexmini;
 
 import android.view.View;
 
-import com.hexairbot.hexmini.ui.Button;
-
 /**
  * @author koupoo
  *

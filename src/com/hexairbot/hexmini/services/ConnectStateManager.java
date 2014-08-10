@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.hexairbot.hexmini.services.IpcProxy;
 import com.hexairbot.hexmini.util.DebugHandler;
 
 public class ConnectStateManager {

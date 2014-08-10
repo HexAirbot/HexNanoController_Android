@@ -1,6 +1,5 @@
 package com.hexairbot.hexmini;
 
-import com.hexairbot.hexmini.SettingsDialog;
 
 public interface SettingsDialogDelegate
 {

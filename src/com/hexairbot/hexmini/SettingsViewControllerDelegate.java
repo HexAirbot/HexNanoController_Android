@@ -3,7 +3,6 @@
  */
 package com.hexairbot.hexmini;
 
-import android.provider.MediaStore.Video;
 
 /**
  * @author koupoo

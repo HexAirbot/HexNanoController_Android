@@ -8,9 +8,9 @@
 package com.hexairbot.hexmini.ui.joystick;
 
 
-import com.hexairbot.hexmini.ui.Sprite.Align;
-
 import android.content.Context;
+
+import com.hexairbot.hexmini.ui.Sprite.Align;
 
 
 public class JoystickFactory 
