@@ -7,11 +7,9 @@
 
 package com.hexairbot.hexmini.ui.joystick;
 
-import com.hexairbot.hexmini.R;
-import com.hexairbot.hexmini.ui.Sprite;
-import com.hexairbot.hexmini.ui.Sprite.Align;
-
 import android.content.Context;
+
+import com.hexairbot.hexmini.R;
 
 
 public class AnalogueJoystick 

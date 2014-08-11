@@ -6,11 +6,8 @@ package com.hexairbot.hexmini;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hexairbot.hexmini.ui.control.ViewPagerIndicator;
-
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
@@ -21,7 +18,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
+
+import com.hexairbot.hexmini.ui.control.ViewPagerIndicator;
 
 /**
  * @author koupoo

@@ -12,7 +12,6 @@ import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.hexairbot.hexmini.services.IpcProxy;
 import com.hexairbot.hexmini.util.DebugHandler;
 
 public class IpcControlService extends Service {

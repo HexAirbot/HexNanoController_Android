@@ -1,6 +1,5 @@
 package com.hexairbot.hexmini;
 
-import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -9,11 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.wifi.WifiManager;
 import android.opengl.GLSurfaceView;
 import android.os.BatteryManager;
 import android.support.v4.content.LocalBroadcastManager;
@@ -26,7 +21,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.widget.LinearLayout;
 
 import com.hexairbot.hexmini.HexMiniApplication.AppStage;
 import com.hexairbot.hexmini.ble.BleConnectinManager;
@@ -39,14 +33,14 @@ import com.hexairbot.hexmini.sensors.DeviceOrientationChangeDelegate;
 import com.hexairbot.hexmini.sensors.DeviceOrientationManager;
 import com.hexairbot.hexmini.sensors.DeviceSensorManagerWrapper;
 import com.hexairbot.hexmini.ui.Button;
-import com.hexairbot.hexmini.ui.ToggleButton;
 import com.hexairbot.hexmini.ui.Image;
+import com.hexairbot.hexmini.ui.Image.SizeParams;
 import com.hexairbot.hexmini.ui.Indicator;
 import com.hexairbot.hexmini.ui.Sprite;
-import com.hexairbot.hexmini.ui.Text;
-import com.hexairbot.hexmini.ui.UIRenderer;
-import com.hexairbot.hexmini.ui.Image.SizeParams;
 import com.hexairbot.hexmini.ui.Sprite.Align;
+import com.hexairbot.hexmini.ui.Text;
+import com.hexairbot.hexmini.ui.ToggleButton;
+import com.hexairbot.hexmini.ui.UIRenderer;
 import com.hexairbot.hexmini.ui.joystick.AcceleratorJoystick;
 import com.hexairbot.hexmini.ui.joystick.AnalogueJoystick;
 import com.hexairbot.hexmini.ui.joystick.JoystickBase;
@@ -54,11 +48,6 @@ import com.hexairbot.hexmini.ui.joystick.JoystickFactory;
 import com.hexairbot.hexmini.ui.joystick.JoystickFactory.JoystickType;
 import com.hexairbot.hexmini.ui.joystick.JoystickListener;
 import com.hexairbot.hexmini.util.FontUtils;
-import com.hexairbot.hexmini.R;
-import com.hexairbot.hexmini.services.IpcProxy;
-import com.hexairbot.hexmini.services.IpcControlService;
-import com.hexairbot.hexmini.util.DebugHandler;
-import com.hexairbot.hexmini.util.SystemUtil;
 
 
 public class HudViewController extends ViewController

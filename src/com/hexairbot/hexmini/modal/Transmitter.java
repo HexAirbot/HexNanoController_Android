@@ -3,10 +3,7 @@ package com.hexairbot.hexmini.modal;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import android.R.integer;
 import android.os.Handler;
-import android.text.StaticLayout;
-import android.util.Log;
 
 import com.hexairbot.hexmini.ble.BleConnectinManager;
 

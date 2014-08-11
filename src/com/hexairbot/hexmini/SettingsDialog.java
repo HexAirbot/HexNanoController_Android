@@ -1,27 +1,18 @@
 
 package com.hexairbot.hexmini;
 
-import com.hexairbot.hexmini.HexMiniApplication.AppStage;
-import com.hexairbot.hexmini.modal.ApplicationSettings;
-import com.hexairbot.hexmini.modal.Transmitter;
-
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
-import android.content.IntentFilter;
-import android.net.wifi.WifiManager;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 //import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.hexairbot.hexmini.HexMiniApplication.AppStage;
 
 
 @SuppressLint("ValidFragment")

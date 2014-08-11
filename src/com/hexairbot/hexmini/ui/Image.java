@@ -2,8 +2,6 @@ package com.hexairbot.hexmini.ui;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import com.hexairbot.hexmini.ui.gl.GLSprite;
-import com.hexairbot.hexmini.util.TextureUtils;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,6 +9,9 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.hexairbot.hexmini.ui.gl.GLSprite;
+import com.hexairbot.hexmini.util.TextureUtils;
 
 
 public class Image extends Sprite 

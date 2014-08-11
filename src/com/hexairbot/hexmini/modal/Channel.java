@@ -1,9 +1,7 @@
 package com.hexairbot.hexmini.modal;
 
-import android.R.integer;
-
-import com.dd.plist.NSDictionary;
 import com.dd.plist.NSArray;
+import com.dd.plist.NSDictionary;
 import com.dd.plist.NSNumber;
 import com.dd.plist.NSString;
 
