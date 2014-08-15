@@ -14,20 +14,46 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
+@SuppressLint("HandlerLeak")
 public class FeedbackActivity extends Activity {
 
 	private Button save_feedback = null;
 	private EditText feedback	 = null;
 	private String content		 = null;
+	private static int POST_SUCCESS	 = 1;
+	private static int POST_FAIL	 = 2;
+	private ImageButton imagebtn = null;
+	private Handler myHandler = new Handler(){
+
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			new AlertDialog.Builder(FeedbackActivity.this).
+			setTitle("kindly reminder!").setMessage(msg.what==1 ? "success" :" fail ").
+			setPositiveButton("sure", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					FeedbackActivity.this.finish();
+				}
+			}).
+			show();
+		}
+	};
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +62,18 @@ public class FeedbackActivity extends Activity {
 		
 		save_feedback = (Button)findViewById(R.id.feedbackSave);
 		feedback	  = (EditText)findViewById(R.id.feedbackText);
-		
 		save_feedback.setOnClickListener(new SaveBtnLinstener());
+		imagebtn	  = (ImageButton)findViewById(R.id.imageBtn);
+		imagebtn.setOnClickListener(new ImagebtnLinstener());
+	}
+	
+	class ImagebtnLinstener implements OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			FeedbackActivity.this.finish();
+		}
+		
 	}
 	
 	class SaveBtnLinstener implements OnClickListener {
@@ -45,12 +81,21 @@ public class FeedbackActivity extends Activity {
 		@Override
 		public void onClick(View v) {
 			content	= feedback.getText().toString();
-//			feedback.setText(content + "111");
+			if(content==null || "".equals(content.trim())){
+				Toast.makeText(FeedbackActivity.this, "please input something", Toast.LENGTH_LONG).show();
+				return;
+			}
 			new Thread(){
 
 				@Override
 				public void run() {
-					getReultForHttpPost1(content);
+					String response =  getReultForHttpPost1(content);
+
+					if ("success".equals(response)) {
+						FeedbackActivity.this.myHandler.sendEmptyMessage(POST_SUCCESS);
+					}else{
+						FeedbackActivity.this.myHandler.sendEmptyMessage(POST_FAIL);
+					}
 					super.run();
 				}
 				
@@ -63,30 +108,31 @@ public class FeedbackActivity extends Activity {
 		try {
 			String strResult = null;
 			String httpUrl = "http://192.168.0.106/wordpress/wp-feedback.php";
-			// HttpPost连接对象
+			
 			HttpPost httpRequest = new HttpPost(httpUrl);
-			// 使用NameValuePair来保存要传递的Post参数
+			
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
-			// 添加要传递的参数
+			
 			params.add(new BasicNameValuePair("content", content));
-			// 设置字符集
+			
 			HttpEntity httpentity = new UrlEncodedFormEntity(params, "utf-8");
-			// 请求httpRequest
+			
 			httpRequest.setEntity(httpentity);
-			// 取得默认的HttpClient
+			
 			HttpClient httpclient = new DefaultHttpClient();
-			// 取得HttpResponse
+			
 		
 			HttpResponse httpResponse = httpclient.execute(httpRequest);
-			// HttpStatus.SC_OK表示连接成功
+			
 			if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-				// 取得返回的字符串;
+				
 				strResult = EntityUtils.toString(httpResponse.getEntity());
 			}
 			return strResult;
+			
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+			return "error";
 		}
 			
 	}

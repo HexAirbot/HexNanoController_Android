@@ -4,17 +4,44 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_margin="10dp"
-    tools:context="xxx.httpreq.FeedbackActivity" >
+    tools:context="com.hexairbot.hexmini.FeedbackActivity" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#000000"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/imageBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:src="@drawable/btn_trim_left_hl" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="Flexbot" />
+
+        <Button
+            android:id="@+id/feedbackSave"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:text="@string/send_feedback" />
+
+    </LinearLayout>
 
     <EditText android:id="@+id/feedbackText" 
 	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
+	    android:layout_height="100dp"
         android:inputType="textLongMessage">
         
 		<requestFocus />
 	</EditText>
-	<Button android:id="@+id/feedbackSave"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/save_feedback" />
 </LinearLayout>
