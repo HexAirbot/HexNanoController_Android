@@ -42,9 +42,12 @@ public class FeedbackActivity extends Activity {
 		@Override
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
+			
 			new AlertDialog.Builder(FeedbackActivity.this).
-			setTitle("kindly reminder!").setMessage(msg.what==1 ? "success" :" fail ").
-			setPositiveButton("sure", new DialogInterface.OnClickListener() {
+			setTitle(R.string.kindly_reminder).
+			setMessage(msg.what==1 ? getResources().getString(R.string.send_success) : 
+						getResources().getString(R.string.send_fail)).
+			setPositiveButton(R.string.sure_msg, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.dismiss();
@@ -82,7 +85,7 @@ public class FeedbackActivity extends Activity {
 		public void onClick(View v) {
 			content	= feedback.getText().toString();
 			if(content==null || "".equals(content.trim())){
-				Toast.makeText(FeedbackActivity.this, "please input something", Toast.LENGTH_LONG).show();
+				Toast.makeText(FeedbackActivity.this, R.string.missing_input, Toast.LENGTH_LONG).show();
 				return;
 			}
 			new Thread(){
@@ -107,7 +110,7 @@ public class FeedbackActivity extends Activity {
 	public static String getReultForHttpPost1(String content) {
 		try {
 			String strResult = null;
-			String httpUrl = "http://192.168.0.106/wordpress/wp-feedback.php";
+			String httpUrl = Const.user_feedback_url;
 			
 			HttpPost httpRequest = new HttpPost(httpUrl);
 			

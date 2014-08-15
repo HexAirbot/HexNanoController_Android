@@ -8,8 +8,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#000000"
+        android:layout_height="50dp"
+        android:background="@drawable/text_show_bar"
         android:gravity="center"
         android:orientation="horizontal" >
 
@@ -17,30 +17,30 @@
             android:id="@+id/imageBtn"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:src="@drawable/btn_trim_left_hl" />
+            android:layout_weight="0.60"
+            android:background="#00000000"
+            android:src="@drawable/btn_back_feedback" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_weight="2"
+            android:layout_weight="1.53"
             android:gravity="center"
-            android:text="Flexbot" />
+            android:text="@string/btn_title_feedback" />
 
         <Button
             android:id="@+id/feedbackSave"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_gravity="center_vertical"
-            android:layout_weight="1"
+            android:layout_weight="0.37"
             android:text="@string/send_feedback" />
 
     </LinearLayout>
 
     <EditText android:id="@+id/feedbackText" 
 	    android:layout_width="fill_parent"
-	    android:layout_height="100dp"
-        android:inputType="textLongMessage">
+	    android:layout_height="wrap_content">
         
 		<requestFocus />
 	</EditText>
