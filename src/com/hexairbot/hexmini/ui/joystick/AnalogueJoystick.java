@@ -26,13 +26,13 @@ public class AnalogueJoystick
 	@Override
 	protected int getBackgroundDrawableId() 
 	{
-		return R.drawable.joystick_bg;
+		return R.drawable.joystick_bg_new;
 	}
 
 	
 	@Override
 	protected int getTumbDrawableId() 
 	{
-		return R.drawable.joystick_rudder_throttle;
+		return R.drawable.joystick_rudder_throttle_new;
 	}
 }

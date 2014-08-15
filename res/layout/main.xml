@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_bg1"
+    tools:context=".activity.MainActivity" >
+
+	<com.hexairbot.hexmini.ipc.view.MainExActivityLayout
+	    android:id="@+id/main_layout"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent" />
+	
+</RelativeLayout>
