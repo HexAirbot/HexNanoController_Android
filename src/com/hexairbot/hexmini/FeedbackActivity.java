@@ -62,7 +62,7 @@ public class FeedbackActivity extends Activity {
 	public static String getReultForHttpPost1(String content) {
 		try {
 			String strResult = null;
-			String httpUrl = "http://192.168.0.102/wordpress/wp-feedback.php";
+			String httpUrl = "http://192.168.0.106/wordpress/wp-feedback.php";
 			// HttpPost连接对象
 			HttpPost httpRequest = new HttpPost(httpUrl);
 			// 使用NameValuePair来保存要传递的Post参数

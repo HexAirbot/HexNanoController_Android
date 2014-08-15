@@ -612,9 +612,11 @@ public class SettingsViewController extends ViewController
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
 				intent.setClass(SettingsViewController.this.getContext(), FeedbackActivity.class);
+				SettingsViewController.this.getContext().startActivity(intent);
 			}
     		
     	});
+    	
     	
         isLeftHandedCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(
         		) {
