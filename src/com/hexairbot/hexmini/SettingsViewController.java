@@ -110,6 +110,8 @@ public class SettingsViewController extends ViewController
     
     private Button backBtn;
     
+    private Button feedbackBtn;
+    
     private Button defaultSettingsBtn;
     private Button accCalibrateBtn;
     private Button magCalibrateBtn;
@@ -189,6 +191,8 @@ public class SettingsViewController extends ViewController
         nextBtn = (ImageButton)container.findViewById(R.id.nextBtn);
         nextBtn.setOnClickListener(this);
         
+        feedbackBtn = (Button)container.findViewById(R.id.feedbackBtn);
+        
         defaultSettingsBtn = (Button)container.findViewById(R.id.defaultSettingsBtn);
         accCalibrateBtn = (Button)container.findViewById(R.id.accCalibrateBtn);
         magCalibrateBtn = (Button)container.findViewById(R.id.magCalibrateBtn);
@@ -228,7 +232,7 @@ public class SettingsViewController extends ViewController
         final int angelTrimPageIdx  = 3;
         final int modePageIdx       = 4;
         final int aboutPageIdx      = 5;
-      
+        								
         scanBtn = (Button)settingsViews.get(connectionPageIdx).findViewById(R.id.scanBtn);
         bleDeviceListView = (ListView)settingsViews.get(connectionPageIdx).findViewById(R.id.bleDeviceListView);
         connectionStateTextView = (TextView)settingsViews.get(connectionPageIdx).findViewById(R.id.connectionStateTextView);
@@ -600,6 +604,17 @@ public class SettingsViewController extends ViewController
 				}).setNegativeButton(R.string.dialog_btn_no, null).show();	
 			}
 		});
+    	
+    	feedbackBtn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent();
+				intent.setClass(SettingsViewController.this.getContext(), FeedbackActivity.class);
+			}
+    		
+    	});
     	
         isLeftHandedCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(
         		) {

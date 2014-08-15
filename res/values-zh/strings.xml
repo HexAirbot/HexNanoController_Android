@@ -54,4 +54,8 @@
 
 	<string name="btn_close">关闭</string>
 	<string name="unknown">未知</string>
+	
+	<string name="btn_title_feedback">反馈意见</string>
+	<string name="save_feedback">发送</string>
+	
 </resources>

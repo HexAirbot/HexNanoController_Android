@@ -105,10 +105,75 @@ public class MainExActivity extends FragmentActivity implements OnIpcConnectChan
 	
 		showSystemInfo();
 		
+		/*
+		// ----------just for debug
+		connectState = (TextView) this.findViewById(R.id.connect_state);
+		View serverSelect = this.findViewById(R.id.server_select);
+		if (DebugHandler.showServerSelect) {
+		    connectState.setVisibility(View.VISIBLE);
+		    serverSelect.setVisibility(View.VISIBLE);
+		    ssid = (TextView) this.findViewById(R.id.ssid);
+		    refreshWifiInfo();
+		    Spinner s1 = (Spinner) findViewById(R.id.spinner1);
+		    final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+			    android.R.layout.simple_expandable_list_item_1);
+		    adapter.add("请�?择服务器:");
+		    adapter.add("rtmp://192.168.1.1/live/stream");
+		    adapter.add("rtmp://10.0.14.153/live/stream");
+		    adapter.add("rtmp://10.0.12.191/live/stream");
+		    s1.setAdapter(adapter);
+		    s1.setOnItemSelectedListener(new OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+				int position, long id) {
+			    Log.d(TAG, "Spinner1: position=" + position + " id=" + id);
+			    if (id > 0)
+				connectIPC(adapter.getItem(position));
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+			    // showToast("Spinner1: unselected");
+			}
+		    });
+		} else {
+		    serverSelect.setVisibility(View.GONE);
+		}
+		// //////////
+		*/
+		
+		valiateConnectState();
+		
 		hudVC = new HudExViewController(this, this);	
 		hudVC.onCreate();
     }
 
+    private void connectIPC(String address) {
+    	ConnectStateManager mConnectStateManager = ConnectStateManager
+    		.getInstance(this.getApplication());
+    	mConnectStateManager.connect(address);
+    }
+    
+    private void valiateConnectState() {
+		boolean wifiEnabled = checkWifiEnable();
+		if (!wifiEnabled)
+		    return;
+		String reason = null;
+		if (controlService == null) {
+		    reason = "can not control your device,because controlService is null.";
+		} else {
+		    int state = controlService.getConnectStateManager().getState();
+		    if (state == ConnectStateManager.CONNECTING
+			    || state == ConnectStateManager.DISCONNECTED) {
+			reason = "your phone was not connect to the device.";
+		    }
+		}
+		if (reason != null) {
+		    DebugHandler.logWithToast(this, reason, 2000);
+		    return;
+		}		
+    }
+    
     private boolean checkWifiEnable() {
 		WifiManager wifiManager = (WifiManager) this
 			.getSystemService(Context.WIFI_SERVICE);
@@ -248,7 +313,22 @@ public class MainExActivity extends FragmentActivity implements OnIpcConnectChan
     }
 
     private void startWebHomeActivity() {
-
+//    	Intent intent = new Intent();
+//    	intent.setClass(MainActivity.this, WebHomeActivity.class);
+//    	this.startActivity(intent);
+    	
+    	String url;
+    	int state = ConnectStateManager.getInstance(getApplication())
+    		.getState();
+    	if (state == ConnectStateManager.CONNECTING
+    		|| state == ConnectStateManager.DISCONNECTED) {
+    	    url = "http://www.vimicro.com.cn";
+    	} else {
+    	    url = "http://192.168.1.1";
+    	}
+    	Uri u = Uri.parse(url);
+    	Intent it = new Intent(Intent.ACTION_VIEW, u); 
+    	this.startActivity(it);
     }
 
     private void startControllerActiviy() {

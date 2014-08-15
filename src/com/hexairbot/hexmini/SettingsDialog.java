@@ -64,7 +64,7 @@ public class SettingsDialog extends DialogFragment
     			Log.d(TAG, "this.context == getActivity()");
     		}
             
-        settingsVC = new SettingsViewController(this.context, inflater, v, (SettingsViewControllerDelegate)(((HudActivity) delegate).getViewController()));
+        settingsVC = new SettingsViewController(this.context, inflater, v, (SettingsViewControllerDelegate)(((MainExActivity) delegate).getViewController()));
             
         initListeners();
         

@@ -54,4 +54,6 @@
 
 	<string name="btn_close">CLOSE</string>
 	<string name="unknown">Unknown</string>
+	<string name="btn_title_feedback">Feedback</string>
+	<string name="save_feedback">Send</string>
 </resources>
