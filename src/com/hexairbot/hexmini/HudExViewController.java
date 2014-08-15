@@ -295,7 +295,14 @@ public class HudExViewController extends ViewController
 		
 		recordBtn = new Button(res, R.drawable.btn_record_video_normal, R.drawable.btn_record_video_press, Align.TOP_LEFT);
 		recordBtn.setMargin((int)res.getDimension(R.dimen.main_btn_record_margin_top), 0, 0, (int)res.getDimension(R.dimen.main_btn_record_margin_left));     
-				
+		
+		int recordingIndicatorRes[] = {R.drawable.btn_record_video_press, 
+				R.drawable.recording_status};
+		recordingIndicator = new AnimationIndicator(res, recordingIndicatorRes, Align.TOP_LEFT);		
+		recordingIndicator.setMargin((int)res.getDimension(R.dimen.main_btn_record_margin_top), 0, 0, (int)res.getDimension(R.dimen.main_btn_record_margin_left));		
+		recordingIndicator.setAlphaEnabled(true);
+		recordingIndicator.setVisible(false);
+		
 		takeOffBtn = new Button(res, R.drawable.btn_unlock_normal, R.drawable.btn_unlock_press, Align.BOTTOM_CENTER);		
 		takeOffBtn.setAlphaEnabled(true);
 		
@@ -341,6 +348,7 @@ public class HudExViewController extends ViewController
 		};
 		bleIndicator = new Indicator(res, bleIndicatorRes, Align.TOP_RIGHT);
 		bleIndicator.setMargin((int)res.getDimension(R.dimen.main_ble_margin_top), (int)res.getDimension(R.dimen.main_ble_margin_right), 0, 0);
+		bleIndicator.setValue(1);
 		
 		int deviceBatteryIndicatorRes[] = {
 				R.drawable.device_battery_0,
@@ -351,13 +359,6 @@ public class HudExViewController extends ViewController
 
 		deviceBatteryIndicator = new Indicator(res, deviceBatteryIndicatorRes, Align.TOP_RIGHT);
 		deviceBatteryIndicator.setMargin((int)res.getDimension(R.dimen.main_device_battery_margin_top), (int)res.getDimension(R.dimen.main_device_battery_margin_right), 0, 0);
-		
-		int recordingIndicatorRes[] = {R.drawable.btn_record2, 
-				R.drawable.btn_record1_pressed};
-		recordingIndicator = new AnimationIndicator(res, recordingIndicatorRes, Align.TOP_RIGHT);
-		recordingIndicator.setMargin((int)res.getDimension(R.dimen.hud_recording_idicator_margin_top), (int)res.getDimension(R.dimen.hud_recording_idicator_margin_right), 0, 0);
-		recordingIndicator.setAlphaEnabled(true);
-		recordingIndicator.setVisible(false);
 		
 		buttons = new Button[8];
 		buttons[0] = settingsBtn;
@@ -781,19 +782,19 @@ public class HudExViewController extends ViewController
 					protected Void doInBackground(Void... params) {
 					    // TODO Auto-generated method stub
 					    if (!VmcConfig.getInstance().isStoreRemote()) {
-						String dirPath = Environment
-							.getExternalStorageDirectory()
-							.getAbsolutePath()
-							+ MediaUtil.IPC_VIDEO_DIR;
-						String filePath = System.currentTimeMillis()
-							+ ".mp4";
-						mCustomOnRecordCompleteListener.setPath(dirPath
-							+ filePath);
-						ipcProxy.addOnRecordCompleteListener(mCustomOnRecordCompleteListener);
-						ipcProxy.doStartRecord(dirPath, null, filePath,
-							false);
+							String dirPath = Environment
+								.getExternalStorageDirectory()
+								.getAbsolutePath()
+								+ MediaUtil.IPC_VIDEO_DIR;
+							String filePath = System.currentTimeMillis()
+								+ ".mp4";
+							mCustomOnRecordCompleteListener.setPath(dirPath
+								+ filePath);
+							ipcProxy.addOnRecordCompleteListener(mCustomOnRecordCompleteListener);
+							ipcProxy.doStartRecord(dirPath, null, filePath,
+								false);
 					    } else {
-						ipcProxy.startRecordRemote(false);
+					    	ipcProxy.startRecordRemote(false);
 					    }
 					    ((Activity)HudExViewController.this.context)
 						    .runOnUiThread(new Runnable() {
@@ -805,7 +806,7 @@ public class HudExViewController extends ViewController
 							    //animation.start();
 								
 								recordingIndicator.setVisible(true);
-								recordingIndicator.start(0.3f);
+								recordingIndicator.start(1f);
 								recordingIndicator.setAlpha(1);
 							}
 						    });
@@ -822,11 +823,11 @@ public class HudExViewController extends ViewController
 					protected Void doInBackground(Void... params) {
 					    // TODO Auto-generated method stub
 					    if (!VmcConfig.getInstance().isStoreRemote()) {
-						ipcProxy.doStopRecord();
-						ipcProxy.onRecordComplete(true);
-						ipcProxy.removeOnRecordCompleteListener(mCustomOnRecordCompleteListener);
+					    	ipcProxy.doStopRecord();
+					    	ipcProxy.onRecordComplete(true);
+					    	ipcProxy.removeOnRecordCompleteListener(mCustomOnRecordCompleteListener);
 					    } else {
-						ipcProxy.stopRecordRemote();
+					    	ipcProxy.stopRecordRemote();
 					    }
 					    isStartRecord = false;
 					    return null;
@@ -1286,7 +1287,7 @@ public class HudExViewController extends ViewController
 		if (infos.length > 1) {
 		    plugin = Integer.parseInt(infos[1]) > 0 ? true : false;
 		}
-		if (isAcPlugin != plugin) { //ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½Ú³ï¿½ï¿½
+		if (isAcPlugin != plugin) { //±íÊ¾ÕýÔÚ³äµç
 			/**
 		    if (plugin) {
 			battery_device
@@ -1300,7 +1301,7 @@ public class HudExViewController extends ViewController
 		    }
 		    */
 		}
-		if (!plugin) { //ï¿½ï¿½Ê¾Ã»ï¿½ï¿½ï¿½Ú³ï¿½ï¿½
+		if (!plugin) { //±íÊ¾Ã»ÓÐÔÚ³äµç
 		    deviceBatteryIndicator.setValue(Math.min(level / 25, 3));
 		}
 		isAcPlugin = plugin;
