@@ -33,7 +33,7 @@ public class AcceleratorJoystick
 	@Override
 	protected int getTumbDrawableId() 
 	{
-		return R.drawable.joystick_rudder_throttle;
+		return R.drawable.joystick_rudder_throttle_new;
 	}
 
 	

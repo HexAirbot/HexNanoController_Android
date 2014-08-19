@@ -47,7 +47,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" android:name="com.hexairbot.hexmini.HexMiniApplication">
         <activity
-            android:name="com.hexairbot.hexmini.MainActivity"
+            android:name="com.hexairbot.hexmini.MainExActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" 
@@ -57,12 +57,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name="com.hexairbot.hexmini.ble.BluetoothLeServiceervice" android:enabled="true"></service>
+        <service android:name="com.hexairbot.hexmini.ble.BluetoothLeService" android:enabled="true"></service>
         <service android:name="com.vmc.ipc.service.IpcControlService"></service>
         <service android:name="com.vmc.ipc.service.ApConnectService"></service>
         <activity android:name="com.hexairbot.hexmini.HudActivity" android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity> 
         <activity android:name="com.hexairbot.hexmini.HelpActivity" android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
         <activity android:name="com.hexairbot.hexmini.ipc.activity.GalleryActivity" android:screenOrientation="landscape"></activity>  
+    	<activity android:name="com.hexairbot.hexmini.FeedbackActivity" android:screenOrientation="landscape" android:theme="@android:style/Theme.NoTitleBar.Fullscreen">></activity>
     </application>
 
 </manifest>

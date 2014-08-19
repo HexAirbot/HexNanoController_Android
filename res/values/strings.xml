@@ -54,4 +54,13 @@
 
 	<string name="btn_close">CLOSE</string>
 	<string name="unknown">Unknown</string>
+	<string name="btn_title_feedback">Flex Feedback</string>
+	<string name="btn_feedback">Feedback</string>
+	<string name="send_feedback">Send</string>
+	
+	<string name="kindly_reminder">Kindly Reminder!</string>
+    <string name="send_success">Send successfully!</string>
+    <string name="send_fail">Failed delivery!</string>
+    <string name="sure_msg">OK</string>
+    <string name="missing_input">Please input something.</string>
 </resources>

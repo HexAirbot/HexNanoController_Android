@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="horizontal" >
 
     <RelativeLayout
         android:id="@+id/RelativeLayout1"
@@ -129,6 +129,19 @@
                 android:paddingLeft="@dimen/settings_button_left_padding"
                 android:paddingRight="@dimen/settings_button_right_padding"
                 android:text="@string/btn_title_default_settings"
+                android:textColor="@color/white"
+                android:textSize="@dimen/settings_btn_text_size" />
+            
+            <Button
+                android:id="@+id/feedbackBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/btn_black"
+                android:paddingLeft="@dimen/settings_button_left_padding"
+                android:paddingRight="@dimen/settings_button_right_padding"
+                android:text="@string/btn_feedback"
                 android:textColor="@color/white"
                 android:textSize="@dimen/settings_btn_text_size" />
 

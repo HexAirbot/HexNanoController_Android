@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="main_btn_margin_top">5dp</dimen>
+    <dimen name="main_btn_margin_left">10dp</dimen>
+    <dimen name="main_btn_margin_right">10dp</dimen>
+    <dimen name="main_indicator_margin_top">12dp</dimen>
+    
+    <dimen name="main_btn_capture_margin_left">60dp</dimen>
+    <dimen name="main_btn_capture_margin_top">@dimen/main_btn_margin_top</dimen>
+	<dimen name="main_btn_record_margin_left">110dp</dimen>
+    <dimen name="main_btn_record_margin_top">@dimen/main_btn_margin_top</dimen>
+    <dimen name="main_btn_gallery_margin_left">@dimen/main_btn_margin_left</dimen>
+    <dimen name="main_btn_gallery_margin_top">@dimen/main_btn_margin_top</dimen>
+    <dimen name="main_btn_settings_margin_top">@dimen/main_btn_margin_top</dimen>
+    <dimen name="main_btn_settings_margin_right">@dimen/main_btn_margin_right</dimen>
+    <dimen name="main_btn_lock_margin_top">2dp</dimen>
+    <dimen name="main_btn_unlock_margin_bottom">5dp</dimen>
+    <dimen name="main_device_battery_margin_top">@dimen/main_indicator_margin_top</dimen>
+    <dimen name="main_device_battery_margin_right">60dp</dimen>
+    <dimen name="main_wifi_margin_top">@dimen/main_indicator_margin_top</dimen>
+    <dimen name="main_wifi_margin_right">100dp</dimen>
+    <dimen name="main_ble_margin_top">@dimen/main_indicator_margin_top</dimen>
+    <dimen name="main_ble_margin_right">140dp</dimen>
+    <dimen name="main_logo_margin_left">30dp</dimen>
+    <dimen name="main_logo_margin_bottom">5dp</dimen>
+    <dimen name="main_web_address_margin_right">30dp</dimen>
+    <dimen name="main_web_address_margin_bottom">5dp</dimen>
+</resources>

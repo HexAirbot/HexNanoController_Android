@@ -250,7 +250,7 @@ public abstract class JoystickBase extends Sprite
         }
 	}
 	
-	//×óÏÂ½ÇÎª×ø±êÏµÔ­µã
+	//ï¿½ï¿½ï¿½Â½ï¿½Îªï¿½ï¿½ï¿½ÏµÔ­ï¿½ï¿½
 	public void moveTo(float x, float y)
 	{
 		this.centerX = x;
@@ -262,7 +262,7 @@ public abstract class JoystickBase extends Sprite
 		this.thumbCenterY = y;
 	}
 	
-	//×óÏÂ½ÇÎª×ø±êÏµÔ­µã
+	//ï¿½ï¿½ï¿½Â½ï¿½Îªï¿½ï¿½ï¿½ÏµÔ­ï¿½ï¿½
 	public void moveThumbTo(float x, float y)
 	{
 		/*
@@ -404,27 +404,27 @@ public abstract class JoystickBase extends Sprite
 
     protected int getBackgroundDrawableId()
     {
-        return R.drawable.joystick_bg;
+        return R.drawable.joystick_bg_new;
     }
 
 
 
     protected int getTumbDrawableId()
     {
-        return R.drawable.joystick_rudder_throttle;
+        return R.drawable.joystick_rudder_throttle_new;
     }
 
         
     private int getThumbRollPitchDrawableId()
     {
-        return R.drawable.joystick_roll_pitch;
+        return R.drawable.joystick_roll_pitch_new;
     }
 
 
-    //xyÒÔ×óÉÏ½ÇÎª×ø±êÏµÔ­µã
-    //baseX baseYÒÔ×óÉÏ½ÇÎª×ø±êÏµÔ­µã
-    //centerX, centerY, ×óÏÂ½ÇÎª×ø±êÏµÔ­µã
-    //thumbCenterX, thumbCenterY, ×óÏÂ½ÇÎª×ø±êÏµÔ­µã
+    //xyï¿½ï¿½ï¿½ï¿½ï¿½Ï½ï¿½Îªï¿½ï¿½ï¿½ÏµÔ­ï¿½ï¿½
+    //baseX baseYï¿½ï¿½ï¿½ï¿½ï¿½Ï½ï¿½Îªï¿½ï¿½ï¿½ÏµÔ­ï¿½ï¿½
+    //centerX, centerY, ï¿½ï¿½ï¿½Â½ï¿½Îªï¿½ï¿½ï¿½ÏµÔ­ï¿½ï¿½
+    //thumbCenterX, thumbCenterY, ï¿½ï¿½ï¿½Â½ï¿½Îªï¿½ï¿½ï¿½ÏµÔ­ï¿½ï¿½
     protected void onActionDown(float x, float y)
     {
     	Log.d("onActionDown x y", "x:"+ x + ";y:"+ y);
@@ -725,7 +725,7 @@ public abstract class JoystickBase extends Sprite
 //    	//	}
 		//}
 	}
-	//ÐèÒªÖØ»æ
+	//ï¿½ï¿½Òªï¿½Ø»ï¿½
 	@Override
 	public void setNeedsUpdate() {
 		isInitialized = false;
