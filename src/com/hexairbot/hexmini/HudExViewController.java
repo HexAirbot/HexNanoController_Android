@@ -48,6 +48,7 @@ import com.hexairbot.hexmini.R;
 import com.hexairbot.hexmini.HexMiniApplication.AppStage;
 import com.hexairbot.hexmini.ble.BleConnectinManager;
 import com.hexairbot.hexmini.gestures.EnhancedGestureDetector;
+import com.hexairbot.hexmini.ipc.activity.GalleryActivity;
 import com.hexairbot.hexmini.ipc.view.VideoSettingView;
 import com.hexairbot.hexmini.modal.ApplicationSettings;
 import com.hexairbot.hexmini.modal.Channel;
@@ -752,6 +753,18 @@ public class HudExViewController extends ViewController
 	 */
 	
 	private void initVideoListener(){
+		
+		galleryBtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(HudExViewController.this.context, GalleryActivity.class);
+				intent.putExtra("type", MediaUtil.MEDIA_TYPE_VIDEO);
+				intent.setType("vnd.android.cursor.dir/video");
+				HudExViewController.this.context.startActivity(intent);
+			}
+		});
 		
 		captureBtn.setOnClickListener(new OnClickListener() {
 			@Override

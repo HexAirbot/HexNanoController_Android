@@ -232,7 +232,8 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/preview_bitrate_control"
         android:layout_below="@+id/preview_bitrate_control"
-        android:layout_marginTop="@dimen/settings_vertical_gap" />
+        android:layout_marginTop="@dimen/settings_vertical_gap"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/textView4"
@@ -242,7 +243,8 @@
         android:layout_alignRight="@+id/textView3"
         android:layout_alignTop="@+id/check_remote_store"
         android:textColor="@color/white"
-        android:text="@string/set_store_in_remote" />
+        android:text="@string/set_store_in_remote"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/debug_switch"

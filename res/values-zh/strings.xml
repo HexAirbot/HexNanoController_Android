@@ -55,8 +55,8 @@
 	<string name="btn_close">关闭</string>
 	<string name="unknown">未知</string>
 	
-	<string name="btn_title_feedback">Flex意见反馈</string>	
-	<string name="btn_feedback">意见反馈</string>
+	<string name="btn_title_feedback">反馈</string>	
+	<string name="btn_feedback">反馈</string>
 	<string name="send_feedback">发送</string>
 	
 	<string name="kindly_reminder">温馨提示!</string>
