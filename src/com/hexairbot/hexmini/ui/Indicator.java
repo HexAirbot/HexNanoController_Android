@@ -43,16 +43,20 @@ public class Indicator extends Sprite
 	@Override
 	public void draw(GL10 gl) 
 	{
-		GLSprite sprite = indicatorStates[value];
-		sprite.onDraw(gl,  bounds.left, surfaceHeight - bounds.top - sprite.height);
+		if (visible) {
+			GLSprite sprite = indicatorStates[value];
+			sprite.onDraw(gl,  bounds.left, surfaceHeight - bounds.top - sprite.height);
+		}
 	}
 
 	
 	@Override
 	public void draw(Canvas canvas) 
 	{
-		GLSprite sprite = indicatorStates[value];
-		sprite.onDraw(canvas,  bounds.left, surfaceHeight - bounds.top - sprite.height);
+		if (visible) {
+			GLSprite sprite = indicatorStates[value];
+			sprite.onDraw(canvas,  bounds.left, surfaceHeight - bounds.top - sprite.height);
+		}
 	}
 
 	

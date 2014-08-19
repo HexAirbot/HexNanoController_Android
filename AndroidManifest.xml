@@ -64,6 +64,7 @@
         <activity android:name="com.hexairbot.hexmini.HelpActivity" android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
         <activity android:name="com.hexairbot.hexmini.ipc.activity.GalleryActivity" android:screenOrientation="landscape"></activity>  
     	<activity android:name="com.hexairbot.hexmini.FeedbackActivity" android:screenOrientation="landscape" android:theme="@android:style/Theme.NoTitleBar.Fullscreen">></activity>
+    	<activity android:name="com.hexairbot.hexmini.ipc.activity.ShareMediaActivity" android:screenOrientation="landscape"></activity>
     </application>
 
 </manifest>

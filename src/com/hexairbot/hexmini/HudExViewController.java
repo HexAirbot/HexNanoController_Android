@@ -18,6 +18,8 @@ import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.opengl.GLSurfaceView;
@@ -191,6 +193,10 @@ public class HudExViewController extends ViewController
     final CustomOnRecordCompleteListener mCustomOnRecordCompleteListener = new CustomOnRecordCompleteListener();
     
     private boolean isAcPlugin = false;
+    private SoundPool mSoundPool;
+    private int camera_click_sound;
+    private int video_record_sound;
+    private boolean canRefreshUI = false;
     
     private void setVideoEnv(){
     	SharedPreferences sp = PreferenceManager
@@ -218,14 +224,14 @@ public class HudExViewController extends ViewController
 		
 		this.delegate = delegate;
 		this.context = context;
+
 		Transmitter.sharedTransmitter().setBleConnectionManager(new BleConnectinManager(context));      
 		
 		settings = ((HexMiniApplication)context.getApplication()).getAppSettings();
 		
 	    joypadOpacity = settings.getInterfaceOpacity();
 	    isLeftHanded  = settings.isLeftHanded();
-	    
-		this.context = context;
+
 		gestureDetector = new EnhancedGestureDetector(context, this);
 		
 		joysticks = new JoystickBase[2];
@@ -233,7 +239,7 @@ public class HudExViewController extends ViewController
 		glView = new GLSurfaceView(context);
 		glView.setEGLContextClientVersion(2);
 		
-		LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		//LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
 		//LinearLayout hud = (LinearLayout)inflater.inflate(R.layout.hud, null);
 		//LayoutParams layoutParams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
@@ -338,9 +344,10 @@ public class HudExViewController extends ViewController
 				R.drawable.wifi_indicator_3,
 				R.drawable.wifi_indicator_4
 		};
-
+		
 		wifiIndicator = new Indicator(res, wifiIndicatorRes, Align.TOP_RIGHT);
 		wifiIndicator.setMargin((int)res.getDimension(R.dimen.main_wifi_margin_top), (int)res.getDimension(R.dimen.main_wifi_margin_right), 0, 0);
+		
 		
 		int bleIndicatorRes[] = {
 				R.drawable.ble_indicator_opened,
@@ -349,7 +356,7 @@ public class HudExViewController extends ViewController
 		bleIndicator = new Indicator(res, bleIndicatorRes, Align.TOP_RIGHT);
 		bleIndicator.setMargin((int)res.getDimension(R.dimen.main_ble_margin_top), (int)res.getDimension(R.dimen.main_ble_margin_right), 0, 0);
 		bleIndicator.setValue(1);
-		
+	
 		int deviceBatteryIndicatorRes[] = {
 				R.drawable.device_battery_0,
 				R.drawable.device_battery_1,
@@ -359,7 +366,7 @@ public class HudExViewController extends ViewController
 
 		deviceBatteryIndicator = new Indicator(res, deviceBatteryIndicatorRes, Align.TOP_RIGHT);
 		deviceBatteryIndicator.setMargin((int)res.getDimension(R.dimen.main_device_battery_margin_top), (int)res.getDimension(R.dimen.main_device_battery_margin_right), 0, 0);
-		
+	
 		buttons = new Button[8];
 		buttons[0] = settingsBtn;
 		buttons[1] = takeOffBtn;
@@ -441,6 +448,28 @@ public class HudExViewController extends ViewController
 				}
 			}).show();
 	    }
+	    
+	    initSound();
+	    initUiControlShow();
+	}
+	
+	private void initUiControlShow() {
+		if (controlService == null) {
+			wifiIndicator.setVisible(false);
+			captureBtn.setEnabled(false);
+			recordBtn.setEnabled(false);
+		} else {
+			int state = controlService.getConnectStateManager().getState();
+		    if (state == ConnectStateManager.CONNECTING || state == ConnectStateManager.DISCONNECTED) {
+		    	wifiIndicator.setVisible(false);
+				captureBtn.setEnabled(false);
+				recordBtn.setEnabled(false);
+		    } else {
+		    	wifiIndicator.setVisible(true);
+				captureBtn.setEnabled(true);
+				recordBtn.setEnabled(true);
+		    }
+		}
 	}
 	
 	private void initChannels() {
@@ -738,25 +767,25 @@ public class HudExViewController extends ViewController
 
 				    @Override
 				    protected Void doInBackground(Void... params) {
-					// TODO Auto-generated method stub
-					//playSound(soundid_camera_click);
-					if (!VmcConfig.getInstance().isStoreRemote()) {
-					    String dirPath = Environment
-						    .getExternalStorageDirectory()
-						    .getAbsolutePath()
-						    + MediaUtil.IPC_IMAGE_DIR;
-					    String filePath = System.currentTimeMillis()
-						    + ".jpg";
-					    ConnectStateManager
-						    .getInstance(HexMiniApplication.sharedApplicaion())
-						    .getIpcProxy()
-						    .doTakePhoto(dirPath, filePath, false);
-					    MediaUtil.scanIpcMediaFile(HudExViewController.this.context,
-						    dirPath + filePath);
-					} else {
-					    ipcProxy.takePhotoRemote(false);
-					}
-					return null;
+				    	// TODO Auto-generated method stub
+						playSound(camera_click_sound);
+						if (!VmcConfig.getInstance().isStoreRemote()) {
+						    String dirPath = Environment
+							    .getExternalStorageDirectory()
+							    .getAbsolutePath()
+							    + MediaUtil.IPC_IMAGE_DIR;
+						    String filePath = System.currentTimeMillis()
+							    + ".jpg";
+						    ConnectStateManager
+							    .getInstance(HexMiniApplication.sharedApplicaion())
+							    .getIpcProxy()
+							    .doTakePhoto(dirPath, filePath, false);
+						    MediaUtil.scanIpcMediaFile(HudExViewController.this.context,
+							    dirPath + filePath);
+						} else {
+						    ipcProxy.takePhotoRemote(false);
+						}
+						return null;
 				    }
 
 				    protected void onPostExecute(Void result) {
@@ -775,7 +804,7 @@ public class HudExViewController extends ViewController
 				settingsBtn.setEnabled(false);
 				//final AnimationDrawable animation = (AnimationDrawable) img_indication_record.getDrawable();
 				if (!isStartRecord) {
-				   // playSound(soundid_video_record);
+				    playSound(video_record_sound);
 				    AsyncTask<Void, Void, Void> startRecordTask = new AsyncTask<Void, Void, Void>() {
 
 					@Override
@@ -806,7 +835,7 @@ public class HudExViewController extends ViewController
 							    //animation.start();
 								
 								recordingIndicator.setVisible(true);
-								recordingIndicator.start(1f);
+								recordingIndicator.start(0.6f);
 								recordingIndicator.setAlpha(1);
 							}
 						    });
@@ -816,7 +845,7 @@ public class HudExViewController extends ViewController
 				    };
 				    startRecordTask.execute();
 				} else {
-				   // playSound(soundid_video_record);
+				    playSound(video_record_sound);
 				    AsyncTask<Void, Void, Void> stopRecordTask = new AsyncTask<Void, Void, Void>() {
 
 					@Override
@@ -1432,12 +1461,21 @@ public class HudExViewController extends ViewController
 
 	@Override
 	public void OnIpcConnected() {
-
+		wifiIndicator.setVisible(true);
+		captureBtn.setEnabled(true);
+		recordBtn.setEnabled(true);
+		canRefreshUI = true;
 	}
 
 	@Override
 	public void OnIpcDisConnected() {
-
+		wifiIndicator.setVisible(false);
+		captureBtn.setEnabled(false);
+		recordBtn.setEnabled(false);
+		if (canRefreshUI) {
+			glView.invalidate();
+		}
+		canRefreshUI = false;
 	}
 
 	@Override
@@ -1517,5 +1555,17 @@ public class HudExViewController extends ViewController
 		    mSoundPool.release();
 		super.onStop();
 		*/
+	}
+	
+	private void initSound() {
+		if (mSoundPool == null) {
+			mSoundPool = new SoundPool(2, AudioManager.STREAM_SYSTEM, 0);
+		}
+		camera_click_sound = mSoundPool.load(context, R.raw.camera_click, 1);
+		video_record_sound = mSoundPool.load(context, R.raw.video_record, 1);
+	}
+	
+	private void playSound(int soundId) {
+		mSoundPool.play(soundId, 1, 1, 0, 0, 1);
 	}
 }
