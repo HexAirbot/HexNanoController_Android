@@ -136,7 +136,7 @@ public class GalleryActivity extends Activity implements
 	private void initActionBar() {
 		ActionBar actionBar = this.getActionBar();
 		actionBar.setBackgroundDrawable(this.getResources().getDrawable(
-				R.drawable.barre_haut));
+				R.drawable.bar_top));
 		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		if (!actionInitFirst) {

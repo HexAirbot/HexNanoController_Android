@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+	<item 
+	    android:id="@+id/sharebtn"
+	    android:icon="@drawable/btn_settings_pressed"
+	    android:title="@string/sharebtnname"
+	    android:showAsAction="ifRoom|withText"
+	    />
+	<item
+	    android:id="@+id/delbtn"
+	    android:icon="@drawable/btn_delete_normal"
+	    android:orderInCategory="100"
+	    android:title="@string/delbtnname"
+	    android:showAsAction="ifRoom|withText"
+	    />
+    
+</menu>

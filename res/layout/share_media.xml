@@ -5,12 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <Button 
-        android:id="@+id/sharebtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/sharebtnname"/>
-    
     <ImageView 
         android:id="@+id/selectimg"
         android:layout_width="fill_parent"
