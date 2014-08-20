@@ -63,5 +63,9 @@
     <string name="send_fail">Failed delivery!</string>
     <string name="sure_msg">OK</string>
     <string name="missing_input">Please input something.</string>
-    <string name="sharebtnname">share</string>
+    <string name="sharebtnname">Share</string>
+    <string name="delbtnname">Delete</string>
+    <string name="del_text">1 item will be deleted.</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_ok">OK</string>
 </resources>
