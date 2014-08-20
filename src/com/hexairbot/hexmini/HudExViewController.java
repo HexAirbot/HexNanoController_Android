@@ -227,7 +227,6 @@ public class HudExViewController extends ViewController
 		this.context = context;
 
 		Transmitter.sharedTransmitter().setBleConnectionManager(new BleConnectinManager(context));      
-		
 		settings = ((HexMiniApplication)context.getApplication()).getAppSettings();
 		
 	    joypadOpacity = settings.getInterfaceOpacity();
@@ -347,8 +346,7 @@ public class HudExViewController extends ViewController
 		};
 		
 		wifiIndicator = new Indicator(res, wifiIndicatorRes, Align.TOP_RIGHT);
-		wifiIndicator.setMargin((int)res.getDimension(R.dimen.main_wifi_margin_top), (int)res.getDimension(R.dimen.main_wifi_margin_right), 0, 0);
-		
+		wifiIndicator.setMargin((int)res.getDimension(R.dimen.main_wifi_margin_top), (int)res.getDimension(R.dimen.main_wifi_margin_right), 0, 0);		
 		
 		int bleIndicatorRes[] = {
 				R.drawable.ble_indicator_opened,
@@ -356,7 +354,7 @@ public class HudExViewController extends ViewController
 		};
 		bleIndicator = new Indicator(res, bleIndicatorRes, Align.TOP_RIGHT);
 		bleIndicator.setMargin((int)res.getDimension(R.dimen.main_ble_margin_top), (int)res.getDimension(R.dimen.main_ble_margin_right), 0, 0);
-		bleIndicator.setValue(1);
+		bleIndicator.setValue(0);
 	
 		int deviceBatteryIndicatorRes[] = {
 				R.drawable.device_battery_0,
@@ -760,8 +758,8 @@ public class HudExViewController extends ViewController
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(HudExViewController.this.context, GalleryActivity.class);
-				intent.putExtra("type", MediaUtil.MEDIA_TYPE_VIDEO);
-				intent.setType("vnd.android.cursor.dir/video");
+				intent.putExtra("type", MediaUtil.MEDIA_TYPE_ALL);		
+				intent.putExtra("browser_type", GalleryActivity.BROWSER_TYPE_REMOTE);
 				HudExViewController.this.context.startActivity(intent);
 			}
 		});
@@ -1279,6 +1277,7 @@ public class HudExViewController extends ViewController
 		filter.addAction(Intent.ACTION_TIME_TICK);
 		filter.addAction(Intent.ACTION_BATTERY_CHANGED);
 		filter.addAction(WifiManager.RSSI_CHANGED_ACTION);
+		
 		this.context.registerReceiver(receiver, filter);
 		IntentFilter decodeFilter = new IntentFilter();
 		decodeFilter

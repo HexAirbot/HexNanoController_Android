@@ -28,6 +28,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hexairbot.hexmini.R;
+import com.hexairbot.hexmini.ipc.activity.GalleryActivity;
+import com.hexairbot.hexmini.ipc.activity.ShareMediaActivity;
 import com.hexairbot.hexmini.ipc.view.MediaFile;
 import com.hexairbot.hexmini.ipc.view.OnGalleryItemClick;
 import com.hexairbot.hexmini.ipc.view.SquareRelativeLayout;
@@ -79,7 +81,10 @@ public class RemoteMediaAdapter extends BaseAdapter implements
 	Uri thumbUri = null;
 
 	LoadDataTask mLoadDataTask;
+	LoadDataTask mLoadDataTask2;
 
+	List<MediaFile> localMedias = new ArrayList<MediaFile>();
+	
 	public RemoteMediaAdapter(Context context, int type) {
 		// TODO Auto-generated constructor stub
 		mContext = context;
@@ -90,17 +95,35 @@ public class RemoteMediaAdapter extends BaseAdapter implements
 		mChangeObserver = new ChangeObserver();
 		mThumbChangeObserver = new ThumbChangeObserver();
 
-		if (type == MediaUtil.MEDIA_TYPE_IMAGE) {
-			queryUri = URI_LOCAL_IMAGE;
-			thumbUri = MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI;
-		} else if (type == MediaUtil.MEDIA_TYPE_VIDEO) {
-			queryUri = URI_LOCAL_VIDEO;
-			thumbUri = MediaStore.Video.Thumbnails.EXTERNAL_CONTENT_URI;
+		if (type != MediaUtil.MEDIA_TYPE_ALL) {
+			if (type == MediaUtil.MEDIA_TYPE_IMAGE) {
+				queryUri = URI_LOCAL_IMAGE;
+				thumbUri = MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI;
+			} else {
+				queryUri = URI_LOCAL_VIDEO;
+				thumbUri = MediaStore.Video.Thumbnails.EXTERNAL_CONTENT_URI;
+			}
+			mContext.getContentResolver().registerContentObserver(queryUri, true,
+					mChangeObserver);
+			mContext.getContentResolver().registerContentObserver(thumbUri, true,
+					mThumbChangeObserver);
+		} else {
+			Uri queryUri1 = URI_LOCAL_IMAGE;
+			Uri thumbUri1 = MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI;
+			
+			Uri queryUri2 = URI_LOCAL_VIDEO;
+			Uri thumbUri2 = MediaStore.Video.Thumbnails.EXTERNAL_CONTENT_URI;
+			
+			mContext.getContentResolver().registerContentObserver(queryUri1, true,
+					mChangeObserver);
+			mContext.getContentResolver().registerContentObserver(thumbUri1, true,
+					mThumbChangeObserver);
+			
+			mContext.getContentResolver().registerContentObserver(queryUri2, true,
+					mChangeObserver);
+			mContext.getContentResolver().registerContentObserver(thumbUri2, true,
+					mThumbChangeObserver);
 		}
-		mContext.getContentResolver().registerContentObserver(queryUri, true,
-				mChangeObserver);
-		mContext.getContentResolver().registerContentObserver(thumbUri, true,
-				mThumbChangeObserver);
 	}
 
 	@Override
@@ -165,24 +188,46 @@ public class RemoteMediaAdapter extends BaseAdapter implements
 	}
 
 	public void loadData(int type) {
-		String[] remotePath = new String[2];
-		if (type == MediaUtil.MEDIA_TYPE_IMAGE) {
-			remotePath[0] = FtpManager.FTP_IMAGES_DIR;
-		} else if (type == MediaUtil.MEDIA_TYPE_VIDEO) {
-			remotePath[0] = FtpManager.FTP_VIDEOS_DIR;
+		if (type != MediaUtil.MEDIA_TYPE_ALL) {
+			String[] remotePath = new String[2];
+			if (type == MediaUtil.MEDIA_TYPE_IMAGE) {
+				remotePath[0] = FtpManager.FTP_IMAGES_DIR;
+			} else if (type == MediaUtil.MEDIA_TYPE_VIDEO) {
+				remotePath[0] = FtpManager.FTP_VIDEOS_DIR;
+			}
+			remotePath[1] = type + "";
+			// if (mLoadDataTask != null) {
+			// mLoadDataTask.cancel(false);
+			// mLoadDataTask = null;
+			// }
+			mLoadDataTask = new LoadDataTask();
+			// mLoadDataTask.execute(remotePath);
+			mLoadDataTask.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, remotePath);
+		} else {
+			String[] remotePath1 = new String[2];
+			String[] remotePath2 = new String[2];
+			
+			remotePath1[0] = FtpManager.FTP_IMAGES_DIR;
+			remotePath2[0] = FtpManager.FTP_VIDEOS_DIR;
+			remotePath1[1] = MediaUtil.MEDIA_TYPE_IMAGE + "";
+			remotePath2[1] = MediaUtil.MEDIA_TYPE_VIDEO + "";
+			
+			mLoadDataTask = new LoadDataTask();
+			mLoadDataTask.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, remotePath1);
+			
+			mLoadDataTask2 = new LoadDataTask();
+			mLoadDataTask2.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, remotePath2);
 		}
-		remotePath[1] = type + "";
-		// if (mLoadDataTask != null) {
-		// mLoadDataTask.cancel(false);
-		// mLoadDataTask = null;
-		// }
-		mLoadDataTask = new LoadDataTask();
-		// mLoadDataTask.execute(remotePath);
-		mLoadDataTask.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, remotePath);
+		
 	}
 
 	private List<MediaFile> getLocalData(int type) {
-		List<MediaFile> local = new ArrayList<MediaFile>();
+		if (type == MediaUtil.MEDIA_TYPE_ALL) {
+			getLocalData(MediaUtil.MEDIA_TYPE_IMAGE);
+			getLocalData(MediaUtil.MEDIA_TYPE_VIDEO);
+			return localMedias;
+		}
+		
 		Uri queryUri = null;
 		String[] projection = null;
 		if (type == MediaUtil.MEDIA_TYPE_IMAGE) {
@@ -196,7 +241,7 @@ public class RemoteMediaAdapter extends BaseAdapter implements
 				selection, bindArgs, null);
 
 		if (mCursor == null)
-			return local;
+			return localMedias;
 		while (mCursor.moveToNext()) {
 			String _data = mCursor.getString(0);
 			long _id = mCursor.getLong(1);
@@ -225,10 +270,10 @@ public class RemoteMediaAdapter extends BaseAdapter implements
 				remotePath.append(mediaFile.name);
 				mediaFile.remotePath = remotePath.toString();
 			}
-			local.add(mediaFile);
+			localMedias.add(mediaFile);
 		}
 		mCursor.close();
-		return local;
+		return localMedias;
 	}
 
 	private boolean mergerRemoteData(List<MediaFile> remotedata) {
@@ -470,24 +515,25 @@ public class RemoteMediaAdapter extends BaseAdapter implements
 		// TODO Auto-generated method stub
 		synchronized (mData) {
 			MediaFile file = mData.get(position);
+			/*
 			if (file.isRemote == false || file.isDownloaded == true) {
 				Intent intent = new Intent();
 				intent.setAction(android.content.Intent.ACTION_VIEW);
 				String path = file.localPath;
 				String intentType = null;
-				if (mType == MediaUtil.MEDIA_TYPE_IMAGE) {
+				if (file.type == MediaUtil.MEDIA_TYPE_IMAGE) {
 					intentType = "image/*";
-				} else if (mType == MediaUtil.MEDIA_TYPE_VIDEO) {
+				} else if (file.type == MediaUtil.MEDIA_TYPE_VIDEO) {
 					intentType = "video/*";
 				}
 				intent.setDataAndType(Uri.fromFile(new File(path)), intentType);
 				mContext.startActivity(intent);
 			} else {
-				if (mType == MediaUtil.MEDIA_TYPE_IMAGE) {
+				if (file.type == MediaUtil.MEDIA_TYPE_IMAGE) {
 					DebugHandler.logWithToast(mContext, mContext.getResources()
 							.getString(R.string.remote_image_is_undownloaded),
 							1500);
-				} else if (mType == MediaUtil.MEDIA_TYPE_VIDEO) {
+				} else if (file.type == MediaUtil.MEDIA_TYPE_VIDEO) {
 					Intent intent = new Intent();
 					intent.setAction(android.content.Intent.ACTION_VIEW);
 					StringBuffer url = new StringBuffer();
@@ -496,6 +542,37 @@ public class RemoteMediaAdapter extends BaseAdapter implements
 					// String path = file.remotePath;
 					String intentType = "video/*";
 					intent.setDataAndType(Uri.parse(url.toString()), intentType);
+					mContext.startActivity(intent);
+				}
+			}*/
+			if (file.isRemote == false || file.isDownloaded == true) {
+				String path = file.localPath;
+				String intentType = null;
+				if (file.type == MediaUtil.MEDIA_TYPE_IMAGE) {
+					intentType = "image/*";
+				} else if (file.type == MediaUtil.MEDIA_TYPE_VIDEO) {
+					intentType = "video/*";
+				}
+				Intent intent = new Intent();
+				intent.putExtra("media_path", path);
+				intent.putExtra("media_type", intentType);
+				intent.setClass(mContext, ShareMediaActivity.class);
+				mContext.startActivity(intent);
+			} else {
+				if (file.type == MediaUtil.MEDIA_TYPE_IMAGE) {
+					DebugHandler.logWithToast(mContext, mContext.getResources()
+							.getString(R.string.remote_image_is_undownloaded),
+							1500);
+				} else if (file.type == MediaUtil.MEDIA_TYPE_VIDEO) {
+					Intent intent = new Intent();					
+					StringBuffer url = new StringBuffer();
+					String path = url.append("http://").append(FtpManager.HOST)
+							.append(file.remotePath).toString();
+					
+					String intentType = "video/*";
+					intent.putExtra("media_path", path);
+					intent.putExtra("media_type", intentType);
+					intent.setClass(mContext, ShareMediaActivity.class);
 					mContext.startActivity(intent);
 				}
 			}
