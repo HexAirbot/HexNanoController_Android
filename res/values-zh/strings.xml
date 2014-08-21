@@ -69,4 +69,5 @@
     <string name="del_text">你将删除一个文件。</string>
     <string name="dialog_cancel">取消</string>
     <string name="dialog_ok">确定</string>
+    <string name="playbtn">播放</string>
 </resources>

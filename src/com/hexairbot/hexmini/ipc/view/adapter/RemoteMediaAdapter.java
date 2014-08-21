@@ -575,6 +575,8 @@ public class RemoteMediaAdapter extends BaseAdapter implements
 					String intentType = "video/*";
 					intent.putExtra("media_path", path);
 					intent.putExtra("media_type", intentType);
+					intent.putExtra("media_type_int", file.type);
+					intent.putExtra("file_id", file.id);
 					intent.setClass(mContext, ShareMediaActivity.class);
 					mContext.startActivity(intent);
 				}

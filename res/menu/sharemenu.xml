@@ -3,7 +3,7 @@
     
 	<item 
 	    android:id="@+id/sharebtn"
-	    android:icon="@drawable/btn_settings_pressed"
+	    android:icon="@drawable/btn_share"
 	    android:title="@string/sharebtnname"
 	    android:showAsAction="ifRoom|withText"
 	    />
