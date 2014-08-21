@@ -69,6 +69,8 @@ public class GalleryActivity extends Activity implements
 
 	View actionBarCustomView;
 
+	private int type;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -79,7 +81,7 @@ public class GalleryActivity extends Activity implements
 		this.setContentView(R.layout.gallery_layout);
 
 		Intent intent = this.getIntent();
-		int type = intent.getIntExtra("type", MediaUtil.MEDIA_TYPE_IMAGE);
+		type = intent.getIntExtra("type", MediaUtil.MEDIA_TYPE_IMAGE);
 		browserType = intent.getIntExtra("browser_type", BROWSER_TYPE_LOCAL);
 
 		gridView = (GridView) this.findViewById(R.id.gridView);
@@ -214,6 +216,13 @@ public class GalleryActivity extends Activity implements
 			((OnGalleryItemClick) adapter).destroy();
 		}
 	}
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		loadData(type);
+	}
 
 	@Override
 	protected void onStart() {
@@ -321,9 +330,7 @@ public class GalleryActivity extends Activity implements
 
 		@Override
 		public void onClick(int position, Context context) {
-			// TODO Auto-generated method stub
 			Intent intent = new Intent();
-//			intent.setAction(android.content.Intent.ACTION_VIEW);以前代码
 			String path = (String) getItem(position);
 			String intentType = null;
 			if (mediaType == MediaUtil.MEDIA_TYPE_IMAGE) {
@@ -331,9 +338,6 @@ public class GalleryActivity extends Activity implements
 			} else if (mediaType == MediaUtil.MEDIA_TYPE_VIDEO) {
 				intentType = "video/*";
 			}
-//			intent.setDataAndType(Uri.fromFile(new File(path)), intentType);以前代码
-//			startActivity(intent);以前代码
-			//FeedbackActivity.class我自定义的activity
 			intent.putExtra("media_path", path);
 			intent.putExtra("media_type", intentType);
 			intent.setClass(GalleryActivity.this, ShareMediaActivity.class);

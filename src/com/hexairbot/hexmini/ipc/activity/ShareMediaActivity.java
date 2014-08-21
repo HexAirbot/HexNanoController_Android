@@ -4,6 +4,7 @@ import java.io.File;
 
 import com.hexairbot.hexmini.FeedbackActivity;
 import com.hexairbot.hexmini.R;
+import com.vmc.ipc.util.MediaUtil;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -111,17 +112,19 @@ public class ShareMediaActivity extends Activity {
 	}
 
 	public void deleteFile(File file) {
-		if (file.exists()) {
-			if (file.isFile()) {
-				file.delete();
-			} else if (file.isDirectory()) {
-				File files[] = file.listFiles();
-				for (int i = 0; i < files.length; i++) {
-					deleteFile(files[i]);
-				}
-			}
-			file.delete();
-		}
+//		if (file.exists()) {
+//			if (file.isFile()) {
+//				file.delete();
+//			} else if (file.isDirectory()) {
+//				File files[] = file.listFiles();
+//				for (int i = 0; i < files.length; i++) {
+//					deleteFile(files[i]);
+//				}
+//			}
+//			file.delete();
+//		}
+		MediaUtil.deleteLocalMedia(ShareMediaActivity.this, getIntent().getIntExtra("media_type_int", -1),
+				getIntent().getLongExtra("file_id", -1));
 	}
 
 }
