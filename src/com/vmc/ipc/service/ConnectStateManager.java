@@ -36,7 +36,7 @@ public class ConnectStateManager {
     private ArrayList<OnIpcConnectChangedListener> connectChangedListeners = new ArrayList<OnIpcConnectChangedListener>();
     private LocalBroadcastManager mLocalBroadcastManager;
     /**
-     * 这里使用单例模式，只允许�?��连接管理器存�?     */
+     * 这里使用单例模式，只允许�?��连接管理器存�?     */
     private static ConnectStateManager instance = null;
 
     private ConnectStateManager(Application app) {
@@ -167,20 +167,20 @@ public class ConnectStateManager {
 	    for (OnIpcConnectChangedListener lis : connectChangedListeners) {
 		lis.OnIpcDisConnected();
 	    }
-	    
-	    if(failCnt > 5 && !selectApSetting) {
-		DebugHandler.logWithToast(appContext, appContext.getResources().getString(R.string.select_ap_to_connect), 3000);
-		Intent apintent = new Intent();
-		apintent.setAction(ApConnectService.ACTION_CONNECT_MANUALLY);
-		apintent.setClass(appContext, ApConnectService.class);
-		appContext.startService(apintent);
-		selectApSetting = true;
-		failCnt = 0;
-	    }
-	    else{
-	    	if(!selectApSetting)
-	    		failCnt++;
-	    }
+	    //open wifi
+//	    if(failCnt > 5 && !selectApSetting) {
+//		DebugHandler.logWithToast(appContext, appContext.getResources().getString(R.string.select_ap_to_connect), 3000);
+//		Intent apintent = new Intent();
+//		apintent.setAction(ApConnectService.ACTION_CONNECT_MANUALLY);
+//		apintent.setClass(appContext, ApConnectService.class);
+//		appContext.startService(apintent);
+//		selectApSetting = true;
+//		failCnt = 0;
+//	    }
+//	    else{
+//	    	if(!selectApSetting)
+//	    		failCnt++;
+//	    }
 	}
     }
 

@@ -2,10 +2,10 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android" >
     <!-- selected state -->
 	<item android:state_focused="true" android:state_pressed="true"
-		android:drawable="@drawable/btn_back_press_new" />
+		android:drawable="@drawable/btn_back_hl" />
 	<item android:state_focused="false" android:state_pressed="true"
-		android:drawable="@drawable/btn_back_press_new" />
+		android:drawable="@drawable/btn_back_hl" />
 
 	<!-- normal state -->	
-	<item android:drawable="@drawable/btn_back_normal_new" />
+	<item android:drawable="@drawable/btn_back_normal" />
 </selector>

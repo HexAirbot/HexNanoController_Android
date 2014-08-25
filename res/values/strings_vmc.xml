@@ -18,9 +18,9 @@
     <string name="set_video_preview_resolution576P">720*576</string>
     <string name="set_video_preview_resolution360P">640*360</string>
     <string name="set_video_preview_resolution540P">960*540</string>
-    <string name="set_video_preview_bitrate">Bitrate Control</string>
-    <string name="set_video_preview_bitrate_fps">FPS</string>
-    <string name="set_video_preview_bitrate_quality">Quality</string>
+    <string name="set_video_preview_bitrate">Video Stream</string>
+    <string name="set_video_preview_bitrate_fps">FPS First</string>
+    <string name="set_video_preview_bitrate_quality">Quality First</string>
     <string name="set_store_in_remote">Remote Store</string>
     
     <string name="current_ap_setting">Current Connect</string>

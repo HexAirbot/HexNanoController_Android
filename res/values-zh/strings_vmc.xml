@@ -13,9 +13,9 @@
     <string name="set_video_preview_resolution">分辨率</string>
     <string name="set_video_preview_resolution720P">1280*720</string>
     <string name="set_video_preview_resolution576P">720*576</string>
-    <string name="set_video_preview_bitrate">码率控制</string>
-    <string name="set_video_preview_bitrate_fps">FPS</string>
-    <string name="set_video_preview_bitrate_quality">Quality</string>
+    <string name="set_video_preview_bitrate">视频流</string>
+    <string name="set_video_preview_bitrate_fps">帧率优先</string>
+    <string name="set_video_preview_bitrate_quality">质量优先</string>
     <string name="set_store_in_remote">远程存储</string>
     
     <string name="current_ap_setting">已连接上热点</string>

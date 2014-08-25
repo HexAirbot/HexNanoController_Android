@@ -43,7 +43,7 @@
         android:progressDrawable="@drawable/seekbar_image"
         android:thumb="@drawable/seekbar_thumb"
         android:thumbOffset="0dp"
-         />
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/TextView01"
@@ -54,7 +54,8 @@
         android:layout_toLeftOf="@id/aileronAndElevatorDeadBandSeekBar"
         android:text="@string/settings_item_aileron_and_elevator_dead_band"
         android:textColor="@color/white"
-        android:textSize="@dimen/settings_indicator_text_size" />
+        android:textSize="@dimen/settings_indicator_text_size"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/aileronAndElevatorDeadBandValueTextView"
@@ -64,7 +65,8 @@
         android:layout_below="@+id/TextView01"
         android:text="50%"
         android:textColor="@color/orange"
-        android:textSize="@dimen/settings_indicator_text_size" />
+        android:textSize="@dimen/settings_indicator_text_size"
+        android:visibility="gone" />
 
     <SeekBar
         android:id="@+id/rudderDeadBandSeekBar"
@@ -75,7 +77,8 @@
         android:layout_marginTop="@dimen/settings_v_gap"
         android:progressDrawable="@drawable/seekbar_image"
         android:thumb="@drawable/seekbar_thumb"
-        android:thumbOffset="0dp" />
+        android:thumbOffset="0dp"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/TextView04"
@@ -85,7 +88,8 @@
         android:layout_alignTop="@+id/rudderDeadBandSeekBar"
         android:text="@string/settings_item_rudder_dead_band"
         android:textColor="@color/white"
-        android:textSize="@dimen/settings_indicator_text_size" />
+        android:textSize="@dimen/settings_indicator_text_size"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/rudderDeadBandValueTextView"
@@ -95,14 +99,15 @@
         android:layout_below="@+id/TextView04"
         android:text="50%"
         android:textColor="@color/orange"
-        android:textSize="@dimen/settings_indicator_text_size" />
+        android:textSize="@dimen/settings_indicator_text_size"
+        android:visibility="gone" />
 
      <CheckBox
          android:id="@+id/isHeadfreeModeCheckBox"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:layout_alignLeft="@id/rudderDeadBandSeekBar"
-         android:layout_below="@id/rudderDeadBandSeekBar"
+         android:layout_alignLeft="@+id/isBeginnerModeCheckBox"
+         android:layout_below="@+id/isBeginnerModeCheckBox"
          android:layout_marginTop="@dimen/settings_v_gap"
          android:layout_toRightOf="@+id/TextView01"
          android:button="@drawable/checkbox" />
@@ -111,7 +116,7 @@
          android:id="@+id/isHeadfreeModeTitleTextView"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:layout_alignRight="@id/rudderDeadBandValueTextView"
+         android:layout_alignRight="@id/isBeginnerModeTitleTextView"
          android:layout_alignTop="@id/isHeadfreeModeCheckBox"
          android:text="@string/settings_item_headfree_mode"
          android:textColor="@color/white"

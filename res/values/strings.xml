@@ -54,7 +54,7 @@
 
 	<string name="btn_close">CLOSE</string>
 	<string name="unknown">Unknown</string>
-	<string name="btn_title_feedback">Flex Feedback</string>
+	<string name="btn_title_feedback">FEEDBACK</string>
 	<string name="btn_feedback">Feedback</string>
 	<string name="send_feedback">Send</string>
 	
@@ -63,4 +63,10 @@
     <string name="send_fail">Failed delivery!</string>
     <string name="sure_msg">OK</string>
     <string name="missing_input">Please input something.</string>
+    <string name="sharebtnname">Share</string>
+    <string name="delbtnname">Delete</string>
+    <string name="del_text">1 item will be deleted.</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_ok">OK</string>
+    <string name="playbtn">Play</string>
 </resources>
