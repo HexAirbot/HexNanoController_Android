@@ -70,4 +70,5 @@
     <string name="dialog_cancel">取消</string>
     <string name="dialog_ok">确定</string>
     <string name="playbtn">播放</string>
+    <string name="sending">发送中...</string>
 </resources>

@@ -7,7 +7,11 @@
     <ImageView
         android:id="@+id/selectimg"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="fill_parent" 
+        android:scaleType="matrix"
+        android:layout_gravity="center"
+        
+     />
 
     <Button
         android:id="@+id/btnplay"

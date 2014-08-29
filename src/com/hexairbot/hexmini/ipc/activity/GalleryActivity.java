@@ -1,6 +1,5 @@
 package com.hexairbot.hexmini.ipc.activity;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import android.app.ActionBar;
@@ -18,14 +17,11 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.provider.MediaStore.Images;
-import android.provider.MediaStore.Video;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -35,10 +31,7 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.SimpleCursorAdapter;
 import android.widget.SimpleCursorAdapter.ViewBinder;
-
-import com.hexairbot.hexmini.FeedbackActivity;
 import com.hexairbot.hexmini.R;
-import com.hexairbot.hexmini.SettingsViewController;
 import com.hexairbot.hexmini.ipc.view.OnGalleryItemClick;
 import com.hexairbot.hexmini.ipc.view.SquareRelativeLayout;
 import com.hexairbot.hexmini.ipc.view.adapter.RemoteMediaAdapter;
@@ -76,10 +69,10 @@ public class GalleryActivity extends Activity implements
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 
-		getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
-
+		getWindow().requestFeature(Window.FEATURE_ACTION_BAR);		
+		
 		this.setContentView(R.layout.gallery_layout);
-
+		
 		Intent intent = this.getIntent();
 		type = intent.getIntExtra("type", MediaUtil.MEDIA_TYPE_IMAGE);
 		browserType = intent.getIntExtra("browser_type", BROWSER_TYPE_LOCAL);
@@ -88,17 +81,21 @@ public class GalleryActivity extends Activity implements
 		gridView.setChoiceMode(GridView.CHOICE_MODE_MULTIPLE_MODAL);
 		gridView.setMultiChoiceModeListener(new MultiChoiceModeListener());
 		loadData(type);
+		   
+//		actionBarCustomView = new View(GalleryActivity.this);
+//		actionBarCustomView.setBackgroundResource(R.drawable.bar_top);
+//		actionBarCustomView.setLayoutParams(new LayoutParams(
+//				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+
+		
 		initActionBar();
-		actionBarCustomView = new View(GalleryActivity.this);
-		actionBarCustomView.setBackgroundResource(R.drawable.barre_haut);
-		actionBarCustomView.setLayoutParams(new LayoutParams(
-				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 	}
 
 	public class MultiChoiceModeListener implements
 			GridView.MultiChoiceModeListener {
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			// mode.setCustomView(actionBarCustomView);
+			//mode.setCustomView(actionBarCustomView);
+			
 			MenuItem item = menu.add("delete");
 			item.setIcon(R.drawable.btn_delete);
 			selectIds.clear();
@@ -152,8 +149,10 @@ public class GalleryActivity extends Activity implements
 			actionBar.setTitle(R.string.gallery_photo_title);
 		} else if (mediaType == MediaUtil.MEDIA_TYPE_VIDEO) {
 			actionBar.setTitle(R.string.gallery_video_title);
+		} else {
+			actionBar.setTitle(R.string.gallery_title);
 		}
-
+		
 	}
 
 	@Override

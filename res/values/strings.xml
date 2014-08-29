@@ -69,4 +69,5 @@
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_ok">OK</string>
     <string name="playbtn">Play</string>
+    <string name="sending">Sending...</string>
 </resources>

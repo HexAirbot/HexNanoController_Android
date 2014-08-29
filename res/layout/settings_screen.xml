@@ -25,9 +25,17 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="5dp"
                 android:background="@drawable/btn_back" />
-
+            
+			<ImageView android:id="@+id/backBtnDivider" 
+			 	android:layout_width="wrap_content"
+                android:layout_height="wrap_content"   
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/backBtn"
+                android:layout_marginLeft="5dp"  
+                android:src="@drawable/btn_back_divider" />
+			
             <TextView
                 android:id="@+id/titleTextView"
                 android:layout_width="wrap_content"
@@ -96,7 +104,7 @@
                 android:layout_alignParentBottom="false"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="24dp"
+                android:layout_marginRight="5dp"
                 android:background="@drawable/btn_black"
                 android:paddingLeft="@dimen/settings_button_left_padding"
                 android:paddingRight="@dimen/settings_button_right_padding"
@@ -109,7 +117,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="10dp"
                 android:layout_toLeftOf="@+id/magCalibrateBtn"
                 android:background="@drawable/btn_black"
                 android:paddingLeft="@dimen/settings_button_left_padding"
@@ -123,7 +131,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="10dp"
                 android:layout_toLeftOf="@+id/accCalibrateBtn"
                 android:background="@drawable/btn_black"
                 android:paddingLeft="@dimen/settings_button_left_padding"

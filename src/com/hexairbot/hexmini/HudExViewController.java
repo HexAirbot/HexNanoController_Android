@@ -354,7 +354,7 @@ public class HudExViewController extends ViewController
 		};
 		bleIndicator = new Indicator(res, bleIndicatorRes, Align.TOP_RIGHT);
 		bleIndicator.setMargin((int)res.getDimension(R.dimen.main_ble_margin_top), (int)res.getDimension(R.dimen.main_ble_margin_right), 0, 0);
-		bleIndicator.setValue(0);
+		bleIndicator.setValue(1);
 	
 		int deviceBatteryIndicatorRes[] = {
 				R.drawable.device_battery_0,
