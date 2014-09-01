@@ -108,10 +108,10 @@ public class GalleryActivity extends Activity implements
 
 		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			if (item.getTitle().equals("delete")) {
-				((OnGalleryItemClick) adapter).delete(selectIds);
+				((OnGalleryItemClick) adapter).delete(selectIds);						
 				mode.finish();
-			}
-			;
+				loadData(type);
+			}			
 			return true;
 		}
 

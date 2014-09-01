@@ -42,6 +42,12 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" ></uses-permission> 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" ></uses-permission>
     
+     <supports-screens
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="true"
+        android:resizeable="true"
+        android:anyDensity="true"/>
     
     <application
         android:allowBackup="true"

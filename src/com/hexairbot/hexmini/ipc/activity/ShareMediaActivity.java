@@ -163,7 +163,11 @@ public class ShareMediaActivity extends Activity implements OnTouchListener{
 			int change = actionBar.getDisplayOptions() ^ flags;
 			actionBar.setDisplayOptions(change, flags);
 		}
-		actionBar.setTitle("");
+		if (media_type_int == MediaUtil.MEDIA_TYPE_VIDEO) {
+			actionBar.setTitle(R.string.gallery_video_title);
+		} else {
+			actionBar.setTitle(R.string.gallery_photo_title);
+		}
 	}
 
 	public void SharePhoto(String mediaUri, String type, final Activity activity) {

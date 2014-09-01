@@ -90,25 +90,29 @@ public class Image extends Sprite
 	@Override
 	public void draw(GL10 gl) 
 	{
-		if (updateTexture) {
-			boolean xRepated = (widthParam == SizeParams.REPEATED) ? true : false;
-			boolean yRepated = (heightParam == SizeParams.REPEATED) ? true : false;			
+		if (visible) {
+			if (updateTexture) {
+				boolean xRepated = (widthParam == SizeParams.REPEATED) ? true : false;
+				boolean yRepated = (heightParam == SizeParams.REPEATED) ? true : false;			
+				
+				Bitmap bitmap = createBitmapToRender(xRepated ,yRepated);
+				sprite.updateTexture(res, bitmap);
+				layout(surfaceWidth, surfaceHeight);
+				
+				updateTexture = false;
+			}
 			
-			Bitmap bitmap = createBitmapToRender(xRepated ,yRepated);
-			sprite.updateTexture(res, bitmap);
-			layout(surfaceWidth, surfaceHeight);
-			
-			updateTexture = false;
+			sprite.onDraw(gl, bounds.left, surfaceHeight - bounds.top - sprite.height);
 		}
-		
-		sprite.onDraw(gl, bounds.left, surfaceHeight - bounds.top - sprite.height);
 	}
 
 	
 	@Override
 	public void draw(Canvas canvas)
 	{
-		sprite.onDraw(canvas, bounds.left, bounds.top);
+		if (visible) {
+			sprite.onDraw(canvas, bounds.left, bounds.top);
+		}
 	}
 	
 

@@ -140,6 +140,7 @@ public class RemoteMediaAdapter extends BaseAdapter implements
 		ImageView ftpMark;
 		View waitingInd;
 		View downloadind;
+		ImageView playIcon;
 	}
 
 	private View createViewFromResource(int position, View convertView,
@@ -154,6 +155,7 @@ public class RemoteMediaAdapter extends BaseAdapter implements
 			holder.ftpMark = (ImageView) v.findViewById(R.id.media_ftp_marked);
 			holder.nameView = (TextView) v.findViewById(R.id.media_name);
 			holder.waitingInd = v.findViewById(R.id.media_ftp_download_wait);
+			holder.playIcon = (ImageView)v.findViewById(R.id.play_icon);
 			v.setTag(holder);
 		} else {
 			v = convertView;
@@ -174,6 +176,12 @@ public class RemoteMediaAdapter extends BaseAdapter implements
 				holder.nameView.setText(name);
 			}
 
+			if (mediaFile.type == MediaUtil.MEDIA_TYPE_VIDEO) {
+				holder.playIcon.setVisibility(View.VISIBLE);
+			} else {
+				holder.playIcon.setVisibility(View.GONE);
+			}
+			
 			DisplayThumbTask displayTask = new DisplayThumbTask(mediaFile,
 					holder.downloadind, holder.waitingInd, holder.thumbView);
 			displayTask.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
@@ -223,6 +231,7 @@ public class RemoteMediaAdapter extends BaseAdapter implements
 
 	private List<MediaFile> getLocalData(int type) {
 		if (type == MediaUtil.MEDIA_TYPE_ALL) {
+			localMedias = null;
 			getLocalData(MediaUtil.MEDIA_TYPE_IMAGE);
 			getLocalData(MediaUtil.MEDIA_TYPE_VIDEO);
 			return localMedias;
@@ -357,6 +366,7 @@ public class RemoteMediaAdapter extends BaseAdapter implements
 			if (!ftpDataLoaded) {
 				remoteData = mFtpManager.getMeidaData(remotePath);
 			}
+			localData = null;
 			localData = getLocalData(type);
 			if (localData != null)
 				isLocaledif = mergerLocalData(localData);
@@ -385,7 +395,7 @@ public class RemoteMediaAdapter extends BaseAdapter implements
 
 	public void downloadRemoteFile(MediaFile file, FtpCallbackListener listener) {
 		StringBuffer dst = new StringBuffer();
-		dst.append(MediaUtil.getMediaDir(mType));
+		dst.append(MediaUtil.getMediaDir(file.type));
 		dst.append(REMOTE_FILE_PREFIX + file.name);
 		mFtpManager.setDownloadCallbackListener(listener);
 		mFtpManager.downloadFile(dst.toString(), file.remotePath);
@@ -447,7 +457,7 @@ public class RemoteMediaAdapter extends BaseAdapter implements
 						+ mMediaFile.remotePath);
 				downloadRemoteFile(mMediaFile, this);
 				StringBuffer dst = new StringBuffer();
-				dst.append(MediaUtil.getMediaDir(mType));
+				dst.append(MediaUtil.getMediaDir(mMediaFile.type));
 				dst.append("ftp_" + mMediaFile.name);
 				mMediaFile.isDownloaded = true;
 				MediaUtil.scanIpcMediaFile(mContext, dst.toString());
@@ -649,7 +659,7 @@ public class RemoteMediaAdapter extends BaseAdapter implements
 		for (long position : selects) {
 			MediaFile file = temp.get((int) position);
 			if (!file.isRemote || file.isDownloaded || file.id != -1) {
-				MediaUtil.deleteLocalMedia(mContext, mType, file.id);
+				MediaUtil.deleteLocalMedia(mContext, file.type, file.id);				
 			}
 			if (file.isRemote) {
 				MediaUtil.deleteRemoteMedia(mFtpManager, file.remotePath);
@@ -657,8 +667,9 @@ public class RemoteMediaAdapter extends BaseAdapter implements
 				if (file.type == MediaUtil.MEDIA_TYPE_VIDEO) {
 					onContentChanged();
 				}
-			}
+			}		
 		}
+		notifyDataSetChanged();
 	}
 
 	private void deleteRemoteFromCache(MediaFile file) {

@@ -2,7 +2,7 @@
 <resources>
     <string name="gallery_video_title">录像</string>
     <string name="gallery_photo_title">照片</string>
-    <string name="gallery_title">Flex照片和录像</string>
+    <string name="gallery_title">FlexCam相册</string>
     <!-- settings -->
     <string name="set_video_setting">视频设置</string>
     <string name="set_connect_setting">连接设置</string>
