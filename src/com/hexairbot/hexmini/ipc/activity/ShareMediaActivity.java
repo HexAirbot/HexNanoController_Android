@@ -1,14 +1,10 @@
 package com.hexairbot.hexmini.ipc.activity;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-
-import com.hexairbot.hexmini.FeedbackActivity;
 import com.hexairbot.hexmini.R;
 import com.vmc.ipc.util.MediaUtil;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -16,21 +12,26 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.Matrix;
+import android.graphics.PointF;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
+import android.util.FloatMath;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 
-public class ShareMediaActivity extends Activity {
+public class ShareMediaActivity extends Activity implements OnTouchListener{
 
 	private String media_path = null;
 	private String media_type = null;
@@ -40,6 +41,17 @@ public class ShareMediaActivity extends Activity {
 	private long file_id;
 	private Button btnplay = null;
 
+	private Bitmap bitmap;
+	private Matrix matrix = new Matrix();
+	private Matrix savedMatrix = new Matrix();
+    static final int NONE = 0; 	
+    static final int DRAG = 1; 	
+    static final int ZOOM = 2; 	
+    int mode = NONE; 
+    PointF start = new PointF(); 
+    PointF mid = new PointF(); 
+    float oldDist = 1f; 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -73,14 +85,18 @@ public class ShareMediaActivity extends Activity {
 		}else {
 			File file = new File(media_path);
 			if (file.exists()) {
-				Bitmap bm = BitmapFactory.decodeFile(media_path);
-				selectimg.setImageBitmap(bm);
+				bitmap = BitmapFactory.decodeFile(media_path);
+				selectimg.setImageBitmap(bitmap);//selectimg.seta
+				selectimg.setOnTouchListener((OnTouchListener) this);			
+				selectimg.setLongClickable(true);
+				
 				btnplay.setVisibility(View.GONE);
 			}
 		}
 	}
 	
-	 private Bitmap getVideoThumbnail(String videoPath, int width, int height,  
+	
+	private Bitmap getVideoThumbnail(String videoPath, int width, int height,  
 	            int kind) {  
 	        Bitmap bitmap = null;
 	        bitmap = ThumbnailUtils.createVideoThumbnail(videoPath, kind);
@@ -147,7 +163,11 @@ public class ShareMediaActivity extends Activity {
 			int change = actionBar.getDisplayOptions() ^ flags;
 			actionBar.setDisplayOptions(change, flags);
 		}
-		actionBar.setTitle("");
+		if (media_type_int == MediaUtil.MEDIA_TYPE_VIDEO) {
+			actionBar.setTitle(R.string.gallery_video_title);
+		} else {
+			actionBar.setTitle(R.string.gallery_photo_title);
+		}
 	}
 
 	public void SharePhoto(String mediaUri, String type, final Activity activity) {
@@ -174,4 +194,67 @@ public class ShareMediaActivity extends Activity {
 		MediaUtil.deleteLocalMedia(ShareMediaActivity.this, media_type_int, file_id);
 	}
 
+	private float spacing(MotionEvent event) { 		
+		float x = event.getX(0) - event.getX(1); 		
+		float y = event.getY(0) - event.getY(1); 
+		
+		return FloatMath.sqrt(x * x + y * y); 
+	} 
+
+	private void midPoint(PointF point, MotionEvent event) { 
+        float x = event.getX(0) + event.getX(1); 
+        float y = event.getY(0) + event.getY(1); 
+        point.set(x / 2, y / 2); 		
+	}
+	
+	@SuppressLint("ClickableViewAccessibility")
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		// TODO Auto-generated method stub
+		
+		switch(event.getActionMasked()){
+			case MotionEvent.ACTION_DOWN:				
+				matrix.set(selectimg.getImageMatrix());
+				savedMatrix.set(matrix);
+				start.set(event.getX(),event.getY());				
+				mode = DRAG;				
+				break;
+		
+		    case MotionEvent.ACTION_POINTER_DOWN:  //¶àµã´¥¿Ø
+		        oldDist=this.spacing(event);
+		        if (oldDist > 10f) {
+		             savedMatrix.set(matrix);
+		             midPoint(mid,event);
+		             mode = ZOOM;
+		        }
+		        break;
+		
+		    case MotionEvent.ACTION_POINTER_UP:
+		        mode = NONE;
+		        break;
+		
+		    case MotionEvent.ACTION_MOVE:
+		
+	            if (mode == DRAG) {         	
+	                matrix.set(savedMatrix);
+	                matrix.postTranslate(event.getX()-start.x, event.getY()-start.y);	
+	            } else if(mode == ZOOM){ 
+		             float newDist = spacing(event);
+		             if (newDist > 10) {
+		                 matrix.set(savedMatrix);
+		                 float scale = newDist/oldDist;
+		                 matrix.postScale(scale, scale, mid.x, mid.y);              
+		
+		             }
+		
+		         }
+		
+		         break;
+		
+		}
+		
+		selectimg.setImageMatrix(matrix);
+		
+		return false;
+	}
 }

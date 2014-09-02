@@ -7,6 +7,7 @@
     -->
     <style name="AppBaseTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         <!-- API 14 theme customizations can go here. -->
+        <item name="android:actionModeBackground">@drawable/bar_top</item>
     </style>
-
+    
 </resources>

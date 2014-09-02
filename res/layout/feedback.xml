@@ -3,44 +3,58 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/main_background"
     tools:context="com.hexairbot.hexmini.FeedbackActivity" >
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/feedback_top"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/bar_top"
-        android:gravity="center"
-        android:orientation="horizontal" >
-
-        <ImageButton
-            android:id="@+id/imageBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_weight="0.60"
-            android:background="#00000000"
-            android:src="@drawable/btn_back_feedback" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_weight="1.53"
-            android:gravity="center"
-            android:text="@string/btn_title_feedback" />
-
+        android:layout_height="wrap_content"      
+        android:background="@drawable/bar_top" >
+			
         <Button
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/btn_back" />
+			         
+		<ImageView android:id="@+id/backBtnDivider" 
+ 			android:layout_width="wrap_content"
+            android:layout_height="wrap_content"   
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/backBtn"
+            android:layout_marginLeft="5dp"  
+            android:src="@drawable/btn_back_divider" />
+
+         <TextView
+             android:id="@+id/titleTextView"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_centerHorizontal="false"
+             android:layout_centerInParent="true"
+             android:text="@string/btn_title_feedback"
+             android:textColor="@color/white"
+             android:textSize="@dimen/settings_title_text_size" />
+
+         <Button
             android:id="@+id/feedbackSave"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="0.37"
-            android:text="@string/send_feedback" />
-
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+			android:background="@drawable/btn_black"
+            android:layout_marginRight="5dp"
+            android:text="@string/send_feedback"
+            android:textColor="@color/white"
+            android:textSize="@dimen/settings_btn_text_size" />
+     </RelativeLayout>        
 
     <EditText android:id="@+id/feedbackText" 
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content">
-        
 		<requestFocus />
 	</EditText>
 </LinearLayout>

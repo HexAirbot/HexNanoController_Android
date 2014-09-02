@@ -2,16 +2,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-	<LinearLayout 
-	    android:id="@+id/splash"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    android:orientation="vertical"
-	    android:gravity="center|center"
-	    android:background="@drawable/splash" >
-	
-	</LinearLayout>
-
     <FrameLayout
         android:id="@+id/mainFrameLaytout"
         android:layout_width="match_parent"

@@ -198,16 +198,21 @@ public class HudExViewController extends ViewController
     private int camera_click_sound;
     private int video_record_sound;
     private boolean canRefreshUI = false;
+    private Image middleBg;
+    
+    private void setCurrentDecodeMode(){
+    	int decodeMode = VmcConfig.getInstance().getDecodeMode();
+		if (decodeMode == -1) {
+			decodeMode = IpcProxy.DEFAULT_DECODE_MODE;
+		}
+		setDecodeMode(decodeMode);
+    }
     
     private void setVideoEnv(){
     	SharedPreferences sp = PreferenceManager
 				.getDefaultSharedPreferences(this.context);
 
-		int decodeMode = VmcConfig.getInstance().getDecodeMode();
-		if (decodeMode == -1) {
-			decodeMode = IpcProxy.DEFAULT_DECODE_MODE;
-		}
-		setDecodeMode(decodeMode);
+    	setCurrentDecodeMode();
 		
 	    Intent intent = new Intent();
 		intent.setClass(this.context, IpcControlService.class);
@@ -277,7 +282,7 @@ public class HudExViewController extends ViewController
 
 		Resources res = context.getResources();
 
-		Image middleBg = new Image(res, R.drawable.main_background, Align.CENTER);
+		middleBg = new Image(res, R.drawable.main_background, Align.CENTER);
 		middleBg.setAlpha(0.5f);
 		middleBg.setVisible(true);
 		middleBg.setSizeParams(SizeParams.REPEATED, SizeParams.REPEATED);
@@ -288,7 +293,6 @@ public class HudExViewController extends ViewController
 		
 		Image web_address = new Image(res, R.drawable.web_address, Align.BOTTOM_RIGHT);
 		web_address.setMargin(0, (int)res.getDimension(R.dimen.main_web_address_margin_right), (int)res.getDimension(R.dimen.main_web_address_margin_bottom), 0);
-		
 		
 		Button helpBtn = new Button(res, R.drawable.btn_help_normal, R.drawable.btn_help_hl, Align.TOP_RIGHT);
 		helpBtn.setMargin((int)res.getDimension(R.dimen.hud_btn_settings_margin_top), (int)res.getDimension(R.dimen.hud_btn_settings_margin_right) * 4, 0, 0);
@@ -354,7 +358,7 @@ public class HudExViewController extends ViewController
 		};
 		bleIndicator = new Indicator(res, bleIndicatorRes, Align.TOP_RIGHT);
 		bleIndicator.setMargin((int)res.getDimension(R.dimen.main_ble_margin_top), (int)res.getDimension(R.dimen.main_ble_margin_right), 0, 0);
-		bleIndicator.setValue(0);
+		bleIndicator.setValue(1);
 	
 		int deviceBatteryIndicatorRes[] = {
 				R.drawable.device_battery_0,
@@ -467,6 +471,7 @@ public class HudExViewController extends ViewController
 		    	wifiIndicator.setVisible(true);
 				captureBtn.setEnabled(true);
 				recordBtn.setEnabled(true);
+				canRefreshUI = true;
 		    }
 		}
 	}
@@ -1459,6 +1464,7 @@ public class HudExViewController extends ViewController
 			controlService.getConnectStateManager().addConnectChangedListener(
 					mOnIpcConnectChangedListener);
 			// onDroneServiceConnected();
+			initUiControlShow();
 		}
 
 		@Override
@@ -1477,6 +1483,7 @@ public class HudExViewController extends ViewController
 		captureBtn.setEnabled(true);
 		recordBtn.setEnabled(true);
 		canRefreshUI = true;
+		setCurrentDecodeMode();
 	}
 
 	@Override
@@ -1485,8 +1492,11 @@ public class HudExViewController extends ViewController
 		captureBtn.setEnabled(false);
 		recordBtn.setEnabled(false);
 		if (canRefreshUI) {
-			glView.invalidate();
+			//glView.invalidate();
+			videoStageHard.setVisibility(View.GONE);
+			videoStageSoft.setVisibility(View.GONE);
 		}
+		
 		canRefreshUI = false;
 	}
 

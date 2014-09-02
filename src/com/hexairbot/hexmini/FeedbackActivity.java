@@ -17,6 +17,7 @@ import org.apache.http.util.EntityUtils;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -36,25 +37,29 @@ public class FeedbackActivity extends Activity {
 	private String content		 = null;
 	private static int POST_SUCCESS	 = 1;
 	private static int POST_FAIL	 = 2;
-	private ImageButton imagebtn = null;
+	private Button backbtn = null;
+	private CustomProgressDialog progressDialog = null;
+	private int sendResult = POST_SUCCESS;
+	
 	private Handler myHandler = new Handler(){
 
 		@Override
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
-			
+			sendResult = msg.what;
 			new AlertDialog.Builder(FeedbackActivity.this).
 			setTitle(R.string.kindly_reminder).
-			setMessage(msg.what==1 ? getResources().getString(R.string.send_success) : 
+			setMessage(msg.what==POST_SUCCESS ? getResources().getString(R.string.send_success) : 
 						getResources().getString(R.string.send_fail)).
 			setPositiveButton(R.string.sure_msg, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.dismiss();
-					FeedbackActivity.this.finish();
+					if (sendResult == POST_SUCCESS) {
+						FeedbackActivity.this.finish();
+					}
 				}
-			}).
-			show();
+			}).show();
 		}
 	};
 	
@@ -66,8 +71,8 @@ public class FeedbackActivity extends Activity {
 		save_feedback = (Button)findViewById(R.id.feedbackSave);
 		feedback	  = (EditText)findViewById(R.id.feedbackText);
 		save_feedback.setOnClickListener(new SaveBtnLinstener());
-		imagebtn	  = (ImageButton)findViewById(R.id.imageBtn);
-		imagebtn.setOnClickListener(new ImagebtnLinstener());
+		backbtn	  = (Button)findViewById(R.id.backBtn);
+		backbtn.setOnClickListener(new ImagebtnLinstener());
 	}
 	
 	class ImagebtnLinstener implements OnClickListener {
@@ -88,17 +93,21 @@ public class FeedbackActivity extends Activity {
 				Toast.makeText(FeedbackActivity.this, R.string.missing_input, Toast.LENGTH_LONG).show();
 				return;
 			}
+			
+			showProgress(R.string.sending);
+			
 			new Thread(){
 
 				@Override
-				public void run() {
+				public void run() {					
 					String response =  getReultForHttpPost1(content);
-
+					progressDialog.dismiss();	
 					if ("success".equals(response)) {
 						FeedbackActivity.this.myHandler.sendEmptyMessage(POST_SUCCESS);
 					}else{
 						FeedbackActivity.this.myHandler.sendEmptyMessage(POST_FAIL);
 					}
+					
 					super.run();
 				}
 				
@@ -106,6 +115,15 @@ public class FeedbackActivity extends Activity {
 		}
 		
 	}
+
+	public void showProgress(int resID) {  
+        if (progressDialog != null) {  
+            progressDialog.cancel();  
+        }  
+        progressDialog = new CustomProgressDialog(FeedbackActivity.this, getResources()  
+                .getString(resID));  
+        progressDialog.show();  
+    }
 	
 	public static String getReultForHttpPost1(String content) {
 		try {

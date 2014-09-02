@@ -2,7 +2,7 @@
 <resources>
     <string name="gallery_video_title">VIDEO</string>
     <string name="gallery_photo_title">PHOTO</string>
-    
+    <string name="gallery_title">FlexCam Album</string>
     <string name="wifi_disabled">Please check the WIFI setting,be sure WIFI was enabled and was connected to IPC.</string>
     <string name="enable_wifi">set</string>
     
