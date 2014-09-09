@@ -66,7 +66,7 @@
     <string name="missing_input">请输入内容。</string>
     <string name="sharebtnname">分享</string>
     <string name="delbtnname">删除</string>
-    <string name="del_text">你将删除一个文件。</string>
+    <string name="del_text">将删除%1$d个项目。</string>
     <string name="dialog_cancel">取消</string>
     <string name="dialog_ok">确定</string>
     <string name="playbtn">播放</string>

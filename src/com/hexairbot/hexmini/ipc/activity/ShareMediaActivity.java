@@ -16,11 +16,13 @@ import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.FloatMath;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -51,13 +53,13 @@ public class ShareMediaActivity extends Activity implements OnTouchListener{
     PointF start = new PointF(); 
     PointF mid = new PointF(); 
     float oldDist = 1f; 
-	
+	private DisplayMetrics dm;
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.share_media);
-		
-		initActionBar();
+				
 		Intent intent = getIntent();
 		media_path = intent.getStringExtra("media_path");
 		media_type = intent.getStringExtra("media_type");
@@ -67,9 +69,12 @@ public class ShareMediaActivity extends Activity implements OnTouchListener{
 		selectimg = (ImageView) findViewById(R.id.selectimg);
 		btnplay = (Button)findViewById(R.id.btnplay);
 		
-		if (media_type_int == MediaUtil.MEDIA_TYPE_VIDEO) {
-			DisplayMetrics dm = new DisplayMetrics();
-			getWindowManager().getDefaultDisplay().getMetrics(dm);
+		initActionBar();
+		
+		dm = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(dm);
+		
+		if (media_type_int == MediaUtil.MEDIA_TYPE_VIDEO) {			
 			selectimg.setImageBitmap(getVideoThumbnail(media_path, dm.widthPixels, dm.heightPixels,  
 	                MediaStore.Images.Thumbnails.MICRO_KIND));
 			
@@ -86,6 +91,19 @@ public class ShareMediaActivity extends Activity implements OnTouchListener{
 			File file = new File(media_path);
 			if (file.exists()) {
 				bitmap = BitmapFactory.decodeFile(media_path);
+				int width = bitmap.getWidth();
+				int height = bitmap.getHeight();
+
+				int newWidth = dm.widthPixels;			
+				int newHeight = dm.heightPixels - getActionBarHeight();				
+				float scaleWidth = ((float) newWidth) / width;		
+				float scaleHeight = ((float) newHeight) / height;	
+	
+				Matrix tmp_matrix = new Matrix();
+			
+				tmp_matrix.postScale(scaleWidth, scaleHeight);
+				bitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, tmp_matrix, true);
+
 				selectimg.setImageBitmap(bitmap);//selectimg.seta
 				selectimg.setOnTouchListener((OnTouchListener) this);			
 				selectimg.setLongClickable(true);
@@ -93,8 +111,21 @@ public class ShareMediaActivity extends Activity implements OnTouchListener{
 				btnplay.setVisibility(View.GONE);
 			}
 		}
+	
 	}
 	
+	private int getActionBarHeight() {
+	    int actionBarHeight = getActionBar().getHeight();
+	    if (actionBarHeight != 0)
+	        return actionBarHeight;
+	    final TypedValue tv = new TypedValue();
+	    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+	        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+	            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
+	    } else if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+	        actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
+	    return actionBarHeight;
+	}
 	
 	private Bitmap getVideoThumbnail(String videoPath, int width, int height,  
 	            int kind) {  
@@ -122,10 +153,17 @@ public class ShareMediaActivity extends Activity implements OnTouchListener{
 			ShareMediaActivity.this.finish();
 			break;
 		case R.id.delbtn:
+			String textFormat = getResources().getString(R.string.del_text); 
 			new AlertDialog.Builder(ShareMediaActivity.this)
-					.setTitle(R.string.delbtnname)
-					// .setIcon(android.R.drawable.ic_dialog_alert)
-					.setMessage(R.string.del_text)
+					.setTitle(R.string.delbtnname)					
+					.setMessage(String.format(textFormat, 1))
+					.setNegativeButton(R.string.dialog_cancel,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									dialog.dismiss();
+								}
+							})
 					.setPositiveButton(R.string.dialog_ok,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
@@ -135,14 +173,7 @@ public class ShareMediaActivity extends Activity implements OnTouchListener{
 									dialog.dismiss();
 									ShareMediaActivity.this.finish();
 								}
-							})
-					.setNegativeButton(R.string.dialog_cancel,
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int whichButton) {
-									dialog.dismiss();
-								}
-							}).show();
+							}).show();					
 			break;
 		default:
 			break;
@@ -176,7 +207,7 @@ public class ShareMediaActivity extends Activity implements OnTouchListener{
 		shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
 		shareIntent.setType(type);
 
-		startActivity(Intent.createChooser(shareIntent, activity.getTitle()));
+		startActivity(Intent.createChooser(shareIntent, getResources().getText(R.string.app_name)));
 	}
 
 	public void deleteFile(File file) {
@@ -211,6 +242,7 @@ public class ShareMediaActivity extends Activity implements OnTouchListener{
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		// TODO Auto-generated method stub
+		selectimg.setScaleType(ImageView.ScaleType.MATRIX);
 		
 		switch(event.getActionMasked()){
 			case MotionEvent.ACTION_DOWN:				
@@ -221,7 +253,7 @@ public class ShareMediaActivity extends Activity implements OnTouchListener{
 				break;
 		
 		    case MotionEvent.ACTION_POINTER_DOWN:  //¶àµã´¥¿Ø
-		        oldDist=this.spacing(event);
+		        oldDist = this.spacing(event);
 		        if (oldDist > 10f) {
 		             savedMatrix.set(matrix);
 		             midPoint(mid,event);
@@ -244,7 +276,7 @@ public class ShareMediaActivity extends Activity implements OnTouchListener{
 		                 matrix.set(savedMatrix);
 		                 float scale = newDist/oldDist;
 		                 matrix.postScale(scale, scale, mid.x, mid.y);              
-		
+		                 		
 		             }
 		
 		         }
@@ -252,7 +284,7 @@ public class ShareMediaActivity extends Activity implements OnTouchListener{
 		         break;
 		
 		}
-		
+	
 		selectimg.setImageMatrix(matrix);
 		
 		return false;

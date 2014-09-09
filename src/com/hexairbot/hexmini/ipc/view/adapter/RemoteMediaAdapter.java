@@ -4,6 +4,7 @@ import java.io.File;
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -506,6 +507,7 @@ public class RemoteMediaAdapter extends BaseAdapter implements
 	public void setData(ArrayList<MediaFile> newData) {
 		mData.clear();
 		mData.addAll(newData);
+		Collections.sort(mData);
 	}
 
 	@Override
