@@ -1,12 +1,15 @@
 package com.hexairbot.hexmini.ipc.activity;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
@@ -106,11 +109,28 @@ public class GalleryActivity extends Activity implements
 			return true;
 		}
 
-		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+		public boolean onActionItemClicked(final ActionMode mode, MenuItem item) {
 			if (item.getTitle().equals("delete")) {
-				((OnGalleryItemClick) adapter).delete(selectIds);						
-				mode.finish();
-				loadData(type);
+				String textFormat = getResources().getString(R.string.del_text); 
+				new AlertDialog.Builder(GalleryActivity.this)
+						.setTitle(R.string.delbtnname)					
+						.setMessage(String.format(textFormat, selectIds.size()))
+						.setNegativeButton(R.string.dialog_cancel,
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int whichButton) {
+										dialog.dismiss();
+									}
+								})
+						.setPositiveButton(R.string.dialog_ok,
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int whichButton) {
+										((OnGalleryItemClick) adapter).delete(selectIds);						
+										mode.finish();
+										loadData(type);
+									}
+								}).show();
 			}			
 			return true;
 		}

@@ -1,6 +1,6 @@
 package com.hexairbot.hexmini.ipc.view;
 
-public class MediaFile{
+public class MediaFile implements Comparable{
     public int type = -1;
     public String name = null;
     public long modifyDate;
@@ -35,4 +35,16 @@ public class MediaFile{
 	}
 	return false;
     }
+
+	@Override
+	public int compareTo(Object another) {
+		// TODO Auto-generated method stub
+		
+		MediaFile m = (MediaFile) another; 
+		String this_name = this.name.substring(0, this.name.length() - 4);
+		String another_name = m.name.substring(0, m.name.length() - 4);
+		
+	    return another_name.compareTo(this_name);
+    }        
+		
 }

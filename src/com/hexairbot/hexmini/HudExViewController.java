@@ -1,5 +1,7 @@
 package com.hexairbot.hexmini;
 
+import java.text.SimpleDateFormat;
+
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -790,8 +792,9 @@ public class HudExViewController extends ViewController
 							    .getExternalStorageDirectory()
 							    .getAbsolutePath()
 							    + MediaUtil.IPC_IMAGE_DIR;
-						    String filePath = System.currentTimeMillis()
-							    + ".jpg";
+
+						    //String filePath = System.currentTimeMillis()+ ".jpg";
+						    String filePath = generateFileName() + ".jpg";
 						    ConnectStateManager
 							    .getInstance(HexMiniApplication.sharedApplicaion())
 							    .getIpcProxy()
@@ -831,8 +834,8 @@ public class HudExViewController extends ViewController
 								.getExternalStorageDirectory()
 								.getAbsolutePath()
 								+ MediaUtil.IPC_VIDEO_DIR;
-							String filePath = System.currentTimeMillis()
-								+ ".mp4";
+							//String filePath = System.currentTimeMillis() + ".mp4";
+							String filePath = generateFileName() + ".mp4";
 							mCustomOnRecordCompleteListener.setPath(dirPath
 								+ filePath);
 							ipcProxy.addOnRecordCompleteListener(mCustomOnRecordCompleteListener);
@@ -893,6 +896,11 @@ public class HudExViewController extends ViewController
 		});
 		
 		
+	}
+	
+	private String generateFileName() {
+		SimpleDateFormat sDateFormat  = new SimpleDateFormat("yyyyMMdd_hhmmss");     
+	    return sDateFormat.format(new java.util.Date());  
 	}
 	
 	private void initGLSurfaceView() {
@@ -1572,11 +1580,11 @@ public class HudExViewController extends ViewController
 		    ipcProxy.doStopPreview();
 		}
 		
-		/*
+		
 		if (mSoundPool != null)
 		    mSoundPool.release();
-		super.onStop();
-		*/
+		//super.onStop();
+		
 	}
 	
 	private void initSound() {
@@ -1588,6 +1596,6 @@ public class HudExViewController extends ViewController
 	}
 	
 	private void playSound(int soundId) {
-		mSoundPool.play(soundId, 1, 1, 0, 0, 1);
+		if (mSoundPool != null) mSoundPool.play(soundId, 1, 1, 0, 0, 1);
 	}
 }
