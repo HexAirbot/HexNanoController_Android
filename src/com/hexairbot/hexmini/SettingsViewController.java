@@ -86,6 +86,8 @@ import com.vmc.ipc.proxy.IpcProxy;
 
 import com.hexairbot.hexmini.R;
 
+import com.hexairbot.hexmini.modal.OSDData;
+
 
 public class SettingsViewController extends ViewController
         implements OnPageChangeListener,
@@ -854,7 +856,8 @@ public class SettingsViewController extends ViewController
 				 bleDeviceNameTextView.setBackgroundColor(Color.BLUE);
 				//bleDeviceAddressTextView.setTextColor(Color.BLACK);
 				if ("Any Flite".equals(mLeDevices.get(position).getName())
-						|| "Flexbot".equals(mLeDevices.get(position).getName())) {
+						|| "Flexbot".equals(mLeDevices.get(position).getName())
+						|| "FlexBLE".equals(mLeDevices.get(position).getName())) {
 					bleDeviceNameTextView.setText("Flexbot");
 				}
 				else{
@@ -940,14 +943,14 @@ public class SettingsViewController extends ViewController
 	}
 
 	@Override
-	public void didReceiveData(BleConnectinManager manager, String data) {
-		// TODO Auto-generated method stub
-		Log.d(TAG, "didReceiveData");
-		
-		if(data != null){
-			Log.d(TAG, data);	
-		}
-	}
+	 public void didReceiveData(BleConnectinManager manager, byte[] data) {
+         // TODO Auto-generated method stub
+         Log.d(TAG, "didReceiveData");
+
+         Transmitter.sharedTransmitter().getOsdData().parseRawData(data);
+	 }
+	
+	
 
 	@Override
 	public void didFailToConnect(BleConnectinManager manager) {

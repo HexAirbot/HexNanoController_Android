@@ -122,6 +122,9 @@ public class HudExViewController extends ViewController
 	private static final int BLE_INDICATOR       	   = 23;
 	private static final int WEB_ADDRESS			   = 24;
 	
+    private static final int DEBUG_TEXT_VIEW      = 25;
+
+	
 	private final float  BEGINNER_ELEVATOR_CHANNEL_RATIO  = 0.5f;
 	private final float  BEGINNER_AILERON_CHANNEL_RATIO   = 0.5f;
 	private final float  BEGINNER_RUDDER_CHANNEL_RATIO    = 0.0f;
@@ -201,6 +204,9 @@ public class HudExViewController extends ViewController
     private int video_record_sound;
     private boolean canRefreshUI = false;
     private Image middleBg;
+    
+    private Text debugTextView;
+    
     
     private void setCurrentDecodeMode(){
     	int decodeMode = VmcConfig.getInstance().getDecodeMode();
@@ -382,6 +388,16 @@ public class HudExViewController extends ViewController
 		buttons[6] = recordBtn;
 		buttons[7] = galleryBtn;
 		
+		String debugStr = "000, 000, 000, 0.0";
+		debugTextView = new Text(context, debugStr, Align.TOP_LEFT);
+		debugTextView.setMargin((int)res.getDimension(R.dimen.hud_state_text_margin_top) * 2, 0, 0, 0);
+		debugTextView.setTextColor(Color.WHITE);
+		debugTextView.setTypeface(FontUtils.TYPEFACE.Helvetica(context));
+		debugTextView.setTextSize(res.getDimensionPixelSize(R.dimen.hud_state_text_size) * 2 / 3);
+
+		HexMiniApplication.sharedApplicaion().setDebugTextView(debugTextView);
+		
+		
 		renderer.addSprite(MIDLLE_BG_ID, middleBg);				
 		renderer.addSprite(LOGO, logo);	
 		renderer.addSprite(WEB_ADDRESS, web_address);	
@@ -397,7 +413,7 @@ public class HudExViewController extends ViewController
 		renderer.addSprite(DEVICE_BATTERY_INDICATOR, deviceBatteryIndicator);
 		renderer.addSprite(RECORDING_INDICATOR, recordingIndicator);
 		renderer.addSprite(BLE_INDICATOR, bleIndicator);
-		
+		renderer.addSprite(DEBUG_TEXT_VIEW, debugTextView);
 		//renderer.addSprite(HELP_BTN, helpBtn);
 		
 		

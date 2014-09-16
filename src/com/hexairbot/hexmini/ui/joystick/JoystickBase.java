@@ -250,7 +250,6 @@ public abstract class JoystickBase extends Sprite
         }
 	}
 	
-	//���½�Ϊ���ϵԭ��
 	public void moveTo(float x, float y)
 	{
 		this.centerX = x;
@@ -262,7 +261,6 @@ public abstract class JoystickBase extends Sprite
 		this.thumbCenterY = y;
 	}
 	
-	//���½�Ϊ���ϵԭ��
 	public void moveThumbTo(float x, float y)
 	{
 		/*
@@ -421,10 +419,7 @@ public abstract class JoystickBase extends Sprite
     }
 
 
-    //xy�����Ͻ�Ϊ���ϵԭ��
-    //baseX baseY�����Ͻ�Ϊ���ϵԭ��
-    //centerX, centerY, ���½�Ϊ���ϵԭ��
-    //thumbCenterX, thumbCenterY, ���½�Ϊ���ϵԭ��
+
     protected void onActionDown(float x, float y)
     {
     	Log.d("onActionDown x y", "x:"+ x + ";y:"+ y);
@@ -725,7 +720,7 @@ public abstract class JoystickBase extends Sprite
 //    	//	}
 		//}
 	}
-	//��Ҫ�ػ�
+
 	@Override
 	public void setNeedsUpdate() {
 		isInitialized = false;

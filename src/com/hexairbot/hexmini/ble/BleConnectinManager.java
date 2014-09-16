@@ -94,8 +94,8 @@ public class BleConnectinManager  {
             }
             else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) { //收到数据
             	Log.e(TAG, "RECV DATA");
-            	String data = intent.getStringExtra(BluetoothLeService.EXTRA_DATA);
-            	
+            	//byte[] data = intent.getStringExtra(BluetoothLeService.EXTRA_DATA);
+            	byte[] data = intent.getByteArrayExtra(BluetoothLeService.EXTRA_DATA);
             	
             	if (delegate != null) {
 					delegate.didReceiveData(BleConnectinManager.this, data);
@@ -195,9 +195,15 @@ public class BleConnectinManager  {
 	}
 	
 	
-	public void sendData(byte[] data) {
+	public void sendControlData(byte[] data) {
 		if (mBluetoothLeService != null && isConnected()) {
 			mBluetoothLeService.WriteValue(data);
+		}
+	}
+	
+	public void sendRequstData(byte[] data) {
+		if (mBluetoothLeService != null && isConnected()) {
+			mBluetoothLeService.writeRequestValue(data);
 		}
 	}
 	

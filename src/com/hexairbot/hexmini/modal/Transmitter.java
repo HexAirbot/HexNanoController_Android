@@ -3,15 +3,17 @@ package com.hexairbot.hexmini.modal;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.hexairbot.hexmini.ble.BleConnectinManager;
-
 import android.R.integer;
 import android.os.Handler;
 import android.text.StaticLayout;
 import android.util.Log;
 
+import com.hexairbot.hexmini.HexMiniApplication;
+import com.hexairbot.hexmini.ble.BleConnectinManager;
+import com.hexairbot.hexmini.modal.OSDCommon.MSPCommnand;
+import com.hexairbot.hexmini.ui.Text;
 
-public class Transmitter {
+public class Transmitter implements OSDDataDelegate{
 	private static final int  CHANNEL_COUNT = 8;
 	private static final int  FPS = 14; //max 17
 	
@@ -19,8 +21,15 @@ public class Transmitter {
 	private BleConnectinManager bleConnectionManager;
 	private Timer timer;
 	private byte dataPackage[] = new byte[11];
+	private byte refinedDataPackage[] = new byte[6];
 	private float[] channelList = new float[CHANNEL_COUNT];
 	
+	private OSDData osdData;
+	
+	public OSDData getOsdData() {
+		return osdData;
+	}
+
 	public BleConnectinManager getBleConnectionManager() {
 		return bleConnectionManager;
 	}
@@ -49,12 +58,26 @@ public class Transmitter {
 		
 		initDataPackage();
 		
+		
+	    if (osdData == null) {
+	        osdData = new OSDData();
+	        osdData.setDelegate(this);
+	    }
+
+		
 		timer = new Timer();
 		timer.schedule(new TimerTask() {
 			
 			@Override
 			public void run() {
-				transmmit();
+				handler.post(new Runnable() {
+					
+					@Override
+					public void run() {
+						transmmit();						
+					}
+				});
+				
 			}
 		}, 0, 1000 / FPS);
 	}
@@ -68,7 +91,7 @@ public class Transmitter {
 	
 	public void transmmitData(byte[] data){
 		if (bleConnectionManager != null && bleConnectionManager.isConnected() && data != null){
-			bleConnectionManager.sendData(data);
+			bleConnectionManager.sendRequstData(data);
 		}
 	}
 	
@@ -77,11 +100,25 @@ public class Transmitter {
 		return true;
 	}
 	
+	private int sendCnt;
+	
 	private void transmmit(){
 		updateDataPackage();
 	    if (bleConnectionManager != null && bleConnectionManager.isConnected() && dataPackage != null) {
-			bleConnectionManager.sendData(dataPackage);
-		}
+	    	refinedDataPackage[0] = dataPackage[5];
+	    	refinedDataPackage[1] = dataPackage[6];
+	    	refinedDataPackage[2] = dataPackage[7];
+	    	refinedDataPackage[3] = dataPackage[8];
+	    	refinedDataPackage[4] = dataPackage[9];
+	    	refinedDataPackage[5] = dataPackage[10];
+
+			bleConnectionManager.sendControlData(refinedDataPackage);
+	    		    	
+		    sendCnt++;
+		    if (sendCnt % 2 == 1){		    
+		    	bleConnectionManager.sendRequstData(OSDCommon.getSimpleCommand(MSPCommnand.MSP_HEX_NANO));
+		    }  
+	}
 		/*
 		handler.post(new Runnable() {
 			
@@ -210,4 +247,19 @@ public class Transmitter {
 	       
 	    dataPackage[checkSumIdx] = (byte) checkSum;
 	}
+
+	@Override
+	public void osdDataDidUpdateOneFrame() {
+		Log.d("Test", "osdDataDidUpdateOneFrame");
+		
+		Text debugTextView = HexMiniApplication.sharedApplicaion().getDebugTextView();
+		
+		String debugString = "" + osdData.getAngleX() + " " + osdData.getAngleY();
+		
+		debugTextView.setText(debugString);
+		
+		 // [[[BasicInfoManager sharedManager] osdView] setNeedsDisplay];		
+	}
+	
+	
 }

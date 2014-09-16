@@ -15,6 +15,7 @@ import com.hexairbot.hexmini.util.FileHelper;
 import com.vmc.ipc.config.ConfigStoreHandler;
 import com.vmc.ipc.config.VmcConfig;
 import com.vmc.ipc.util.MediaUtil;
+import com.hexairbot.hexmini.ui.Text;
 
 
 public class HexMiniApplication extends Application 
@@ -32,6 +33,20 @@ public class HexMiniApplication extends Application
     	System.loadLibrary("vmcipc");
     }
 	
+    
+	private Text debugTextView;
+	
+	
+	public Text getDebugTextView() {
+		return debugTextView;
+	}
+
+
+	public void setDebugTextView(Text debugTextView) {
+		this.debugTextView = debugTextView;
+	}
+
+
 	
 	public enum AppStage{
 		UNKNOWN,
