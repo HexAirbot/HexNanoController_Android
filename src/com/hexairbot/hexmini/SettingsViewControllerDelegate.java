@@ -17,8 +17,9 @@ public interface SettingsViewControllerDelegate {
 	public void beginnerModeValueDidChange(boolean isBeginnerMode);
 	public void aileronAndElevatorDeadBandValueDidChange(float newValue);
 	public void rudderDeadBandValueDidChange(float newValue);
-	
+
 	public void didConnect();
 	public void didDisconnect();
 	public void didFailToConnect();
+	public void tringToConnect(String target);
 }

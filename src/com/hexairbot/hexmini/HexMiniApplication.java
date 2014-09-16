@@ -29,7 +29,20 @@ public class HexMiniApplication extends Application
 	
 	private AppStage appStage = AppStage.UNKNOWN;
 	
-    static {
+	private boolean isFullDuplex;
+
+
+	public boolean isFullDuplex() {
+		return isFullDuplex;
+	}
+
+
+	public void setFullDuplex(boolean isFullDuplex) {
+		this.isFullDuplex = isFullDuplex;
+	}
+
+
+	static {
     	System.loadLibrary("vmcipc");
     }
 	

@@ -1614,4 +1614,26 @@ public class HudExViewController extends ViewController
 	private void playSound(int soundId) {
 		if (mSoundPool != null) mSoundPool.play(soundId, 1, 1, 0, 0, 1);
 	}
+
+	@Override
+	public void tringToConnect(String target) {
+		ApplicationSettings settings = HexMiniApplication.sharedApplicaion().getAppSettings();
+
+		if (target.equals("FlexBLE")) {
+
+			if (settings.getFlexbotVersion().equals("1.5.0") == false) {
+				settings.setFlexbotVersion("1.5.0");
+				settings.save();
+			}
+			
+			HexMiniApplication.sharedApplicaion().setFullDuplex(true);
+		}
+			
+		else{
+			settings.getFlexbotVersion().equals("1.0.0");
+			settings.save();
+			HexMiniApplication.sharedApplicaion().setFullDuplex(false);
+				
+		}
+	}
 }

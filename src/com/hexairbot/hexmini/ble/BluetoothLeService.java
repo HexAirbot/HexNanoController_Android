@@ -35,6 +35,8 @@ import android.util.Log;
 import java.util.List;
 import java.util.UUID;
 
+import com.hexairbot.hexmini.HexMiniApplication;
+
 /**
  * Service for managing connection and data communication with a GATT server hosted on a
  * given Bluetooth LE device.
@@ -116,55 +118,79 @@ public class BluetoothLeService extends Service {
     			for (BluetoothGattCharacteristic gattCharacteristic :
                     gattCharacteristics) 
     			{
-    				if(gattCharacteristic.getUuid().toString().equalsIgnoreCase(UUID_NOTIFY.toString()))
-    				{
-    					Log.i(TAG, gattCharacteristic.getUuid().toString());
-    					Log.i(TAG, UUID_NOTIFY.toString());
-    					mNotifyCharacteristic = gattCharacteristic;
-    					mNotifyCharacteristic.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE);
-    					
-    					Log.e(TAG, "find new gattCharacteristic");
-    					
-    					//setCharacteristicNotification(gattCharacteristic, true);
-    					//broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED);
-    					
-    					characteristicCnt++;
+    				if (HexMiniApplication.sharedApplicaion().isFullDuplex()) {
+        				if(gattCharacteristic.getUuid().toString().equalsIgnoreCase(UUID_NOTIFY.toString()))
+        				{
+        					Log.i(TAG, gattCharacteristic.getUuid().toString());
+        					Log.i(TAG, UUID_NOTIFY.toString());
+        					mNotifyCharacteristic = gattCharacteristic;
+        					mNotifyCharacteristic.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE);
+        					
+        					Log.e(TAG, "find new gattCharacteristic");
+        					
+        					characteristicCnt++;
+        				}
+        				else if(gattCharacteristic.getUuid().toString().equalsIgnoreCase(UUID_REQUSET_CHARACTERISTIC.toString()))
+        				{
+        					Log.i(TAG, gattCharacteristic.getUuid().toString());
+        					Log.i(TAG, UUID_REQUSET_CHARACTERISTIC.toString());
+        					mRequstCharacteristic = gattCharacteristic;
+        					
+        					Log.e(TAG, "find new gattCharacteristic");
+        					
+        					characteristicCnt++;
+        				}
+        				else if(gattCharacteristic.getUuid().toString().equalsIgnoreCase(UUID_OSD_CHARACTERISTIC.toString()))
+        				{
+        					Log.i(TAG, gattCharacteristic.getUuid().toString());
+        					Log.i(TAG, UUID_OSD_CHARACTERISTIC.toString());
+        					mOsdCharacteristic = gattCharacteristic;
+        					
+        					setCharacteristicNotification(gattCharacteristic, true);
+        					
+        					Log.e(TAG, "find new gattCharacteristic");
+        					
+        					characteristicCnt++;
+        				}
+        				
+        		        if (characteristicCnt == CHARACTERISTIC_CNT) {
+        		            break;
+        		        }
+					}
+    				else{
+        				if(gattCharacteristic.getUuid().toString().equalsIgnoreCase(UUID_NOTIFY.toString()))
+        				{
+        					Log.i(TAG, gattCharacteristic.getUuid().toString());
+        					Log.i(TAG, UUID_NOTIFY.toString());
+        					mNotifyCharacteristic = gattCharacteristic;
+        					mNotifyCharacteristic.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE);
+        					
+        					Log.e(TAG, "find new gattCharacteristic");
+        					
+        					//setCharacteristicNotification(gattCharacteristic, true);
+        					//broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED);
+        					
+        					characteristicCnt++;
+        					
+        					break;
+        				}
     				}
-    				else if(gattCharacteristic.getUuid().toString().equalsIgnoreCase(UUID_REQUSET_CHARACTERISTIC.toString()))
-    				{
-    					Log.i(TAG, gattCharacteristic.getUuid().toString());
-    					Log.i(TAG, UUID_REQUSET_CHARACTERISTIC.toString());
-    					mRequstCharacteristic = gattCharacteristic;
-    					
-    					Log.e(TAG, "find new gattCharacteristic");
-    					
-    					characteristicCnt++;
-    				}
-    				else if(gattCharacteristic.getUuid().toString().equalsIgnoreCase(UUID_OSD_CHARACTERISTIC.toString()))
-    				{
-    					Log.i(TAG, gattCharacteristic.getUuid().toString());
-    					Log.i(TAG, UUID_OSD_CHARACTERISTIC.toString());
-    					mOsdCharacteristic = gattCharacteristic;
-    					
-    					//mOsdCharacteristic.
-    					
-    					setCharacteristicNotification(gattCharacteristic, true);
-    					
-    					Log.e(TAG, "find new gattCharacteristic");
-    					
-    					characteristicCnt++;
-    				}
-    				
-    		        if (characteristicCnt == CHARACTERISTIC_CNT) {
-    		            break;
-    		        }
     			}
     			
-    		    if (characteristicCnt == CHARACTERISTIC_CNT) {
-    		    	Log.i(TAG, "***success found all characteritics");
-    		    	
-    		    	broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED);
-    		    }
+    			if (HexMiniApplication.sharedApplicaion().isFullDuplex()) {
+        		    if (characteristicCnt == CHARACTERISTIC_CNT) {
+        		    	Log.i(TAG, "***success found all characteritics");
+        		    	broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED);
+            		    break;
+        		    }
+				}
+				else{
+        		    if (mNotifyCharacteristic != null) {
+        		    	Log.i(TAG, "***success found all characteritics");
+        		    	broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED);
+            		    break;
+        		    }
+				}
     		}
     	}
     }

@@ -310,6 +310,10 @@ public class SettingsViewController extends ViewController
 								}
 							}
 							
+							if(SettingsViewController.this.delegate != null){
+								SettingsViewController.this.delegate.tringToConnect(targetDevice.getName());
+							}
+							
 							connectionStateTextView.setText(R.string.settings_item_connection_state_not_conneceted);
 							Transmitter.sharedTransmitter().getBleConnectionManager().connect(targetDevice); 
 						}

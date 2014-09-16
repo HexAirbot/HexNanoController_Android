@@ -1545,4 +1545,10 @@ public class HudViewController extends ViewController
 		super.onStop();
 		*/
 	}
+
+	@Override
+	public void tringToConnect(String target) {
+		// TODO Auto-generated method stub
+		
+	}
 }

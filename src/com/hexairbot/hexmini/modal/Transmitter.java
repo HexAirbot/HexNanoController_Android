@@ -91,7 +91,12 @@ public class Transmitter implements OSDDataDelegate{
 	
 	public void transmmitData(byte[] data){
 		if (bleConnectionManager != null && bleConnectionManager.isConnected() && data != null){
-			bleConnectionManager.sendRequstData(data);
+			if (HexMiniApplication.sharedApplicaion().isFullDuplex()) {
+				bleConnectionManager.sendRequstData(data);
+			}
+			else{
+				bleConnectionManager.sendControlData(data);
+			}
 		}
 	}
 	
@@ -105,19 +110,23 @@ public class Transmitter implements OSDDataDelegate{
 	private void transmmit(){
 		updateDataPackage();
 	    if (bleConnectionManager != null && bleConnectionManager.isConnected() && dataPackage != null) {
-	    	refinedDataPackage[0] = dataPackage[5];
-	    	refinedDataPackage[1] = dataPackage[6];
-	    	refinedDataPackage[2] = dataPackage[7];
-	    	refinedDataPackage[3] = dataPackage[8];
-	    	refinedDataPackage[4] = dataPackage[9];
-	    	refinedDataPackage[5] = dataPackage[10];
-
-			bleConnectionManager.sendControlData(refinedDataPackage);
-	    		    	
-		    sendCnt++;
-		    if (sendCnt % 2 == 1){		    
-		    	bleConnectionManager.sendRequstData(OSDCommon.getSimpleCommand(MSPCommnand.MSP_HEX_NANO));
-		    }  
+	    	if (HexMiniApplication.sharedApplicaion().isFullDuplex()) {
+		    	refinedDataPackage[0] = dataPackage[5];
+		    	refinedDataPackage[1] = dataPackage[6];
+		    	refinedDataPackage[2] = dataPackage[7];
+		    	refinedDataPackage[3] = dataPackage[8];
+		    	refinedDataPackage[4] = dataPackage[9];
+		    	refinedDataPackage[5] = dataPackage[10];
+		    	bleConnectionManager.sendControlData(refinedDataPackage);
+			    
+		    	sendCnt++;
+			    if (sendCnt % 2 == 1){		    
+			    	bleConnectionManager.sendRequstData(OSDCommon.getSimpleCommand(MSPCommnand.MSP_HEX_NANO));
+			    }  
+	    	}
+	    	else{
+	    		bleConnectionManager.sendControlData(dataPackage);	
+	    	}
 	}
 		/*
 		handler.post(new Runnable() {
