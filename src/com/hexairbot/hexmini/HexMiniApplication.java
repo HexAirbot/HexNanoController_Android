@@ -103,31 +103,6 @@ public class HexMiniApplication extends Application
 		String settingsFileName        = "Settings.plist";        //user
 		String defaultSettingsFileName = "DefaultSettings.plist"; //default
 
-		if (fileHelper.hasDataFile(settingsFileName) == false) {
-			AssetManager assetManager = getAssets();
-			
-			InputStream in = null;
-			OutputStream out = null;
-			try {
-				in = assetManager.open(settingsFileName);
-				out =  openFileOutput(settingsFileName, MODE_PRIVATE);
-
-				byte[] buffer = new byte[1024];
-				int read;
-				while ((read = in.read(buffer)) != -1) {
-					out.write(buffer, 0, read);
-				}
-
-				in.close();
-				in = null;
-				out.flush();
-				out.close();
-				out = null;
-			} catch (IOException e) {
-				Log.e("tag", "Failed to copy asset file: " + settingsFileName, e);
-			}
-		}
-		
 		if (fileHelper.hasDataFile(defaultSettingsFileName) == false) {
 			AssetManager assetManager = getAssets();
 			
@@ -151,6 +126,41 @@ public class HexMiniApplication extends Application
 			} catch (IOException e) {
 				Log.e("tag", "Failed to copy asset file: " + settingsFileName, e);
 			}
+		}
+		
+		if (fileHelper.hasDataFile(settingsFileName) == false) {
+			AssetManager assetManager = getAssets();
+			
+			InputStream in = null;
+			OutputStream out = null;
+			try {
+				in = assetManager.open(settingsFileName); //从Asset里面复制
+				out =  openFileOutput(settingsFileName, MODE_PRIVATE);
+
+				byte[] buffer = new byte[1024];
+				int read;
+				while ((read = in.read(buffer)) != -1) {
+					out.write(buffer, 0, read);
+				}
+
+				in.close();
+				in = null;
+				out.flush();
+				out.close();
+				out = null;
+			} catch (IOException e) {
+				Log.e("tag", "Failed to copy asset file: " + settingsFileName, e);
+			}
+		}
+		else{
+			ApplicationSettings userSettings = new ApplicationSettings(getFilesDir() + "/" + settingsFileName);
+			
+			if (userSettings.getSettingsVersion().equals("1.0.0")) { //old settings file, needed to be updated
+				boolean success = fileHelper.delDataFile(settingsFileName);
+				success = fileHelper.delDataFile(defaultSettingsFileName);
+				copyDefaultSettingsFileIfNeeded();
+			}
+			//ApplicationSettings defaultSettings = new ApplicationSettings(getFilesDir() + "/Settings.plist");
 		}
     }
 

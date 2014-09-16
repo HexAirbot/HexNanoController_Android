@@ -123,6 +123,14 @@
 			<integer>0</integer>
 		</dict>
 	</array>
+	<key>FlexbotVersion</key>
+	<string>1.0.0</string>
+	<key>AppVersion</key>
+	<string>1.0.0</string>
+	<key>CommunicationType</key>
+	<string>BLE</string>
+	<key>SettingsVersion</key>
+	<string>1.5.0</string>
 	<key>IsFirstRun</key>
 	<true/>
 </dict>

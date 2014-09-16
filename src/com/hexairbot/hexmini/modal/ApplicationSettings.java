@@ -11,6 +11,7 @@ import com.dd.plist.NSArray;
 import com.dd.plist.NSDictionary;
 import com.dd.plist.PropertyListParser;
 import com.dd.plist.NSNumber;
+import com.dd.plist.NSString;
 import com.hexairbot.hexmini.HexMiniApplication;
 
 
@@ -27,6 +28,10 @@ public class ApplicationSettings {
 	private final static String RUDDER_DEAD_BAND   = "RudderDeadBand";
 	private final static String TAKE_OFF_THROTTLE  = "TakeOffThrottle";
 	public final  static String CHANNELS           = "Channels";
+    private final static String APP_VERSION         = "AppVersion";
+    private final static String FLEXBOT_VERSION     = "FlexbotVersion";
+    private final static String COMMUNICATION_TYPE  = "CommunicationType";
+    private final static String SETTINGS_VERSION    = "SettingsVersion";
 	
 	private String path;
 
@@ -43,8 +48,11 @@ public class ApplicationSettings {
 	private float elevatorDeadBand;
 	private float rudderDeadBand;
 	private float takeOffThrottle;
-	
-	
+    private String appVersion;
+    private String flexbotVersion;
+    private String communicationType;
+    private String settingsVersion;
+   
 	private List<Channel> channels;
 	
 	public ApplicationSettings(String path)
@@ -54,18 +62,18 @@ public class ApplicationSettings {
 		try {
 			data = (NSDictionary)PropertyListParser.parse(path);
 			
-			interfaceOpacity = ((NSNumber)data.objectForKey(INTERFACE_OPACITY)).floatValue();
-			isLeftHanded     = ((NSNumber)data.objectForKey(IS_LEFT_HANDED)).boolValue();
-			isAccMode        = ((NSNumber)data.objectForKey(IS_ACC_MODE)).boolValue();
-			isFirstRun       = ((NSNumber)data.objectForKey(IS_FIRST_RUN)).boolValue();
-			isHeadFreeMode   = ((NSNumber)data.objectForKey(IS_HEAD_FREE_MODE)).boolValue();
-			isAltHoldMode    = ((NSNumber)data.objectForKey(IS_ALT_HOLD_MODE)).boolValue();
-			isBeginnerMode   = ((NSNumber)data.objectForKey(IS_BEGINNER_MODE)).boolValue();
-			aileronDeadBand  = ((NSNumber)data.objectForKey(AILERON_DEAD_BAND)).floatValue();
-			elevatorDeadBand = ((NSNumber)data.objectForKey(ELEVATOR_DEAD_BAND)).floatValue();
-			rudderDeadBand   = ((NSNumber)data.objectForKey(RUDDER_DEAD_BAND)).floatValue();
-			takeOffThrottle  = ((NSNumber)data.objectForKey(TAKE_OFF_THROTTLE)).floatValue();
-			
+			interfaceOpacity  = ((NSNumber)data.objectForKey(INTERFACE_OPACITY)).floatValue();
+			isLeftHanded      = ((NSNumber)data.objectForKey(IS_LEFT_HANDED)).boolValue();
+			isAccMode         = ((NSNumber)data.objectForKey(IS_ACC_MODE)).boolValue();
+			isFirstRun        = ((NSNumber)data.objectForKey(IS_FIRST_RUN)).boolValue();
+			isHeadFreeMode    = ((NSNumber)data.objectForKey(IS_HEAD_FREE_MODE)).boolValue();
+			isAltHoldMode     = ((NSNumber)data.objectForKey(IS_ALT_HOLD_MODE)).boolValue();
+			isBeginnerMode    = ((NSNumber)data.objectForKey(IS_BEGINNER_MODE)).boolValue();
+			aileronDeadBand   = ((NSNumber)data.objectForKey(AILERON_DEAD_BAND)).floatValue();
+			elevatorDeadBand  = ((NSNumber)data.objectForKey(ELEVATOR_DEAD_BAND)).floatValue();
+			rudderDeadBand    = ((NSNumber)data.objectForKey(RUDDER_DEAD_BAND)).floatValue();
+			takeOffThrottle   = ((NSNumber)data.objectForKey(TAKE_OFF_THROTTLE)).floatValue();
+
 			NSArray rawChannels = (NSArray)data.objectForKey(ApplicationSettings.CHANNELS);
 			int channelCount = rawChannels.count();
 		
@@ -75,9 +83,20 @@ public class ApplicationSettings {
 				Channel oneChannel = new Channel(this, channelIdx);
 				channels.add(oneChannel);
 			}	
+			
+		    appVersion        = ((NSString)data.objectForKey(APP_VERSION)).getContent();
+		    flexbotVersion    = ((NSString)data.objectForKey(FLEXBOT_VERSION)).getContent();;
+		    communicationType = ((NSString)data.objectForKey(COMMUNICATION_TYPE)).getContent();;
+		    settingsVersion   = ((NSString)data.objectForKey(SETTINGS_VERSION)).getContent();;
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			
+			appVersion = "1.0.0";
+			flexbotVersion = "1.0.0";
+			communicationType = "1.0.0";
+			settingsVersion = "1.0.0";
 		}
 	}
 	
@@ -277,5 +296,41 @@ public class ApplicationSettings {
 	    }
 	    
 	    return null;
+	}
+
+	public String getAppVersion() {
+		return appVersion;
+	}
+
+	public void setAppVersion(String appVersion) {
+		this.appVersion = appVersion;
+		data.put(APP_VERSION, appVersion);
+	}
+
+	public String getFlexbotVersion() {
+		return flexbotVersion;
+	}
+
+	public void setFlexbotVersion(String flexbotVersion) {
+		this.flexbotVersion = flexbotVersion;
+		data.put(FLEXBOT_VERSION, flexbotVersion);
+	}
+
+	public String getCommunicationType() {
+		return communicationType;
+	}
+
+	public void setCommunicationType(String communicationType) {
+		this.communicationType = communicationType;
+		data.put(COMMUNICATION_TYPE, communicationType);
+	}
+
+	public String getSettingsVersion() {
+		return settingsVersion;
+	}
+
+	public void setSettingsVersion(String settingsVersion) {
+		this.settingsVersion = settingsVersion;
+		data.put(SETTINGS_VERSION, settingsVersion);
 	}
 }
