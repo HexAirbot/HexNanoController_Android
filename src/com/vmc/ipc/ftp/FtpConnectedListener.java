@@ -1,6 +1,6 @@
 package com.vmc.ipc.ftp;
 
 public interface FtpConnectedListener {
-    public void connect();
-    public void disconnect();
+    public void onFtpConnect();
+    public void onFtpDisconnect();
 }

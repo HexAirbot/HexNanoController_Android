@@ -156,7 +156,7 @@ public class ConnectStateManager {
 	    failCnt = 0;
 	}
 	if(FtpManager.getInstance().getState() == FtpManager.STATE_DISCONNETED) {
-	    FtpManager.getInstance().connect();
+	    FtpManager.getInstance().init();
 	}
     }
 
@@ -167,20 +167,20 @@ public class ConnectStateManager {
 	    for (OnIpcConnectChangedListener lis : connectChangedListeners) {
 		lis.OnIpcDisConnected();
 	    }
-	    //open wifi
-//	    if(failCnt > 5 && !selectApSetting) {
-//		DebugHandler.logWithToast(appContext, appContext.getResources().getString(R.string.select_ap_to_connect), 3000);
-//		Intent apintent = new Intent();
-//		apintent.setAction(ApConnectService.ACTION_CONNECT_MANUALLY);
-//		apintent.setClass(appContext, ApConnectService.class);
-//		appContext.startService(apintent);
-//		selectApSetting = true;
-//		failCnt = 0;
-//	    }
-//	    else{
-//	    	if(!selectApSetting)
-//	    		failCnt++;
-//	    }
+	    
+	    if(failCnt > 5 && !selectApSetting) {
+		DebugHandler.logWithToast(appContext, appContext.getResources().getString(R.string.select_ap_to_connect), 3000);
+		Intent apintent = new Intent();
+		apintent.setAction(ApConnectService.ACTION_CONNECT_MANUALLY);
+		apintent.setClass(appContext, ApConnectService.class);
+		appContext.startService(apintent);
+		selectApSetting = true;
+		failCnt = 0;
+	    }
+	    else{
+	    	if(!selectApSetting)
+	    		failCnt++;
+	    }
 	}
     }
 

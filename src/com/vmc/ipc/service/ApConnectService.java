@@ -64,7 +64,7 @@ public class ApConnectService extends Service{
         Log.i(TAG, "Received start id " + startId + ": " + intent);
         // We want this service to continue running until it is explicitly
         // stopped, so return sticky.
-        if(intent == null) return START_STICKY;
+        if(intent == null) return START_NOT_STICKY;
         String action = intent.getAction();
         if(action.equals(ACTION_CHECK_AND_ENABLE_WIFI)) {
             ApCheckHandler.removeMessages(MSG_AP_ENABLE_CHECK);
@@ -78,7 +78,7 @@ public class ApConnectService extends Service{
             ApCheckHandler.removeMessages(MSG_AP_CONNECT_MANUALLY);
             ApCheckHandler.sendEmptyMessage(MSG_AP_CONNECT_MANUALLY);
         }
-        return START_STICKY;
+        return START_NOT_STICKY;
     }
 
     @Override

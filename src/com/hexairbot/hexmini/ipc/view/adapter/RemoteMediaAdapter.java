@@ -698,14 +698,14 @@ public class RemoteMediaAdapter extends BaseAdapter implements
 	}
 
 	@Override
-	public void connect() {
+	public void onFtpConnect() {
 		// TODO Auto-generated method stub
 		loadData(mType);
 	}
 
 	@Override
-	public void disconnect() {
+	public void onFtpDisconnect() {
 		// TODO Auto-generated method stub
-
+		
 	}
 }

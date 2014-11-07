@@ -10,7 +10,6 @@ import java.util.List;
 
 import android.util.Log;
 
-
 import com.hexairbot.hexmini.ipc.view.MediaFile;
 import com.vmc.ipc.util.DebugHandler;
 import com.vmc.ipc.util.MediaUtil;
@@ -20,7 +19,8 @@ public class FtpManager implements Runnable{
     public final static String TAG = "FtpManager";
     
     private FTPClient ftp;
-    
+
+    public final static String FTP_DIR = "/ipc/";
     public final static String FTP_IMAGES_DIR = "/ipc/images/";
     public final static String FTP_VIDEOS_DIR = "/ipc/videos/";
     
@@ -32,6 +32,7 @@ public class FtpManager implements Runnable{
     private static final String USER = "anonymous";
     private static final String PASSWORD = "";
     private static final String TEMP_FILE_PATH = MediaUtil.getAppDir()+"ftpdir.tmp";
+    private static final String CHECK_FILE_PATH = MediaUtil.getAppDir()+"checkftp.tmp";
     public final static int STATE_CONNETED = 1;
     public final static int STATE_DISCONNETED = 0;
     public final static int STATE_CONNETING = 2;
@@ -40,7 +41,8 @@ public class FtpManager implements Runnable{
     private FtpConnectedListener mFtpConnectedListener;
     private FtpCallbackListener mFtpCallbackListener;
     private Object stateLock = new Object();
-    private int state = 0;
+    private int state = STATE_DISCONNETED;
+    private boolean stopFtp = true;
     
     private FtpManager() {
 	ftp = new FTPClient();
@@ -52,22 +54,61 @@ public class FtpManager implements Runnable{
 	return instance;
     }
     
-    public void connect() {
-	if(getState() == STATE_CONNETING || getState() == STATE_CONNETED)
-	    return;
-	Thread cThread = new Thread(this);
-	cThread.start();
+    public void init() {
+	if (stopFtp) {
+	    Thread cThread = new Thread(this);
+	    cThread.start();
+	}
+	stopFtp = false;
+    }
+    
+    private void connect(){
+	state = STATE_CONNETING;
+	DebugHandler.logd(TAG, "connect ftp host:" + HOST);
+	try {
+	    if (ftp.FtpConnect(HOST) == 1) {
+	        ftp.FtpSetConnectionMode(FTPClient.FTP_CONNECT_MODE_PASV);
+	        if (ftp.FtpLogin(USER, PASSWORD) == 1) {
+	    	if (mFtpConnectedListener != null) {
+	    	    mFtpConnectedListener.onFtpConnect();
+	    	}
+	    	state = STATE_CONNETED;
+	    	return;
+	        } else {
+	    	DebugHandler.logd(TAG, "ftp log fail");
+	        }
+	    } else {
+	        DebugHandler.logd(TAG, "ftp connect fail");
+	    }
+	} catch (FtpException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
     }
     
     public int getState() {
-	synchronized (stateLock) {
-	    return state;
+	return state;
+    }
+    
+    public String lastResponse() {
+	try {
+	    return ftp.FtpLastResponse();
+	} catch (FtpException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	    return "lastresponse was fail";
 	}
     }
     
     public List<MediaFile> getMeidaData(String path){
-	if(getState() != STATE_CONNETED) return null;
-	ftp.FtpDir(TEMP_FILE_PATH, path);
+	if(state != STATE_CONNETED) return null;
+	try {
+	    ftp.FtpDir(TEMP_FILE_PATH, path);
+	} catch (FtpException e1) {
+	    // TODO Auto-generated catch block
+	    e1.printStackTrace();
+	    return null;
+	}
 	File file = new File(TEMP_FILE_PATH);
 	List<MediaFile> mData = new ArrayList<MediaFile>();
 	if(!file.exists()) {
@@ -107,13 +148,7 @@ public class FtpManager implements Runnable{
     
     
     public void destroy() {
-	synchronized (stateLock) {
-        	if(ftp != null) {
-        	    ftp.FtpQuit();
-        	    if(mFtpConnectedListener != null) mFtpConnectedListener.disconnect();
-        	    state = STATE_DISCONNETED;
-        	}
-	}
+	stopFtp = true;
     }
 
     public void setFtpConnectedListener(FtpConnectedListener listener) {
@@ -122,28 +157,42 @@ public class FtpManager implements Runnable{
     
     @Override
     public void run() {
-	// TODO Auto-generated method stub
-	synchronized (stateLock) {
-	    state = STATE_CONNETING;
-	    DebugHandler.logd(TAG, "connect ftp host:"+HOST);
-	    if(ftp.FtpConnect(HOST) == 1) {
-		ftp.FtpSetConnectionMode(FTPClient.FTP_CONNECT_MODE_PASV);
-    	    	if(ftp.FtpLogin(USER, PASSWORD) == 1) {
-        	    	if(mFtpConnectedListener != null) {
-        	    	    mFtpConnectedListener.connect();
-        	    	}
-        	    	state = STATE_CONNETED;
-        	    	return;
-    	    	}
-    	    	else {
-    	    	    DebugHandler.logd(TAG, "ftp log fail");
-    	    	}
+	connect();
+	while (!stopFtp) {
+	    int checkConn = 0;
+	    try {
+		checkConn = ftp.FtpNlst(CHECK_FILE_PATH, FTP_DIR);
+	    } catch (FtpException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
 	    }
-	    else {
-		DebugHandler.logd(TAG, "ftp connect fail");
+	    if (checkConn == 0) {
+		state = STATE_DISCONNETED;
+		if (mFtpConnectedListener != null) {
+		    mFtpConnectedListener.onFtpDisconnect();
+		}
+		connect();
 	    }
+	    try {
+		Thread.sleep(1000);
+	    } catch (InterruptedException e) {
+		e.printStackTrace();
+	    }
+	    DebugHandler.logd(TAG, "checkConn = "+checkConn);
+	}
+	if (ftp != null) {
+	    try {
+		ftp.FtpQuit();
+	    } catch (FtpException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+	    if (mFtpConnectedListener != null)
+		mFtpConnectedListener.onFtpDisconnect();
 	    state = STATE_DISCONNETED;
 	}
+	
+	state = STATE_DISCONNETED;
     }
     
     public void setDownloadCallbackListener(FtpCallbackListener listener) {
@@ -151,27 +200,28 @@ public class FtpManager implements Runnable{
     }
     
     public void downloadFile(String dst,String src) {
-	synchronized (stateLock) {
-        	if(state != STATE_CONNETED) {
-        	    DebugHandler.logd(TAG, "we have not been connected to FTP SERVER");
-        	    return;
-        	}
-        	ftp.FtpClearCallback();
-        	if(mFtpCallbackListener != null) {
-        	    ftp.FtpSetCallback(mFtpCallbackListener);
-        	}
-        //	ftp.FtpGet("/sdcard/qw/images/11.jpg", "/ipc/images/1.jpg", FTPClient.FTP_TRANSFER_MODE_IMAGE);
-        	ftp.FtpGet(dst, src, FTPClient.FTP_TRANSFER_MODE_IMAGE);
+	if (state != STATE_CONNETED) {
+	    DebugHandler.logd(TAG, "we have not been connected to FTP SERVER");
+	    return;
+	}
+	try {
+	    ftp.FtpClearCallback();
+	    if (mFtpCallbackListener != null) {
+		ftp.FtpSetCallback(mFtpCallbackListener);
+	    }
+	    ftp.FtpGet(dst, src, FTPClient.FTP_TRANSFER_MODE_IMAGE);
+	} catch (FtpException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
 	}
     }
     
     public void deleteFile(String dst) {
-        synchronized (stateLock) {
-        	if(state != STATE_CONNETED) {
-        	    DebugHandler.logd(TAG, "we have not been connected to FTP SERVER");
-        	    return;
-        	}
-        	ftp.FtpDelete(dst);
+	if (state != STATE_CONNETED) {
+	    DebugHandler.logd(TAG, "we have not been connected to FTP SERVER");
+	    return;
 	}
+	ftp.FtpDelete(dst);
+	
     }
 }

@@ -149,7 +149,9 @@ public class MainExActivity extends FragmentActivity implements
 		 * showToast("Spinner1: unselected"); } }); } else {
 		 * serverSelect.setVisibility(View.GONE); } // //////////
 		 */
-
+		ConnectStateManager mConnectStateManager = ConnectStateManager.getInstance(this.getApplication());
+		mConnectStateManager.init();
+		mConnectStateManager.connect("rtmp://192.168.1.1/live/stream");
 		valiateConnectState();
 		// setContentView(R.layout.hud_view_controller_framelayout);
 		// splash = (LinearLayout) findViewById(R.id.splash);
