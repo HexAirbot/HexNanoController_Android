@@ -36,7 +36,7 @@ public class ConnectStateManager {
     private ArrayList<OnIpcConnectChangedListener> connectChangedListeners = new ArrayList<OnIpcConnectChangedListener>();
     private LocalBroadcastManager mLocalBroadcastManager;
     /**
-     * 这里使用单例模式，只允许�?��连接管理器存�?     */
+     * 杩欓噷浣跨敤鍗曚緥妯″紡锛屽彧鍏佽锟�锟斤拷杩炴帴绠＄悊鍣ㄥ瓨锟�     */
     private static ConnectStateManager instance = null;
 
     private ConnectStateManager(Application app) {
@@ -169,11 +169,13 @@ public class ConnectStateManager {
 	    }
 	    
 	    if(failCnt > 5 && !selectApSetting) {
-		DebugHandler.logWithToast(appContext, appContext.getResources().getString(R.string.select_ap_to_connect), 3000);
+		/*
+	    DebugHandler.logWithToast(appContext, appContext.getResources().getString(R.string.select_ap_to_connect), 3000);
 		Intent apintent = new Intent();
 		apintent.setAction(ApConnectService.ACTION_CONNECT_MANUALLY);
 		apintent.setClass(appContext, ApConnectService.class);
 		appContext.startService(apintent);
+		*/
 		selectApSetting = true;
 		failCnt = 0;
 	    }

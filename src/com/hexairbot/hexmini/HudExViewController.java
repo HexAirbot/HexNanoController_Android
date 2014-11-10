@@ -413,7 +413,7 @@ public class HudExViewController extends ViewController
 		renderer.addSprite(DEVICE_BATTERY_INDICATOR, deviceBatteryIndicator);
 		renderer.addSprite(RECORDING_INDICATOR, recordingIndicator);
 		renderer.addSprite(BLE_INDICATOR, bleIndicator);
-		renderer.addSprite(DEBUG_TEXT_VIEW, debugTextView);
+		//renderer.addSprite(DEBUG_TEXT_VIEW, debugTextView);
 		//renderer.addSprite(HELP_BTN, helpBtn);
 		
 		
