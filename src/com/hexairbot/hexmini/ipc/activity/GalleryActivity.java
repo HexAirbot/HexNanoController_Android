@@ -83,7 +83,7 @@ public class GalleryActivity extends Activity implements
 		gridView = (GridView) this.findViewById(R.id.gridView);
 		gridView.setChoiceMode(GridView.CHOICE_MODE_MULTIPLE_MODAL);
 		gridView.setMultiChoiceModeListener(new MultiChoiceModeListener());
-		loadData(type);
+		//loadData(type);
 		   
 //		actionBarCustomView = new View(GalleryActivity.this);
 //		actionBarCustomView.setBackgroundResource(R.drawable.bar_top);
@@ -216,7 +216,7 @@ public class GalleryActivity extends Activity implements
 			adapter = new MySimpleCursorAdapter(this,
 					R.layout.media_item_layout, null, mediaColumns,
 					new int[] { R.id.media_thumb }, 0);
-			((MySimpleCursorAdapter) adapter).setViewBinder(new MyViewBinder());
+			//((MySimpleCursorAdapter) adapter).setViewBinder(new MyViewBinder());
 			this.getLoaderManager().initLoader(id, null, this);
 		} else if (browserType == BROWSER_TYPE_REMOTE) {
 			adapter = new RemoteMediaAdapter(this, mediaType);
@@ -261,27 +261,27 @@ public class GalleryActivity extends Activity implements
 		public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
 			// TODO Auto-generated method stub
 			if (columnIndex == 0) {
-				String path = cursor.getString(columnIndex);
-				int id = cursor.getInt(columnIndex + 1);
-				DebugHandler.logd(TAG, "load image:" + id);
-				Options options = new BitmapFactory.Options();
-				options.inDither = false;
-				options.inPreferredConfig = Bitmap.Config.RGB_565;
-				Bitmap bitmap = MediaStore.Images.Thumbnails.getThumbnail(
-						GalleryActivity.this.getContentResolver(), id,
-						MediaStore.Images.Thumbnails.MICRO_KIND, options);
-				if (bitmap == null) {
-					bitmap = MediaUtil.getLocalMediaThumbnail(mediaType, path);
-				}
-				if (bitmap != null) {
-					DebugHandler.logd(TAG, String.format("bitmap (%d,%d)",
-							bitmap.getWidth(), bitmap.getHeight()));
-					((ImageView) view).setImageBitmap(bitmap);
-					bitmap.recycle();
-				} else {
-					((ImageView) view).setBackgroundColor(Color.GRAY);
-				}
-				// bitmap.recycle();
+//				String path = cursor.getString(columnIndex);
+//				int id = cursor.getInt(columnIndex + 1);
+//				DebugHandler.logd(TAG, "load image:" + id);
+//				Options options = new BitmapFactory.Options();
+//				options.inDither = false;
+//				options.inPreferredConfig = Bitmap.Config.RGB_565;
+//				Bitmap bitmap = MediaStore.Images.Thumbnails.getThumbnail(
+//						GalleryActivity.this.getContentResolver(), id,
+//						MediaStore.Images.Thumbnails.MICRO_KIND, options);
+//				if (bitmap == null) {
+//					bitmap = MediaUtil.getLocalMediaThumbnail(mediaType, path);
+//				}
+//				if (bitmap != null) {
+//					DebugHandler.logd(TAG, String.format("bitmap (%d,%d)",
+//							bitmap.getWidth(), bitmap.getHeight()));
+//					((ImageView) view).setImageBitmap(bitmap);
+//					bitmap.recycle();
+//				} else {
+//					((ImageView) view).setBackgroundColor(Color.GRAY);
+//				}
+//				// bitmap.recycle();
 				return true;
 			}
 			return false;

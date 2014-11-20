@@ -162,6 +162,10 @@ public class MainExActivity extends FragmentActivity implements
 
 		hudVC = new HudExViewController(this, this);
 		hudVC.onCreate();
+		
+		hudVC.onResume();
+		
+		initBroadcastReceiver();
 	}
 
 	private void connectIPC(String address) {
@@ -185,7 +189,7 @@ public class MainExActivity extends FragmentActivity implements
 			}
 		}
 		if (reason != null) {
-			DebugHandler.logWithToast(this, reason, 2000);
+			//DebugHandler.logWithToast(this, reason, 2000);
 			return;
 		}
 	}
@@ -421,6 +425,10 @@ public class MainExActivity extends FragmentActivity implements
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
+		
+		destroyBroadcastReceiver();
+		
+		Log.e("onDestroy", "");
 
 		if (Transmitter.sharedTransmitter().getBleConnectionManager() != null) {
 			Transmitter.sharedTransmitter().transmmitSimpleCommand(
@@ -454,7 +462,9 @@ public class MainExActivity extends FragmentActivity implements
 		// TODO Auto-generated method stub
 		// mConnectStateManager.pause();
 		super.onPause();
-		hudVC.onPause();
+		//hudVC.onPause();
+		
+		Log.e("onPause", "onPause");
 	}
 
 	@Override
@@ -473,6 +483,8 @@ public class MainExActivity extends FragmentActivity implements
 	protected void onRestart() {
 		// TODO Auto-generated method stub
 		super.onRestart();
+		
+		Log.e("onRestart", "onRestart");
 	}
 
 	@Override
@@ -480,7 +492,9 @@ public class MainExActivity extends FragmentActivity implements
 		// TODO Auto-generated method stub
 		super.onResume();
 		HexMiniApplication.sharedApplicaion().setAppStage(AppStage.HUD);
-		hudVC.onResume();
+		//hudVC.onResume();
+		
+		Log.e("onResume", "onResume");
 	}
 
 	@Override
@@ -495,9 +509,11 @@ public class MainExActivity extends FragmentActivity implements
 		super.onStart();
 		isStarted = true;
 		// checkWifiEnable();
-		initBroadcastReceiver();
+		//initBroadcastReceiver();
 
 		hudVC.viewWillAppear();
+		
+		Log.e("onStart", "");
 	}
 
 	@Override
@@ -505,8 +521,10 @@ public class MainExActivity extends FragmentActivity implements
 		// TODO Auto-generated method stub
 		super.onStop();
 		isStarted = false;
-		destroyBroadcastReceiver();
-		HexMiniApplication.sharedApplicaion().setAppStage(AppStage.HUD);
+		//destroyBroadcastReceiver();
+		HexMiniApplication.sharedApplicaion().setAppStage(AppStage.UNKNOWN);
+		
+		Log.e("onStop()", "onStop");
 	}
 
 	@Override
@@ -567,6 +585,7 @@ public class MainExActivity extends FragmentActivity implements
 
 	@Override
 	public void onDismissed(SettingsDialog settingsDialog) {
+		
 		hudVC.setSettingsButtonEnabled(true);
 	}
 

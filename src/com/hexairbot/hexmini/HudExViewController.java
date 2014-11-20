@@ -514,7 +514,8 @@ public class HudExViewController extends ViewController
 	        {
 	            public void onChanged(JoystickBase joy, float x, float y)
 	            {
-	            	if(HexMiniApplication.sharedApplicaion().getAppStage() == AppStage.SETTINGS){
+	            	if(HexMiniApplication.sharedApplicaion().getAppStage() == AppStage.SETTINGS
+	            			|| HexMiniApplication.sharedApplicaion().getAppStage() == AppStage.UNKNOWN){
 	            		//Log.e(TAG, "AppStage.SETTINGS ignore rollPitchListener onChanged");
 	            		return;
 	            	}
@@ -555,12 +556,12 @@ public class HudExViewController extends ViewController
 	            public void onChanged(JoystickBase joy, float x, float y)
 	            {
 	            	if(HexMiniApplication.sharedApplicaion().getAppStage() == AppStage.SETTINGS){
-	            		Log.e(TAG, "AppStage.SETTINGS ignore rudderThrottleListener onChanged");
+	            		//Log.e(TAG, "AppStage.SETTINGS ignore rudderThrottleListener onChanged");
 	            		return;
 	            	}
 	            	
 	            	
-	        		Log.e(TAG, "rudderThrottleListener onChanged x:" + x + "y:" + y);
+	        		//Log.e(TAG, "rudderThrottleListener onChanged x:" + x + "y:" + y);
 	        		
 	        		
 	        		if (settings.isBeginnerMode()) {
@@ -584,7 +585,7 @@ public class HudExViewController extends ViewController
 	            {
 	        		rudderChannel.setValue(0.0f);
 	        		
-	        		Log.e(TAG, "rudderThrottleListener onReleased"+joy.getYValue());
+	        		//Log.e(TAG, "rudderThrottleListener onReleased"+joy.getYValue());
 	        		
 	        		throttleChannel.setValue(joy.getYValue());
 	            }
@@ -879,38 +880,41 @@ public class HudExViewController extends ViewController
 				    };
 				    startRecordTask.execute();
 				} else {
-				    playSound(video_record_sound);
-				    AsyncTask<Void, Void, Void> stopRecordTask = new AsyncTask<Void, Void, Void>() {
-
-					@Override
-					protected Void doInBackground(Void... params) {
-					    // TODO Auto-generated method stub
-					    if (!VmcConfig.getInstance().isStoreRemote()) {
-					    	ipcProxy.doStopRecord();
-					    	ipcProxy.onRecordComplete(true);
-					    	ipcProxy.removeOnRecordCompleteListener(mCustomOnRecordCompleteListener);
-					    } else {
-					    	ipcProxy.stopRecordRemote();
-					    }
-					    isStartRecord = false;
-					    return null;
-					}
-
-					protected void onPostExecute(Void result) {
-						recordingIndicator.stop();
-						recordingIndicator.setVisible(false);
-						recordingIndicator.setAlpha(0);
-					    //animation.stop();
-					    //img_indication_record.setVisibility(View.GONE);
-					    settingsBtn.setEnabled(true);
-					    galleryBtn.setEnabled(true);
-					}
-				    };
-				    stopRecordTask.execute();
+					stopRecord();
 				}
 			}
 		});
-		
+	}
+	
+	private void stopRecord(){
+	    playSound(video_record_sound);
+	    AsyncTask<Void, Void, Void> stopRecordTask = new AsyncTask<Void, Void, Void>() {
+
+		@Override
+		protected Void doInBackground(Void... params) {
+		    // TODO Auto-generated method stub
+		    if (!VmcConfig.getInstance().isStoreRemote()) {
+		    	ipcProxy.doStopRecord();
+		    	ipcProxy.onRecordComplete(true);
+		    	ipcProxy.removeOnRecordCompleteListener(mCustomOnRecordCompleteListener);
+		    } else {
+		    	ipcProxy.stopRecordRemote();
+		    }
+		    isStartRecord = false;
+		    return null;
+		}
+
+		protected void onPostExecute(Void result) {
+			recordingIndicator.stop();
+			recordingIndicator.setVisible(false);
+			recordingIndicator.setAlpha(0);
+		    //animation.stop();
+		    //img_indication_record.setVisibility(View.GONE);
+		    settingsBtn.setEnabled(true);
+		    galleryBtn.setEnabled(true);
+		}
+	    };
+	    stopRecordTask.execute();
 		
 	}
 	
@@ -1515,6 +1519,11 @@ public class HudExViewController extends ViewController
 		wifiIndicator.setVisible(false);
 		captureBtn.setEnabled(false);
 		recordBtn.setEnabled(false);
+		
+		if (isStartRecord) {
+			stopRecord();
+		}
+		
 		if (canRefreshUI) {
 			//glView.invalidate();
 			videoStageHard.setVisibility(View.GONE);
