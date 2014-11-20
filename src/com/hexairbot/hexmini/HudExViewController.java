@@ -234,8 +234,6 @@ public class HudExViewController extends ViewController
     
 	public HudExViewController(Activity context, HudViewControllerDelegate delegate)
 	{
-		Log.e("***haha", "***test");
-		
 		this.delegate = delegate;
 		this.context = context;
 
@@ -837,6 +835,7 @@ public class HudExViewController extends ViewController
 			@Override
 			public void onClick(View arg0) {
 				settingsBtn.setEnabled(false);
+				galleryBtn.setEnabled(false);
 				//final AnimationDrawable animation = (AnimationDrawable) img_indication_record.getDrawable();
 				if (!isStartRecord) {
 				    playSound(video_record_sound);
@@ -904,6 +903,7 @@ public class HudExViewController extends ViewController
 					    //animation.stop();
 					    //img_indication_record.setVisibility(View.GONE);
 					    settingsBtn.setEnabled(true);
+					    galleryBtn.setEnabled(true);
 					}
 				    };
 				    stopRecordTask.execute();
