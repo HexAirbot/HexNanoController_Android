@@ -54,6 +54,9 @@ public class ShareMediaActivity extends Activity implements OnTouchListener{
     PointF mid = new PointF(); 
     float oldDist = 1f; 
 	private DisplayMetrics dm;
+	
+	private float max_scale_times = 5;
+	private float min_scale_times = 0.3f;	
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -156,7 +159,7 @@ public class ShareMediaActivity extends Activity implements OnTouchListener{
 			String textFormat = getResources().getString(R.string.del_text); 
 			new AlertDialog.Builder(ShareMediaActivity.this)
 					.setTitle(R.string.delbtnname)					
-					.setMessage(String.format(textFormat, 1))
+					.setMessage(String.format(textFormat, 1, ""))
 					.setNegativeButton(R.string.dialog_cancel,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
@@ -275,8 +278,16 @@ public class ShareMediaActivity extends Activity implements OnTouchListener{
 		             if (newDist > 10) {
 		                 matrix.set(savedMatrix);
 		                 float scale = newDist/oldDist;
-		                 matrix.postScale(scale, scale, mid.x, mid.y);              
+		                 //matrix.postScale(scale, scale, mid.x, mid.y);              
 		                 		
+		                 matrix.postScale(scale, scale, mid.x, mid.y);
+		                 float[] values = new float[9];
+		                 matrix.getValues(values);
+		                 if (values[0] > max_scale_times) {
+		                	 matrix.setScale(max_scale_times, max_scale_times, mid.x, mid.y);
+		                 } else if (values[0] < min_scale_times) {
+		                	 matrix.setScale(min_scale_times, min_scale_times, mid.x, mid.y);
+		                 }  
 		             }
 		
 		         }

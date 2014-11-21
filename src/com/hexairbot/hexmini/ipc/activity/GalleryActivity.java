@@ -112,9 +112,32 @@ public class GalleryActivity extends Activity implements
 		public boolean onActionItemClicked(final ActionMode mode, MenuItem item) {
 			if (item.getTitle().equals("delete")) {
 				String textFormat = getResources().getString(R.string.del_text); 
-				new AlertDialog.Builder(GalleryActivity.this)
+				String language = getResources().getConfiguration().locale.getCountry();
+				
+				if (language.equals("CN")) {
+					new AlertDialog.Builder(GalleryActivity.this)
+					.setTitle(R.string.delbtnname)					
+					.setMessage(String.format(textFormat, selectIds.size()))					
+					.setNegativeButton(R.string.dialog_cancel,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									dialog.dismiss();
+								}
+							})
+					.setPositiveButton(R.string.dialog_ok,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									((OnGalleryItemClick) adapter).delete(selectIds);						
+									mode.finish();
+									loadData(type);
+								}
+							}).show();
+				} else {
+					new AlertDialog.Builder(GalleryActivity.this)
 						.setTitle(R.string.delbtnname)					
-						.setMessage(String.format(textFormat, selectIds.size()))
+						.setMessage(String.format(textFormat, selectIds.size(), selectIds.size() > 1 ? "s" : ""))	
 						.setNegativeButton(R.string.dialog_cancel,
 								new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface dialog,
@@ -131,10 +154,11 @@ public class GalleryActivity extends Activity implements
 										loadData(type);
 									}
 								}).show();
-			}			
+				}	
+			}
 			return true;
 		}
-
+		
 		public void onDestroyActionMode(ActionMode mode) {
 		}
 

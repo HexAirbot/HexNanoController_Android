@@ -326,14 +326,15 @@ public class HudExViewController extends ViewController
 		stopBtn.setAlphaEnabled(true);
 			
 		int batteryIndicatorRes[] = {R.drawable.btn_battery_0,
-				R.drawable.btn_battery_1,
-				R.drawable.btn_battery_2,
-				R.drawable.btn_battery_3,
-				R.drawable.btn_battery_4
+				R.drawable.device_battery_0,
+				R.drawable.device_battery_1,
+				R.drawable.device_battery_2,
+				R.drawable.device_battery_3
 		};
 
-		batteryIndicator = new Indicator(res, batteryIndicatorRes, Align.TOP_LEFT);
-		batteryIndicator.setMargin((int)res.getDimension(R.dimen.hud_batterry_indicator_margin_top), 0, 0, (int)res.getDimension(R.dimen.hud_batterry_indicator_margin_left));
+		batteryIndicator = new Indicator(res, batteryIndicatorRes, Align.TOP_RIGHT);
+		//batteryIndicator.setMargin((int)res.getDimension(R.dimen.hud_batterry_indicator_margin_top), 0, 0, (int)res.getDimension(R.dimen.hud_batterry_indicator_margin_left));
+		batteryIndicator.setMargin((int)res.getDimension(R.dimen.main_device_battery_margin_top), (int)res.getDimension(R.dimen.main_device_battery_margin_right), 0, 0);
 		
 		altHoldToggleBtn = new ToggleButton(res, R.drawable.alt_hold_off, R.drawable.alt_hold_off_hl, 
                 R.drawable.alt_hold_on, R.drawable.alt_hold_on_hl,
@@ -399,7 +400,7 @@ public class HudExViewController extends ViewController
 		renderer.addSprite(MIDLLE_BG_ID, middleBg);				
 		renderer.addSprite(LOGO, logo);	
 		renderer.addSprite(WEB_ADDRESS, web_address);	
-		//renderer.addSprite(BATTERY_INDICATOR_ID, batteryIndicator);
+		renderer.addSprite(BATTERY_INDICATOR_ID, batteryIndicator);
 		renderer.addSprite(TAKE_OFF_BTN_ID, takeOffBtn);
 		renderer.addSprite(STOP_BTN_ID, stopBtn);
 		renderer.addSprite(SETTINGS_BTN_ID, settingsBtn);
@@ -408,7 +409,7 @@ public class HudExViewController extends ViewController
 		renderer.addSprite(CAPTURE_BTN, captureBtn);
 		renderer.addSprite(RECORD_BTN, recordBtn);
 		renderer.addSprite(WIFI_INDICATOR_ID, wifiIndicator);
-		renderer.addSprite(DEVICE_BATTERY_INDICATOR, deviceBatteryIndicator);
+		//renderer.addSprite(DEVICE_BATTERY_INDICATOR, deviceBatteryIndicator);
 		renderer.addSprite(RECORDING_INDICATOR, recordingIndicator);
 		renderer.addSprite(BLE_INDICATOR, bleIndicator);
 		//renderer.addSprite(DEBUG_TEXT_VIEW, debugTextView);
@@ -1337,7 +1338,8 @@ public class HudExViewController extends ViewController
 	    String action = intent.getAction();
 	    if (action.equals(Intent.ACTION_TIME_CHANGED)) {
 	    	//*text_time.setText(SystemUtil.getCurrentFormatTime());
-	    } else if (action.equals(Intent.ACTION_TIME_TICK)) {
+	    } 
+	    else if (action.equals(Intent.ACTION_TIME_TICK)) {
 	    	//*text_time.setText(SystemUtil.getCurrentFormatTime());
 	    } else if (action.equals(Intent.ACTION_BATTERY_CHANGED)) {
 		final int level = intent.getIntExtra(
@@ -1346,6 +1348,8 @@ public class HudExViewController extends ViewController
 			BatteryManager.EXTRA_SCALE, 0);
 		final int status = intent.getIntExtra(
 			BatteryManager.EXTRA_STATUS, 0);
+		
+		setBatteryValue(level);
 		//*battery_phone.setImageLevel(level / 25);
 		//*battery_phone_text.setText(level + "%");
 	    } else if (action
@@ -1376,7 +1380,7 @@ public class HudExViewController extends ViewController
 		    */
 		}
 		if (!plugin) { //表示没有在充电
-		    deviceBatteryIndicator.setValue(Math.min(level / 25, 3));
+		   // deviceBatteryIndicator.setValue(Math.min(level / 25, 3));
 		}
 		isAcPlugin = plugin;
 		//*battery_device_text.setText(level + "%");

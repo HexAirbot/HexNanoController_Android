@@ -65,7 +65,7 @@
     <string name="missing_input">Please input something.</string>
     <string name="sharebtnname">Share</string>
     <string name="delbtnname">Delete</string>
-    <string name="del_text">%1$d item will be deleted.</string>
+    <string name="del_text">%1$d item%2$s will be deleted.</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_ok">OK</string>
     <string name="playbtn">Play</string>
