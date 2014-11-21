@@ -70,6 +70,7 @@
             android:text="@string/set_video_decode_encode_hardware"
             android:textColor="#FFFFFFFF"
             android:textSize="@dimen/settings_section_check_text_size" />
+
     </RadioGroup>
 
     <TextView
@@ -113,7 +114,6 @@
             android:id="@+id/preview_resolution576P"
             android:layout_width="@dimen/settings_section_video_item_width"
             android:layout_height="@dimen/settings_section_video_item_height"
-            android:background="@drawable/section_center"
             android:button="@null"
             android:checked="false"
             android:gravity="center"
@@ -160,6 +160,7 @@
             android:text="@string/set_video_preview_resolution360P"
             android:textColor="#FFFFFFFF"
             android:textSize="@dimen/settings_section_check_text_size" />
+
     </RadioGroup>
 
     <RadioGroup
@@ -204,6 +205,7 @@
             android:text="@string/set_video_preview_bitrate_quality"
             android:textColor="#FFFFFFFF"
             android:textSize="@dimen/settings_section_check_text_size" />
+
     </RadioGroup>
 
     <TextView
