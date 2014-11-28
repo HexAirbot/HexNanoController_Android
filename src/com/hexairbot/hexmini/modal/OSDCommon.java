@@ -4,9 +4,7 @@
 package com.hexairbot.hexmini.modal;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import android.R.integer;
 
 /**
  * @author koupoo
@@ -153,8 +151,6 @@ public class OSDCommon {
 	 *@returns 返回创建的请求
 	 */
 	private static ArrayList<Byte> requestMSPWithPayload (int msp, byte[] payload) {
-	    //List<byte> bf = new List<byte>;
-	    
 		ArrayList<Byte> bf = new ArrayList();
 	    
 	    if(msp < 0) {

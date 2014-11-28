@@ -2,12 +2,8 @@ package com.hexairbot.hexmini.modal;
 
 import java.util.Timer;
 import java.util.TimerTask;
-
-import android.R.integer;
 import android.os.Handler;
-import android.text.StaticLayout;
 import android.util.Log;
-
 import com.hexairbot.hexmini.HexMiniApplication;
 import com.hexairbot.hexmini.ble.BleConnectinManager;
 import com.hexairbot.hexmini.modal.OSDCommon.MSPCommnand;
@@ -265,10 +261,6 @@ public class Transmitter implements OSDDataDelegate{
 		
 		String debugString = "" + osdData.getAngleX() + " " + osdData.getAngleY();
 		
-		debugTextView.setText(debugString);
-		
-		 // [[[BasicInfoManager sharedManager] osdView] setNeedsDisplay];		
+		debugTextView.setText(debugString);	
 	}
-	
-	
 }

@@ -1,14 +1,12 @@
 package com.hexairbot.hexmini.modal;
 
 
-import android.R.integer;
 import android.util.Log;
 
 import com.hexairbot.hexmini.modal.OSDCommon;
 
 public class OSDData {
 	private static final String TAG = OSDData.class.getSimpleName();
-	private static int OSD_UPDATE_REQUEST_FREQ = 50;
 	
 	private static int IDLE         = 0;
 	private static int HEADER_START = 1;
@@ -457,16 +455,6 @@ public class OSDData {
 	    return (inBuf[p++]&0xff) + ((inBuf[p++]&0xff)<<8) + ((inBuf[p++]&0xff)<<16) + ((inBuf[p++]&0xff)<<24);
 	}
 
-	private float int32ToFloat(int intNum){
-	    float floatNum = 0;
-	    
-	    /*
-	    memcpy((void *)(&floatNum), (void *)(&intNum), 4);
-	    */
-	    
-	    return floatNum;
-	}
-
 	private short read16(){
 		return (short) ((inBuf[p++]&0xff) + ((inBuf[p++])<<8));
 	}
@@ -538,9 +526,6 @@ public class OSDData {
 	            angleX = read16()/10;  //[-180,180]，往右roll时，为正数
 	            angleY = read16()/10;  //[-180,180]，头往上仰时，为负
 	            head = read16(); 
-	            
-
-//	            
 	            break;
 	        case OSDCommon.MSP_ALTITUDE:
 	            altitude = (float) read32(); //[self int32ToFloat:read32()];
@@ -587,9 +572,7 @@ public class OSDData {
 	            	delegate.osdDataDidUpdateOneFrame();
 	            }
 	            break;
-
 	        default:
-	            Log.d(TAG, "\n***error: Don't know how to handle reply:" + icmd + "\n datasize:"+ dataSize);
 	            break;
 	           
 	    }
