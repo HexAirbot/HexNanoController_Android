@@ -124,7 +124,6 @@ public class HudExViewController extends ViewController
 	
     private static final int DEBUG_TEXT_VIEW      = 25;
 
-	
 	private final float  BEGINNER_ELEVATOR_CHANNEL_RATIO  = 0.5f;
 	private final float  BEGINNER_AILERON_CHANNEL_RATIO   = 0.5f;
 	private final float  BEGINNER_RUDDER_CHANNEL_RATIO    = 0.0f;
@@ -333,7 +332,6 @@ public class HudExViewController extends ViewController
 		};
 
 		batteryIndicator = new Indicator(res, batteryIndicatorRes, Align.TOP_RIGHT);
-		//batteryIndicator.setMargin((int)res.getDimension(R.dimen.hud_batterry_indicator_margin_top), 0, 0, (int)res.getDimension(R.dimen.hud_batterry_indicator_margin_left));
 		batteryIndicator.setMargin((int)res.getDimension(R.dimen.main_device_battery_margin_top), (int)res.getDimension(R.dimen.main_device_battery_margin_right), 0, 0);
 		
 		altHoldToggleBtn = new ToggleButton(res, R.drawable.alt_hold_off, R.drawable.alt_hold_off_hl, 
@@ -343,7 +341,6 @@ public class HudExViewController extends ViewController
 		altHoldToggleBtn.setMargin(res.getDimensionPixelOffset(R.dimen.hud_alt_hold_toggle_btn_margin_top), 0, 0, res.getDimensionPixelOffset(R.dimen.hud_alt_hold_toggle_btn_margin_left));
 		altHoldToggleBtn.setChecked(settings.isAltHoldMode());
 		altHoldToggleBtn.setVisible(false);
-		//altHoldToggleBtn.setAlphaEnabled(true);
 		
 		settingsBtn = new Button(res, R.drawable.btn_settings_normal1, R.drawable.btn_settings_normal1_press, Align.TOP_RIGHT);
 		settingsBtn.setMargin((int)res.getDimension(R.dimen.main_btn_settings_margin_top), (int)res.getDimension(R.dimen.main_btn_settings_margin_right), 0, 0);
@@ -517,13 +514,10 @@ public class HudExViewController extends ViewController
 	            {
 	            	if(HexMiniApplication.sharedApplicaion().getAppStage() == AppStage.SETTINGS
 	            			|| HexMiniApplication.sharedApplicaion().getAppStage() == AppStage.UNKNOWN){
-	            		//Log.e(TAG, "AppStage.SETTINGS ignore rollPitchListener onChanged");
 	            		return;
 	            	}
 	            	
 	            	if (isAccMode == false && rollAndPitchJoystickPressed == true) {
-		        		//Log.e(TAG, "rollPitchListener onChanged x:" + x + "y:" + y);
-		        		
 		        		if (settings.isBeginnerMode()) {
 		        			aileronChannel.setValue(x * BEGINNER_AILERON_CHANNEL_RATIO);
 		        			elevatorChannel.setValue(y * BEGINNER_ELEVATOR_CHANNEL_RATIO);
@@ -557,14 +551,9 @@ public class HudExViewController extends ViewController
 	            public void onChanged(JoystickBase joy, float x, float y)
 	            {
 	            	if(HexMiniApplication.sharedApplicaion().getAppStage() == AppStage.SETTINGS){
-	            		//Log.e(TAG, "AppStage.SETTINGS ignore rudderThrottleListener onChanged");
 	            		return;
 	            	}
 	            	
-	            	
-	        		//Log.e(TAG, "rudderThrottleListener onChanged x:" + x + "y:" + y);
-	        		
-	        		
 	        		if (settings.isBeginnerMode()) {
 	        			rudderChannel.setValue(x * BEGINNER_RUDDER_CHANNEL_RATIO);
 		        		throttleChannel.setValue((BEGINNER_THROTTLE_CHANNEL_RATIO - 1) + y * BEGINNER_THROTTLE_CHANNEL_RATIO);
@@ -585,9 +574,6 @@ public class HudExViewController extends ViewController
 	            public void onReleased(JoystickBase joy)
 	            {
 	        		rudderChannel.setValue(0.0f);
-	        		
-	        		//Log.e(TAG, "rudderThrottleListener onReleased"+joy.getYValue());
-	        		
 	        		throttleChannel.setValue(joy.getYValue());
 	            }
 	        };
@@ -647,139 +633,12 @@ public class HudExViewController extends ViewController
 		initVideoListener();
 	}
 	
-	/*
-	  private OnClickListener mOnClickListener = new OnClickListener() {
-			@Override
-			public void onClick(final View v) {
-			    if (v == backBtn) {
-				HudExViewController.this.context.finish();
-			    } else if (v == btn_capture) {
-				AsyncTask<Void, Void, Void> captureTask = new AsyncTask<Void, Void, Void>() {
-
-				    @Override
-				    protected void onPreExecute() {
-					// TODO Auto-generated method stub
-					super.onPreExecute();
-					v.setEnabled(false);
-				    }
-
-				    @Override
-				    protected Void doInBackground(Void... params) {
-					// TODO Auto-generated method stub
-					playSound(soundid_camera_click);
-					if (!VmcConfig.getInstance().isStoreRemote()) {
-					    String dirPath = Environment
-						    .getExternalStorageDirectory()
-						    .getAbsolutePath()
-						    + MediaUtil.IPC_IMAGE_DIR;
-					    String filePath = System.currentTimeMillis()
-						    + ".jpg";
-					    ConnectStateManager
-						    .getInstance(
-							    ControllerActivity.this
-								    .getApplication())
-						    .getIpcProxy()
-						    .doTakePhoto(dirPath, filePath, false);
-					    MediaUtil.scanIpcMediaFile(ControllerActivity.this,
-						    dirPath + filePath);
-					} else {
-					    ipcProxy.takePhotoRemote(false);
-					}
-					return null;
-				    }
-
-				    protected void onPostExecute(Void result) {
-					v.setEnabled(true);
-				    }
-				};
-				captureTask.execute();
-
-			    } else if (v == btn_record) {
-				btn_setting.setEnabled(false);
-				final AnimationDrawable animation = (AnimationDrawable) img_indication_record
-					.getDrawable();
-				if (!isStartRecord) {
-				    playSound(soundid_video_record);
-				    AsyncTask<Void, Void, Void> startRecordTask = new AsyncTask<Void, Void, Void>() {
-
-					@Override
-					protected Void doInBackground(Void... params) {
-					    // TODO Auto-generated method stub
-					    if (!VmcConfig.getInstance().isStoreRemote()) {
-						String dirPath = Environment
-							.getExternalStorageDirectory()
-							.getAbsolutePath()
-							+ MediaUtil.IPC_VIDEO_DIR;
-						String filePath = System.currentTimeMillis()
-							+ ".mp4";
-						mCustomOnRecordCompleteListener.setPath(dirPath
-							+ filePath);
-						ipcProxy.addOnRecordCompleteListener(mCustomOnRecordCompleteListener);
-						ipcProxy.doStartRecord(dirPath, null, filePath,
-							false);
-					    } else {
-						ipcProxy.startRecordRemote(false);
-					    }
-					    ControllerActivity.this
-						    .runOnUiThread(new Runnable() {
-
-							@Override
-							public void run() {
-							    // TODO Auto-generated method stub
-							    img_indication_record
-								    .setVisibility(View.VISIBLE);
-							    animation.start();
-							}
-						    });
-					    isStartRecord = true;
-					    return null;
-					}
-				    };
-				    startRecordTask.execute();
-				} else {
-				    playSound(soundid_video_record);
-				    AsyncTask<Void, Void, Void> stopRecordTask = new AsyncTask<Void, Void, Void>() {
-
-					@Override
-					protected Void doInBackground(Void... params) {
-					    // TODO Auto-generated method stub
-					    if (!VmcConfig.getInstance().isStoreRemote()) {
-						ipcProxy.doStopRecord();
-						ipcProxy.onRecordComplete(true);
-						ipcProxy.removeOnRecordCompleteListener(mCustomOnRecordCompleteListener);
-					    } else {
-						ipcProxy.stopRecordRemote();
-					    }
-					    isStartRecord = false;
-					    return null;
-					}
-
-					protected void onPostExecute(Void result) {
-					    animation.stop();
-					    img_indication_record.setVisibility(View.GONE);
-					    btn_setting.setEnabled(true);
-					}
-				    };
-				    stopRecordTask.execute();
-				}
-			    } else if (v == btn_setting) {
-				SettingsDialog mSettingsDialog = SettingsDialog
-					.newInstance(SettingsDialog.VIDEO_SETTING_PAGE);
-				mSettingsDialog.show(getSupportFragmentManager(), "setting");
-			    } else if (v == debugSwitch) {
-				switchDebugInfo(!isDebugShow);
-			    }
-			}
-		    };
-	 */
-	
 	private void initVideoListener(){
 		
 		galleryBtn.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				Intent intent = new Intent(HudExViewController.this.context, GalleryActivity.class);
 				intent.putExtra("type", MediaUtil.MEDIA_TYPE_ALL);		
 				intent.putExtra("browser_type", GalleryActivity.BROWSER_TYPE_REMOTE);
@@ -794,14 +653,12 @@ public class HudExViewController extends ViewController
 
 				    @Override
 				    protected void onPreExecute() {
-					// TODO Auto-generated method stub
 					super.onPreExecute();
 					captureBtn.setEnabled(false);
 				    }
 
 				    @Override
 				    protected Void doInBackground(Void... params) {
-				    	// TODO Auto-generated method stub
 						playSound(camera_click_sound);
 						if (!VmcConfig.getInstance().isStoreRemote()) {
 						    String dirPath = Environment
@@ -809,7 +666,6 @@ public class HudExViewController extends ViewController
 							    .getAbsolutePath()
 							    + MediaUtil.IPC_IMAGE_DIR;
 
-						    //String filePath = System.currentTimeMillis()+ ".jpg";
 						    String filePath = generateFileName() + ".jpg";
 						    ConnectStateManager
 							    .getInstance(HexMiniApplication.sharedApplicaion())
@@ -838,20 +694,17 @@ public class HudExViewController extends ViewController
 			public void onClick(View arg0) {
 				settingsBtn.setEnabled(false);
 				galleryBtn.setEnabled(false);
-				//final AnimationDrawable animation = (AnimationDrawable) img_indication_record.getDrawable();
 				if (!isStartRecord) {
 				    playSound(video_record_sound);
 				    AsyncTask<Void, Void, Void> startRecordTask = new AsyncTask<Void, Void, Void>() {
 
 					@Override
 					protected Void doInBackground(Void... params) {
-					    // TODO Auto-generated method stub
 					    if (!VmcConfig.getInstance().isStoreRemote()) {
 							String dirPath = Environment
 								.getExternalStorageDirectory()
 								.getAbsolutePath()
 								+ MediaUtil.IPC_VIDEO_DIR;
-							//String filePath = System.currentTimeMillis() + ".mp4";
 							String filePath = generateFileName() + ".mp4";
 							mCustomOnRecordCompleteListener.setPath(dirPath
 								+ filePath);
@@ -866,10 +719,6 @@ public class HudExViewController extends ViewController
 
 							@Override
 							public void run() {
-							    // TODO Auto-generated method stub
-							    //img_indication_record.setVisibility(View.VISIBLE);
-							    //animation.start();
-								
 								recordingIndicator.setVisible(true);
 								recordingIndicator.start(0.6f);
 								recordingIndicator.setAlpha(1);
@@ -909,8 +758,6 @@ public class HudExViewController extends ViewController
 			recordingIndicator.stop();
 			recordingIndicator.setVisible(false);
 			recordingIndicator.setAlpha(0);
-		    //animation.stop();
-		    //img_indication_record.setVisibility(View.GONE);
 		    settingsBtn.setEnabled(true);
 		    galleryBtn.setEnabled(true);
 		}
@@ -950,8 +797,6 @@ public class HudExViewController extends ViewController
 	        else if(rollAndPitchType == JoystickType.ACCELERO){
 	            if (rollAndPitchJoystick == null || !(rollAndPitchJoystick instanceof AcceleratorJoystick)) {
 	            	rollAndPitchJoystick = JoystickFactory.createAcceleroJoystick(this.getContext(), false, rollPitchListener, true);
-	            	//rollAndPitchJoystick.setXDeadBand(settings.getAileronDeadBand());
-	            	//rollAndPitchJoystick.setYDeadBand(settings.getElevatorDeadBand());
 	            } 
 	            else {
 	            	rollAndPitchJoystick.setOnAnalogueChangedListener(rollPitchListener);
@@ -1076,8 +921,6 @@ public class HudExViewController extends ViewController
 				
 		int imgNum = Math.round((float) percent / 100.0f * 4.0f);
 
-		//txtBatteryStatus.setText(percent + "%");
-		
 		if (imgNum < 0)
 			imgNum = 0;
 		
@@ -1262,8 +1105,6 @@ public class HudExViewController extends ViewController
 	            rollBase = orientation[ROLL];
                 aileronChannel.setValue(0.0f);
                 elevatorChannel.setValue(0.0f);
-                
-               // Log.d(TAG, "before pressed ROLL:" + rollBase + ",PITCH:" + pitchBase);
 	      }
 		  else {
 	            float x = (orientation[PITCH] - pitchBase);

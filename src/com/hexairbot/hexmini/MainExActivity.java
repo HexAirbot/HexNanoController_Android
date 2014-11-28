@@ -1,6 +1,5 @@
 package com.hexairbot.hexmini;
 
-import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -16,18 +15,11 @@ import android.media.CamcorderProfile;
 import android.media.MediaCodecInfo;
 import android.media.MediaCodecList;
 import android.net.Uri;
-import android.net.wifi.ScanResult;
-import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.net.wifi.WifiManager.WifiLock;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Looper;
-import android.os.Message;
-import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
@@ -37,12 +29,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.hexairbot.hexmini.R;
@@ -51,8 +39,6 @@ import com.hexairbot.hexmini.HexMiniApplication.AppStage;
 import com.hexairbot.hexmini.ipc.activity.GalleryActivity;
 import com.hexairbot.hexmini.ipc.activity.IpcAlertDialog;
 import com.hexairbot.hexmini.ipc.activity.IpcAlertDialogHandler;
-import com.hexairbot.hexmini.ipc.view.MainActivityLayout;
-import com.hexairbot.hexmini.modal.ApplicationSettings;
 import com.hexairbot.hexmini.modal.OSDCommon;
 import com.hexairbot.hexmini.modal.Transmitter;
 import com.vmc.ipc.service.ApConnectService;

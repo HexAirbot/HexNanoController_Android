@@ -169,11 +169,10 @@ public class HexMiniApplication extends Application
 			ApplicationSettings userSettings = new ApplicationSettings(getFilesDir() + "/" + settingsFileName);
 			
 			if (userSettings.getSettingsVersion().equals("1.0.0")) { //old settings file, needed to be updated
-				boolean success = fileHelper.delDataFile(settingsFileName);
-				success = fileHelper.delDataFile(defaultSettingsFileName);
+				fileHelper.delDataFile(settingsFileName);
+				fileHelper.delDataFile(defaultSettingsFileName);
 				copyDefaultSettingsFileIfNeeded();
 			}
-			//ApplicationSettings defaultSettings = new ApplicationSettings(getFilesDir() + "/Settings.plist");
 		}
     }
 

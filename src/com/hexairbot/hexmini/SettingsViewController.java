@@ -2,14 +2,11 @@
 package com.hexairbot.hexmini;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
@@ -19,32 +16,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.text.InputFilter;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -53,19 +35,13 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Toast;
-//import android.webkit.WebView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
 
 import com.hexairbot.hexmini.adapter.SettingsViewAdapter;
 import com.hexairbot.hexmini.ble.BleConnectinManager;
@@ -75,19 +51,8 @@ import com.hexairbot.hexmini.modal.ApplicationSettings;
 import com.hexairbot.hexmini.modal.OSDCommon;
 import com.hexairbot.hexmini.modal.Transmitter;
 import com.hexairbot.hexmini.ui.control.ViewPagerIndicator;
-//import com.hexairbot.hexmini.drone.DroneConfig;
-//import com.hexairbot.hexmini.drone.DroneConfig.EDroneVersion;
-//import  com.hexairbot.hexmini.ui.adapters.SettingsViewAdapter;
-//import  com.hexairbot.hexmini.ui.controls.ViewPagerIndicator;
-//import  com.hexairbot.hexmini.ui.filters.NetworkNameFilter;
-//import  com.hexairbot.hexmini.ui.listeners.OnSeekChangedListener;
-//import  com.hexairbot.hexmini.utils.FontUtils;
 import com.vmc.ipc.proxy.IpcProxy;
-
 import com.hexairbot.hexmini.R;
-
-import com.hexairbot.hexmini.modal.OSDData;
-
 
 public class SettingsViewController extends ViewController
         implements OnPageChangeListener,
@@ -230,7 +195,7 @@ public class SettingsViewController extends ViewController
         
         final int connectionPageIdx = 0;
         final int interfacePageIdx  = 1;
-        final int videoPageIdx      = 2;
+//        final int videoPageIdx      = 2;
         final int angelTrimPageIdx  = 3;
         final int modePageIdx       = 4;
         final int aboutPageIdx      = 5;
@@ -353,9 +318,8 @@ public class SettingsViewController extends ViewController
         rudderDeadBandSeekBar.setMax(20);
         
         WebView aboutWebView = (WebView)settingsViews.get(aboutPageIdx).findViewById(R.id.aboutWebView);
-        aboutWebView.getSettings().setJavaScriptEnabled(true);  
+        //aboutWebView.getSettings().setJavaScriptEnabled(true);  
         
-
         String language = Locale.getDefault().getLanguage(); 
         
         if ("zh".equals(language)) {  
