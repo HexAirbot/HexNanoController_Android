@@ -1,6 +1,5 @@
 package com.hexairbot.hexmini.modal;
 
-import com.hexairbot.hexmini.HudActivity;
 
 import android.R.integer;
 import android.util.Log;

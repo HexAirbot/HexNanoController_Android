@@ -424,7 +424,7 @@ public class SettingsViewController extends ViewController
     		if (!mBluetoothAdapter.isEnabled()) {
                 if (!mBluetoothAdapter.isEnabled()) {
                     Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                    ((Activity)this.context).startActivityForResult(enableBtIntent, HudActivity.REQUEST_ENABLE_BT);
+                    ((Activity)this.context).startActivityForResult(enableBtIntent, 1);
                 }
             }
 		} 
