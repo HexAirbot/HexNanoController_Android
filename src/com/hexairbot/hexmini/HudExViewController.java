@@ -129,6 +129,9 @@ public class HudExViewController extends ViewController
 	private final float  BEGINNER_RUDDER_CHANNEL_RATIO    = 0.0f;
 	private final float  BEGINNER_THROTTLE_CHANNEL_RATIO  = 0.8f;
 	
+	private final float  AUTO_ALT_HOLD_MIN_THROTTLE = -0.6f;
+	private final float  AUTO_ALT_HOLD_MAX_THROTTLE = 0.4f;
+	
 	
 	private Button stopBtn;
 	private Button takeOffBtn;
@@ -409,7 +412,7 @@ public class HudExViewController extends ViewController
 		//renderer.addSprite(DEVICE_BATTERY_INDICATOR, deviceBatteryIndicator);
 		renderer.addSprite(RECORDING_INDICATOR, recordingIndicator);
 		renderer.addSprite(BLE_INDICATOR, bleIndicator);
-		//renderer.addSprite(DEBUG_TEXT_VIEW, debugTextView);
+		renderer.addSprite(DEBUG_TEXT_VIEW, debugTextView);
 		//renderer.addSprite(HELP_BTN, helpBtn);
 		
 		
@@ -506,6 +509,19 @@ public class HudExViewController extends ViewController
 	    throttleChannel.setValue(-1);
 	}
 	
+	private void setAltHoldMode(Boolean isAltHoldMode){
+	    if(isAltHoldMode) {
+	        if ((((int)aux2Channel.getValue()) != 1)) {
+	            aux2Channel.setValue(1);
+	        }
+	    }
+	    else{
+	        if ((((int)aux2Channel.getValue()) != -1)) {
+	        	aux2Channel.setValue(-1);
+	        }
+	    }
+	}
+	
 	private void initJoystickListeners()
     {
 	        rollPitchListener = new JoystickListener()
@@ -542,7 +558,6 @@ public class HudExViewController extends ViewController
 	            	
 	                aileronChannel.setValue(0.0f);
 	                elevatorChannel.setValue(0.0f);
-	               
 	            }
 	        };
 
@@ -575,6 +590,20 @@ public class HudExViewController extends ViewController
 	            {
 	        		rudderChannel.setValue(0.0f);
 	        		throttleChannel.setValue(joy.getYValue());
+	        		
+	                if(settings.isAutoAltHoldMode()){	                    
+	                    if((throttleChannel.getValue() >= AUTO_ALT_HOLD_MIN_THROTTLE)
+	                       && (throttleChannel.getValue() <= AUTO_ALT_HOLD_MAX_THROTTLE)
+	                       &&(HexMiniApplication.sharedApplicaion().getCurrentAlt() < 200)){
+	                    	HudExViewController.this.setAltHoldMode(true);
+	                    }
+	                    else{
+	                        HudExViewController.this.setAltHoldMode(false);
+	                    }
+	                }
+	                else{
+	                	HudExViewController.this.setAltHoldMode(false);
+	                }
 	            }
 	        };
     }
@@ -632,7 +661,7 @@ public class HudExViewController extends ViewController
 	
 		initVideoListener();
 	}
-	
+		
 	private void initVideoListener(){
 		
 		galleryBtn.setOnClickListener(new OnClickListener() {
@@ -1080,6 +1109,11 @@ public class HudExViewController extends ViewController
 		else {
 			aux1Channel.setValue(-1);
 		}
+	}
+	
+	@Override
+	public void autoAltHoldModeValueDidChange(boolean isAutoAltHoldMode){
+	
 	}
 	
 	@Override

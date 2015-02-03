@@ -259,8 +259,10 @@ public class Transmitter implements OSDDataDelegate{
 		
 		Text debugTextView = HexMiniApplication.sharedApplicaion().getDebugTextView();
 		
-		String debugString = "" + osdData.getAngleX() + " " + osdData.getAngleY();
+		String debugString = "" + osdData.getAltitude(); // + " " osdData.getAngleX() + " " + osdData.getAngleY();
 		
 		debugTextView.setText(debugString);	
+		
+		HexMiniApplication.sharedApplicaion().setCurrentAlt(osdData.getAltitude());
 	}
 }

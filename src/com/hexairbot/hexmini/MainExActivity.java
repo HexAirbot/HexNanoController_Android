@@ -107,7 +107,9 @@ public class MainExActivity extends FragmentActivity implements
 		this.startService(apintent);
 
 		showSystemInfo();
-
+		
+		
+		
 		/*
 		 * // ----------just for debug connectState = (TextView)
 		 * this.findViewById(R.id.connect_state); View serverSelect =
@@ -148,7 +150,6 @@ public class MainExActivity extends FragmentActivity implements
 
 		hudVC = new HudExViewController(this, this);
 		hudVC.onCreate();
-		
 		hudVC.onResume();
 		
 		initBroadcastReceiver();
@@ -358,7 +359,7 @@ public class MainExActivity extends FragmentActivity implements
 		// frame size
 		// that device supports
 
-		Log.i(TAG, "=== DEVICE VIDEO SUPPORT ====>>>>>>>>>");
+//		Log.i(TAG, "=== DEVICE VIDEO SUPPORT ====>>>>>>>>>");
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 			Log.i(TAG, "Codecs available to the system: ");

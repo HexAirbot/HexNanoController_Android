@@ -16,6 +16,8 @@
 	<false/>
 	<key>IsBeginnerMode</key>
 	<true/>
+	<key>IsAutoAltHoldMode</key>
+	<false/>
 	<key>AileronDeadBand</key>
 	<real>0.12</real>
 	<key>ElevatorDeadBand</key>
@@ -133,5 +135,7 @@
 	<string>1.5.0</string>
 	<key>IsFirstRun</key>
 	<true/>
+	<key>ControlMode</key>
+	<string>Free</string>
 </dict>
 </plist>

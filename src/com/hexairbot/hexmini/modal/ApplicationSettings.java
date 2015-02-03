@@ -16,22 +16,23 @@ import com.hexairbot.hexmini.HexMiniApplication;
 
 
 public class ApplicationSettings {
-	private final static String INTERFACE_OPACITY  = "InterfaceOpacity";
-	private final static String IS_LEFT_HANDED     = "IsLeftHanded";
-	public final  static String IS_FIRST_RUN       = "IsFirstRun";
-	private final static String IS_ACC_MODE        = "IsAccMode";
-	private final static String IS_HEAD_FREE_MODE  = "IsHeadFreeMode";
-	private final static String IS_ALT_HOLD_MODE   = "IsAltHoldMode";
-	private final static String IS_BEGINNER_MODE   = "IsBeginnerMode";
-	private final static String AILERON_DEAD_BAND  = "AileronDeadBand";
-	private final static String ELEVATOR_DEAD_BAND = "ElevatorDeadBand";
-	private final static String RUDDER_DEAD_BAND   = "RudderDeadBand";
-	private final static String TAKE_OFF_THROTTLE  = "TakeOffThrottle";
-	public final  static String CHANNELS           = "Channels";
-    private final static String APP_VERSION         = "AppVersion";
-    private final static String FLEXBOT_VERSION     = "FlexbotVersion";
-    private final static String COMMUNICATION_TYPE  = "CommunicationType";
-    private final static String SETTINGS_VERSION    = "SettingsVersion";
+	private final static String INTERFACE_OPACITY      = "InterfaceOpacity";
+	private final static String IS_LEFT_HANDED         = "IsLeftHanded";
+	public final  static String IS_FIRST_RUN           = "IsFirstRun";
+	private final static String IS_ACC_MODE            = "IsAccMode";
+	private final static String IS_HEAD_FREE_MODE      = "IsHeadFreeMode";
+	private final static String IS_ALT_HOLD_MODE       = "IsAltHoldMode";
+	private final static String IS_BEGINNER_MODE       = "IsBeginnerMode";
+	private final static String IS_AUTO_ALT_HOLD_MODE  = "IsAutoAltHoldMode";
+	private final static String AILERON_DEAD_BAND      = "AileronDeadBand";
+	private final static String ELEVATOR_DEAD_BAND     = "ElevatorDeadBand";
+	private final static String RUDDER_DEAD_BAND       = "RudderDeadBand";
+	private final static String TAKE_OFF_THROTTLE      = "TakeOffThrottle";
+	public final  static String CHANNELS               = "Channels";
+    private final static String APP_VERSION            = "AppVersion";
+    private final static String FLEXBOT_VERSION        = "FlexbotVersion";
+    private final static String COMMUNICATION_TYPE     = "CommunicationType";
+    private final static String SETTINGS_VERSION       = "SettingsVersion";
 	
 	private String path;
 
@@ -44,6 +45,7 @@ public class ApplicationSettings {
 	private boolean isHeadFreeMode;
 	private boolean isAltHoldMode;
 	private boolean isBeginnerMode;
+	private boolean isAutoAltHoldMode;
 	private float aileronDeadBand;
 	private float elevatorDeadBand;
 	private float rudderDeadBand;
@@ -69,6 +71,7 @@ public class ApplicationSettings {
 			isHeadFreeMode    = ((NSNumber)data.objectForKey(IS_HEAD_FREE_MODE)).boolValue();
 			isAltHoldMode     = ((NSNumber)data.objectForKey(IS_ALT_HOLD_MODE)).boolValue();
 			isBeginnerMode    = ((NSNumber)data.objectForKey(IS_BEGINNER_MODE)).boolValue();
+			isAutoAltHoldMode = ((NSNumber)data.objectForKey(IS_AUTO_ALT_HOLD_MODE)).boolValue();
 			aileronDeadBand   = ((NSNumber)data.objectForKey(AILERON_DEAD_BAND)).floatValue();
 			elevatorDeadBand  = ((NSNumber)data.objectForKey(ELEVATOR_DEAD_BAND)).floatValue();
 			rudderDeadBand    = ((NSNumber)data.objectForKey(RUDDER_DEAD_BAND)).floatValue();
@@ -135,11 +138,11 @@ public class ApplicationSettings {
 		this.isHeadFreeMode = defaultSettings.isHeadFreeMode();
 		this.isAltHoldMode = defaultSettings.isAltHoldMode();
 		this.isBeginnerMode = defaultSettings.isBeginnerMode();
+		this.isAutoAltHoldMode = defaultSettings.isAutoAltHoldMode();
 		this.aileronDeadBand = defaultSettings.getAileronDeadBand();
 		this.elevatorDeadBand = defaultSettings.getElevatorDeadBand();
 		this.rudderDeadBand = defaultSettings.getRudderDeadBand();
 		this.takeOffThrottle = defaultSettings.getTakeOffThrottle();
-		
 		
 		int channelCount = defaultSettings.getChannelCount();
 		
@@ -233,7 +236,15 @@ public class ApplicationSettings {
 		data.put(IS_BEGINNER_MODE, isBeginnerMode);
 	}
 	
-
+	public boolean isAutoAltHoldMode() {
+		return isAutoAltHoldMode;
+	}
+	
+	public void setIsAutoAltHoldMode(boolean isAutoAltHoldMode){
+		this.isAutoAltHoldMode = isAutoAltHoldMode;
+		data.put(IS_AUTO_ALT_HOLD_MODE, isAutoAltHoldMode);
+	}
+	
 	public void setIsAltHoldMode(boolean isAltHoldMode) {
 		this.isAltHoldMode = isAltHoldMode;
 		data.put(IS_LEFT_HANDED, isAltHoldMode);

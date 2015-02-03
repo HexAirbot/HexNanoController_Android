@@ -93,6 +93,7 @@ public class SettingsViewController extends ViewController
     private CheckBox isAccModeCheckBox;
     private CheckBox isHeadfreeModeCheckBox;
     private CheckBox isBeginnerModeCheckBox;
+    private CheckBox isAutoAltHoldModeCheckBox;
     
     private TextView interfaceOpacityValueTextView;
     private TextView aileronAndElevatorDeadBandValueTextView;
@@ -159,11 +160,14 @@ public class SettingsViewController extends ViewController
         nextBtn.setOnClickListener(this);
         
         feedbackBtn = (Button)container.findViewById(R.id.feedbackBtn);
+        feedbackBtn.setVisibility(View.GONE);
+        
         
         defaultSettingsBtn = (Button)container.findViewById(R.id.defaultSettingsBtn);
         accCalibrateBtn = (Button)container.findViewById(R.id.accCalibrateBtn);
         magCalibrateBtn = (Button)container.findViewById(R.id.magCalibrateBtn);
 
+        
         titles = new int[] {
                 R.string.settings_title_connection,
                 R.string.settings_title_personal,
@@ -304,6 +308,7 @@ public class SettingsViewController extends ViewController
         isAccModeCheckBox      = (CheckBox)settingsViews.get(interfacePageIdx).findViewById(R.id.isAccModeCheckBox);
         isHeadfreeModeCheckBox = (CheckBox)settingsViews.get(modePageIdx).findViewById(R.id.isHeadfreeModeCheckBox);
         isBeginnerModeCheckBox = (CheckBox)settingsViews.get(modePageIdx).findViewById(R.id.isBeginnerModeCheckBox);
+        isAutoAltHoldModeCheckBox = (CheckBox)settingsViews.get(modePageIdx).findViewById(R.id.autoAltHoldCheckBox);
         
         interfaceOpacityValueTextView =  (TextView)settingsViews.get(interfacePageIdx).findViewById(R.id.interfaceOpacityValueTextView);
         aileronAndElevatorDeadBandValueTextView = (TextView)settingsViews.get(modePageIdx).findViewById(R.id.aileronAndElevatorDeadBandValueTextView);
@@ -372,6 +377,7 @@ public class SettingsViewController extends ViewController
         isAccModeCheckBox.setChecked(settings.isAccMode());
         isHeadfreeModeCheckBox.setChecked(settings.isHeadFreeMode());
         isBeginnerModeCheckBox.setChecked(settings.isBeginnerMode());
+        isAutoAltHoldModeCheckBox.setChecked(settings.isAutoAltHoldMode());
         
         interfaceOpacitySeekBar.setProgress((int)(settings.getInterfaceOpacity() * 100));
         safeSetText(interfaceOpacityValueTextView, interfaceOpacitySeekBar.getProgress() + "%");
@@ -637,6 +643,19 @@ public class SettingsViewController extends ViewController
 				settings.save();
 				if (delegate != null) {
 					delegate.beginnerModeValueDidChange(isBeginnerMode);
+				}
+			}
+		});
+        
+        isAutoAltHoldModeCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			
+			@Override
+			public void onCheckedChanged(CompoundButton arg0, boolean isAutoAltHoldMode) {
+				ApplicationSettings settings = HexMiniApplication.sharedApplicaion().getAppSettings();
+				settings.setIsAutoAltHoldMode(isAutoAltHoldMode);
+				settings.save();
+				if (delegate != null) {
+					delegate.autoAltHoldModeValueDidChange(isAutoAltHoldMode);
 				}
 			}
 		});

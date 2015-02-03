@@ -122,4 +122,23 @@
          android:textColor="@color/white"
          android:textSize="@dimen/settings_indicator_text_size" />
 
+      <CheckBox
+         android:id="@+id/autoAltHoldCheckBox"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignLeft="@id/isHeadfreeModeCheckBox"
+         android:layout_marginTop="@dimen/settings_v_gap"
+         android:layout_below="@id/isHeadfreeModeCheckBox"
+         android:button="@drawable/checkbox"/>
+     
+     <TextView
+         android:id="@+id/autoAltHoldTextView"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignRight="@+id/isBeginnerModeTitleTextView"
+         android:layout_alignTop="@id/autoAltHoldCheckBox"
+         android:text="@string/auto_alt_hold"
+         android:textColor="@color/white"
+         android:textSize="@dimen/settings_indicator_text_size" />
+
 </RelativeLayout>

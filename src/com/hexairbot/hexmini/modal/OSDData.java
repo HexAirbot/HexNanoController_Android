@@ -354,6 +354,7 @@ public class OSDData {
     long currentTime,mainInfoUpdateTime,attitudeUpdateTime;
     
     private int absolutedAccZ;
+    private int flightState;
     
     private OSDDataDelegate delegate;
 	
@@ -561,12 +562,15 @@ public class OSDData {
 	            debug4 = read16();
 	            break;
 	        case OSDCommon.MSP_HEX_NANO:
-	            absolutedAccZ = read16();
-	            altitude = (float)read32();
+	            flightState = read8();
+	            read16();  //throttle
+	            altitude = read16();
 	            angleX = read16()/10;  //[-180,180]，往右roll时，为正数
 	            angleY = read16()/10;  //[-180,180]，头往上仰时，为负
 	            head = read16();
 	            vBat = read8() / 256.0f * 5;
+	            read8(); //pitch trim
+	            read8(); //roll trim
 	            Log.d(TAG, "one frame" + angleX);
 	            if(delegate != null) {
 	            	delegate.osdDataDidUpdateOneFrame();

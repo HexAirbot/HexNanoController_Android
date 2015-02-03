@@ -59,7 +59,15 @@ public class HexMiniApplication extends Application
 		this.debugTextView = debugTextView;
 	}
 
-
+	private float alt;
+	
+	public void setCurrentAlt(float alt_){
+		alt = alt_;
+	}
+	
+	public float getCurrentAlt(){
+		return alt;
+	}
 	
 	public enum AppStage{
 		UNKNOWN,

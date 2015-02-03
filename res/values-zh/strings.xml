@@ -71,4 +71,5 @@
     <string name="dialog_ok">确定</string>
     <string name="playbtn">播放</string>
     <string name="sending">发送中...</string>
+    <string name="auto_alt_hold">自动定高</string>
 </resources>
