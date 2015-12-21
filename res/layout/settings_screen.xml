@@ -112,7 +112,7 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/settings_btn_text_size" />
 
-            <Button
+          <!--   <Button
                 android:id="@+id/accCalibrateBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -124,9 +124,9 @@
                 android:paddingRight="@dimen/settings_button_right_padding"
                 android:text="@string/btn_title_calibrate_acc"
                 android:textColor="@color/white"
-                android:textSize="@dimen/settings_btn_text_size" />
+                android:textSize="@dimen/settings_btn_text_size" /> -->
 
-            <Button
+           <!--  <Button
                 android:id="@+id/defaultSettingsBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -138,8 +138,8 @@
                 android:paddingRight="@dimen/settings_button_right_padding"
                 android:text="@string/btn_title_default_settings"
                 android:textColor="@color/white"
-                android:textSize="@dimen/settings_btn_text_size" />
-            
+                android:textSize="@dimen/settings_btn_text_size" /> -->
+           <!--  
             <Button
                 android:id="@+id/feedbackBtn"
                 android:layout_width="wrap_content"
@@ -151,7 +151,7 @@
                 android:paddingRight="@dimen/settings_button_right_padding"
                 android:text="@string/btn_feedback"
                 android:textColor="@color/white"
-                android:textSize="@dimen/settings_btn_text_size" />
+                android:textSize="@dimen/settings_btn_text_size" /> -->
 
         </RelativeLayout>
 

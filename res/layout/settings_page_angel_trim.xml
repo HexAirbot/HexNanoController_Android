@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-    <ImageView
+   <!--  <ImageView
         android:id="@+id/dummyImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,15 +32,6 @@
             android:background="@drawable/btn_trim_down" />
 
         <Button
-            android:id="@+id/rightTrimBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/upTrimBtn"
-            android:background="@drawable/btn_trim_right" />
-
-        <Button
             android:id="@+id/leftTrimBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,5 +39,15 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/upTrimBtn"
             android:background="@drawable/btn_trim_left" />
+
+        <Button
+            android:id="@+id/rightTrimBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/downTrimBtn"
+            android:layout_marginLeft="30dp"
+            android:layout_marginStart="30dp"
+            android:layout_toRightOf="@+id/downTrimBtn"
+            android:background="@drawable/btn_trim_right" /> -->
 
 </RelativeLayout>

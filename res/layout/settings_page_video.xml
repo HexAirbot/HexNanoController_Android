@@ -4,15 +4,15 @@
     android:layout_height="match_parent"
     android:gravity="center_vertical" >
 
-    <View
+    <!-- <View
         android:id="@+id/view1"
         android:layout_width="80dip"
         android:layout_height="1dp"
         android:layout_alignLeft="@id/view1"
         android:layout_alignParentTop="false"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true" /> -->
 
-    <RadioGroup
+    <!-- <RadioGroup
         android:id="@+id/preview_codec_mode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -71,9 +71,9 @@
             android:textColor="#FFFFFFFF"
             android:textSize="@dimen/settings_section_check_text_size" />
 
-    </RadioGroup>
+    </RadioGroup> -->
 
-    <TextView
+    <!-- <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -82,9 +82,9 @@
         android:layout_marginRight="@dimen/settings_hor_gap"
         android:layout_toLeftOf="@id/preview_codec_mode"
         android:textColor="@color/white"
-        android:text="@string/set_video_decode_mode" />
+        android:text="@string/set_video_decode_mode" /> -->
 
-    <RadioGroup
+    <!-- <RadioGroup
         android:id="@+id/preview_resolution"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -161,9 +161,9 @@
             android:textColor="#FFFFFFFF"
             android:textSize="@dimen/settings_section_check_text_size" />
 
-    </RadioGroup>
+    </RadioGroup> -->
 
-    <RadioGroup
+    <!-- <RadioGroup
         android:id="@+id/preview_bitrate_control"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -206,9 +206,9 @@
             android:textColor="#FFFFFFFF"
             android:textSize="@dimen/settings_section_check_text_size" />
 
-    </RadioGroup>
+    </RadioGroup> -->
 
-    <TextView
+    <!-- <TextView
         android:id="@+id/media_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -216,9 +216,9 @@
         android:layout_alignRight="@+id/textView2"
         android:layout_alignTop="@+id/preview_resolution"
         android:textColor="@color/white"
-        android:text="@string/set_video_preview_resolution" />
+        android:text="@string/set_video_preview_resolution" /> -->
 
-    <TextView
+    <!-- <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -226,18 +226,18 @@
         android:layout_alignRight="@+id/media_name"
         android:layout_alignTop="@+id/preview_bitrate_control"
         android:textColor="@color/white"
-        android:text="@string/set_video_preview_bitrate" />
+        android:text="@string/set_video_preview_bitrate" /> -->
 
-    <CheckBox
+    <!-- <CheckBox
         android:id="@+id/check_remote_store"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/preview_bitrate_control"
         android:layout_below="@+id/preview_bitrate_control"
         android:layout_marginTop="@dimen/settings_vertical_gap"
-        android:visibility="gone" />
+        android:visibility="gone" /> -->
 
-    <TextView
+    <!-- <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -246,14 +246,14 @@
         android:layout_alignTop="@+id/check_remote_store"
         android:textColor="@color/white"
         android:text="@string/set_store_in_remote"
-        android:visibility="gone" />
+        android:visibility="gone" /> -->
 
-    <ImageView
+    <!-- <ImageView
         android:id="@+id/debug_switch"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_alignTop="@+id/textView2"
         android:layout_toLeftOf="@+id/textView2"
-        android:src="@null" />
+        android:src="@null" /> -->
 
 </RelativeLayout>

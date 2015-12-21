@@ -46,7 +46,7 @@ import android.widget.TextView;
 import com.hexairbot.hexmini.adapter.SettingsViewAdapter;
 import com.hexairbot.hexmini.ble.BleConnectinManager;
 import com.hexairbot.hexmini.ble.BleConnectinManagerDelegate;
-import com.hexairbot.hexmini.ipc.view.VideoSettingView;
+//import com.hexairbot.hexmini.ipc.view.VideoSettingView;
 import com.hexairbot.hexmini.modal.ApplicationSettings;
 import com.hexairbot.hexmini.modal.OSDCommon;
 import com.hexairbot.hexmini.modal.Transmitter;
@@ -77,35 +77,35 @@ public class SettingsViewController extends ViewController
     
     private Button backBtn;
     
-    private Button feedbackBtn;
+//    private Button feedbackBtn;
     
-    private Button defaultSettingsBtn;
-    private Button accCalibrateBtn;
-    private Button magCalibrateBtn;
+//    private Button defaultSettingsBtn;
+//    private Button accCalibrateBtn;
+    private Button magCalibrateBtn;//ะฃั้
     
     private Button scanBtn;
-    private Button upTrimBtn;
-    private Button downTrimBtn;
-    private Button leftTrimBtn;
-    private Button rightTrimBtn;
+//    private Button upTrimBtn;
+//    private Button downTrimBtn;
+//    private Button leftTrimBtn;
+//    private Button rightTrimBtn;
     
     private CheckBox isLeftHandedCheckBox;
     private CheckBox isAccModeCheckBox;
-    private CheckBox isHeadfreeModeCheckBox;
+//    private CheckBox isHeadfreeModeCheckBox;
     private CheckBox isBeginnerModeCheckBox;
-    private CheckBox isAutoAltHoldModeCheckBox;
+//    private CheckBox isAutoAltHoldModeCheckBox;
     
-    private TextView interfaceOpacityValueTextView;
-    private TextView aileronAndElevatorDeadBandValueTextView;
-    private TextView rudderDeadBandValueTextView;
+//    private TextView interfaceOpacityValueTextView; 
+//    private TextView aileronAndElevatorDeadBandValueTextView;
+//    private TextView rudderDeadBandValueTextView;
     
-    private SeekBar interfaceOpacitySeekBar;
-    private SeekBar aileronAndElevatorDeadBandSeekBar;
-    private SeekBar rudderDeadBandSeekBar;
+//    private SeekBar interfaceOpacitySeekBar;
+//    private SeekBar aileronAndElevatorDeadBandSeekBar;
+//    private SeekBar rudderDeadBandSeekBar;
     
-    private OnSeekBarChangeListener interfaceOpacitySeekBarListener;
-    private OnSeekBarChangeListener aileronAndElevatorDeadBandSeekBarListener;
-    private OnSeekBarChangeListener rudderDeadBandSeekBarListener;
+//    private OnSeekBarChangeListener interfaceOpacitySeekBarListener;
+//    private OnSeekBarChangeListener aileronAndElevatorDeadBandSeekBarListener;
+//    private OnSeekBarChangeListener rudderDeadBandSeekBarListener;
     
     private ListView bleDeviceListView;
 
@@ -135,7 +135,7 @@ public class SettingsViewController extends ViewController
     
     
     LocalBroadcastManager mLocalBroadcastManager;
-    VideoSettingView videoSetting;
+//    VideoSettingView videoSetting;
 
     
     public SettingsViewController(Context context, LayoutInflater inflater, ViewGroup container, SettingsViewControllerDelegate delegate)
@@ -159,20 +159,20 @@ public class SettingsViewController extends ViewController
         nextBtn = (ImageButton)container.findViewById(R.id.nextBtn);
         nextBtn.setOnClickListener(this);
         
-        feedbackBtn = (Button)container.findViewById(R.id.feedbackBtn);
-        feedbackBtn.setVisibility(View.GONE);
+//        feedbackBtn = (Button)container.findViewById(R.id.feedbackBtn);
+//        feedbackBtn.setVisibility(View.GONE);
         
         
-        defaultSettingsBtn = (Button)container.findViewById(R.id.defaultSettingsBtn);
-        accCalibrateBtn = (Button)container.findViewById(R.id.accCalibrateBtn);
+//        defaultSettingsBtn = (Button)container.findViewById(R.id.defaultSettingsBtn);
+//        accCalibrateBtn = (Button)container.findViewById(R.id.accCalibrateBtn);
         magCalibrateBtn = (Button)container.findViewById(R.id.magCalibrateBtn);
 
         
         titles = new int[] {
                 R.string.settings_title_connection,
-                R.string.settings_title_personal,
-                R.string.settings_title_video,
-                R.string.settings_title_angel_trim,
+//                R.string.settings_title_personal,
+//                R.string.settings_title_video,
+//                R.string.settings_title_angel_trim,
                 R.string.settings_title_mode,
                 R.string.settings_title_about
         };
@@ -181,9 +181,9 @@ public class SettingsViewController extends ViewController
         
         int[] pageIds = new int[]{
         		R.layout.settings_page_connection,
-        		R.layout.settings_page_personal,
-        		R.layout.settings_page_video,
-        		R.layout.settings_page_angel_trim,
+//        		R.layout.settings_page_personal,
+//        		R.layout.settings_page_video,
+//        		R.layout.settings_page_angel_trim,
         		R.layout.settings_page_mode,
         		R.layout.settings_page_about
         };
@@ -198,11 +198,11 @@ public class SettingsViewController extends ViewController
         viewPagerIndicator.setOnPageChangeListener(this);
         
         final int connectionPageIdx = 0;
-        final int interfacePageIdx  = 1;
+//        final int interfacePageIdx  = 1;
 //        final int videoPageIdx      = 2;
-        final int angelTrimPageIdx  = 3;
-        final int modePageIdx       = 4;
-        final int aboutPageIdx      = 5;
+//        final int angelTrimPageIdx  = 3;
+        final int modePageIdx       = 1;
+        final int aboutPageIdx      = 2;
         								
         scanBtn = (Button)settingsViews.get(connectionPageIdx).findViewById(R.id.scanBtn);
         bleDeviceListView = (ListView)settingsViews.get(connectionPageIdx).findViewById(R.id.bleDeviceListView);
@@ -280,7 +280,7 @@ public class SettingsViewController extends ViewController
 							}
 							
 							if(SettingsViewController.this.delegate != null){
-								SettingsViewController.this.delegate.tringToConnect(targetDevice.getName());
+								SettingsViewController.this.delegate.tryingToConnect(targetDevice.getName());
 							}
 							
 							connectionStateTextView.setText(R.string.settings_item_connection_state_not_conneceted);
@@ -297,31 +297,35 @@ public class SettingsViewController extends ViewController
 			}
 		});
         
-        upTrimBtn   = (Button)settingsViews.get(angelTrimPageIdx).findViewById(R.id.upTrimBtn);
-        downTrimBtn = (Button)settingsViews.get(angelTrimPageIdx).findViewById(R.id.downTrimBtn);
-        leftTrimBtn = (Button)settingsViews.get(angelTrimPageIdx).findViewById(R.id.leftTrimBtn);
-        rightTrimBtn = (Button)settingsViews.get(angelTrimPageIdx).findViewById(R.id.rightTrimBtn);
-        
+//        upTrimBtn   = (Button)settingsViews.get(angelTrimPageIdx).findViewById(R.id.upTrimBtn);
+//        downTrimBtn = (Button)settingsViews.get(angelTrimPageIdx).findViewById(R.id.downTrimBtn);
+//        leftTrimBtn = (Button)settingsViews.get(angelTrimPageIdx).findViewById(R.id.leftTrimBtn);
+//        rightTrimBtn = (Button)settingsViews.get(angelTrimPageIdx).findViewById(R.id.rightTrimBtn);
+//        
         scanBtn.setText(R.string.btn_title_scan);
         
-        isLeftHandedCheckBox   = (CheckBox)settingsViews.get(interfacePageIdx).findViewById(R.id.isLeftHandedCheckBox);
-        isAccModeCheckBox      = (CheckBox)settingsViews.get(interfacePageIdx).findViewById(R.id.isAccModeCheckBox);
-        isHeadfreeModeCheckBox = (CheckBox)settingsViews.get(modePageIdx).findViewById(R.id.isHeadfreeModeCheckBox);
+     
+        
+            isLeftHandedCheckBox   = (CheckBox)settingsViews.get(modePageIdx).findViewById(R.id.isLeftHandedCheckBox);
+            isAccModeCheckBox      = (CheckBox)settingsViews.get(modePageIdx).findViewById(R.id.isAccModeCheckBox);
+        
+        
+//        isHeadfreeModeCheckBox = (CheckBox)settingsViews.get(modePageIdx).findViewById(R.id.isHeadfreeModeCheckBox);
         isBeginnerModeCheckBox = (CheckBox)settingsViews.get(modePageIdx).findViewById(R.id.isBeginnerModeCheckBox);
-        isAutoAltHoldModeCheckBox = (CheckBox)settingsViews.get(modePageIdx).findViewById(R.id.autoAltHoldCheckBox);
+//        isAutoAltHoldModeCheckBox = (CheckBox)settingsViews.get(modePageIdx).findViewById(R.id.autoAltHoldCheckBox);
         
-        interfaceOpacityValueTextView =  (TextView)settingsViews.get(interfacePageIdx).findViewById(R.id.interfaceOpacityValueTextView);
-        aileronAndElevatorDeadBandValueTextView = (TextView)settingsViews.get(modePageIdx).findViewById(R.id.aileronAndElevatorDeadBandValueTextView);
-        rudderDeadBandValueTextView = (TextView)settingsViews.get(modePageIdx).findViewById(R.id.rudderDeadBandValueTextView);
+//        interfaceOpacityValueTextView =  (TextView)settingsViews.get(interfacePageIdx).findViewById(R.id.interfaceOpacityValueTextView);
+//        aileronAndElevatorDeadBandValueTextView = (TextView)settingsViews.get(modePageIdx).findViewById(R.id.aileronAndElevatorDeadBandValueTextView);
+//        BandValueTextView = (TextView)settingsViews.get(modePageIdx).findViewById(R.id.rudderDeadBandValueTextView);
         
-        interfaceOpacitySeekBar = (SeekBar)settingsViews.get(interfacePageIdx).findViewById(R.id.interfaceOpacitySeekBar);
-        aileronAndElevatorDeadBandSeekBar = (SeekBar)settingsViews.get(modePageIdx).findViewById(R.id.aileronAndElevatorDeadBandSeekBar);
-        rudderDeadBandSeekBar = (SeekBar)settingsViews.get(modePageIdx).findViewById(R.id.rudderDeadBandSeekBar);
+//        interfaceOpacitySeekBar = (SeekBar)settingsViews.get(interfacePageIdx).findViewById(R.id.interfaceOpacitySeekBar);
+//        aileronAndElevatorDeadBandSeekBar = (SeekBar)settingsViews.get(modePageIdx).findViewById(R.id.aileronAndElevatorDeadBandSeekBar);
+//        rudderDeadBandSeekBar = (SeekBar)settingsViews.get(modePageIdx).findViewById(R.id.rudderDeadBandSeekBar);
         
-        interfaceOpacitySeekBar.setMax(100);
-        aileronAndElevatorDeadBandSeekBar.setMax(20);
-        rudderDeadBandSeekBar.setMax(20);
-        
+//        interfaceOpacitySeekBar.setMax(100);
+//        aileronAndElevatorDeadBandSeekBar.setMax(20);
+//        rudderDeadBandSeekBar.setMax(20);
+    //    อ๘าณ
         WebView aboutWebView = (WebView)settingsViews.get(aboutPageIdx).findViewById(R.id.aboutWebView);
         //aboutWebView.getSettings().setJavaScriptEnabled(true);  
         
@@ -375,18 +379,18 @@ public class SettingsViewController extends ViewController
       
         isLeftHandedCheckBox.setChecked(settings.isLeftHanded());
         isAccModeCheckBox.setChecked(settings.isAccMode());
-        isHeadfreeModeCheckBox.setChecked(settings.isHeadFreeMode());
+//        isHeadfreeModeCheckBox.setChecked(settings.isHeadFreeMode());
         isBeginnerModeCheckBox.setChecked(settings.isBeginnerMode());
-        isAutoAltHoldModeCheckBox.setChecked(settings.isAutoAltHoldMode());
+//        isAutoAltHoldModeCheckBox.setChecked(settings.isAutoAltHoldMode());
         
-        interfaceOpacitySeekBar.setProgress((int)(settings.getInterfaceOpacity() * 100));
-        safeSetText(interfaceOpacityValueTextView, interfaceOpacitySeekBar.getProgress() + "%");
+//        interfaceOpacitySeekBar.setProgress((int)(settings.getInterfaceOpacity() * 100));
+//        safeSetText(interfaceOpacityValueTextView, interfaceOpacitySeekBar.getProgress() + "%");
         
-        aileronAndElevatorDeadBandSeekBar.setProgress((int)(settings.getAileronDeadBand() * 100));
-        safeSetText(aileronAndElevatorDeadBandValueTextView, aileronAndElevatorDeadBandSeekBar.getProgress() + "%");
+//        aileronAndElevatorDeadBandSeekBar.setProgress((int)(settings.getAileronDeadBand() * 100));
+//        safeSetText(aileronAndElevatorDeadBandValueTextView, aileronAndElevatorDeadBandSeekBar.getProgress() + "%");
         
-        rudderDeadBandSeekBar.setProgress((int)(settings.getRudderDeadBand() * 100));
-        safeSetText(rudderDeadBandValueTextView, rudderDeadBandSeekBar.getProgress() + "%");  	
+//        rudderDeadBandSeekBar.setProgress((int)(settings.getRudderDeadBand() * 100));
+//        safeSetText(rudderDeadBandValueTextView, rudderDeadBandSeekBar.getProgress() + "%");  	
     }
 
     private void sendBleEnableRequest(){
@@ -402,21 +406,24 @@ public class SettingsViewController extends ViewController
     
     private List<View> initPages(LayoutInflater inflater, int[] pageIds)
     {
+    	
         ArrayList<View> pageList = new ArrayList<View>(pageIds.length);
-
-        for (int i = 0; i < pageIds.length; ++i) {
-        	if(pageIds[i] == R.layout.settings_page_video){
-        		videoSetting = new VideoSettingView(context,inflater);
-        		//videoSetting.setTitle(this.getActivity().getResources().getString(R.string.set_video_setting));
-        		pageList.add(videoSetting.getContent());
-        		
-        	}
-        	else{
+       
+        for (int i = 0; i < pageIds.length; i++) {
+        	
+//        	if(pageIds[i] == R.layout.settings_page_video){
+//        		videoSetting = new VideoSettingView(context,inflater);
+//        		//videoSetting.setTitle(this.getActivity().getResources().getString(R.string.set_video_setting));
+//        		pageList.add(videoSetting.getContent());
+//        		
+//        	}
+//        	else{
         		View view = inflater.inflate(pageIds[i], null);
+        		Log.i("########","*****i:"+i);
         		//FontUtils.applyFont(inflater.getContext(), (ViewGroup) view);
         		pageList.add(view);
         	}
-        }
+//        }
 
         return pageList;
     }
@@ -481,42 +488,42 @@ public class SettingsViewController extends ViewController
 			}
 		});
     	
-    	upTrimBtn.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View arg0) {
-				Log.d(TAG, "MSP_TRIM_UP");
-				Transmitter.sharedTransmitter().transmmitSimpleCommand(OSDCommon.MSPCommnand.MSP_TRIM_UP);
-			}
-		});
-    	
-    	downTrimBtn.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View arg0) {
-				Log.d(TAG, "MSP_TRIM_DOWN");
-				Transmitter.sharedTransmitter().transmmitSimpleCommand(OSDCommon.MSPCommnand.MSP_TRIM_DOWN);
-			}
-		});
-    	
-    	leftTrimBtn.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View arg0) {
-				Log.d(TAG, "MSP_TRIM_LEFT");
-				Transmitter.sharedTransmitter().transmmitSimpleCommand(OSDCommon.MSPCommnand.MSP_TRIM_LEFT);
-			}
-		});
-    	
-    	rightTrimBtn.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View arg0) {
-				Log.d(TAG, "MSP_TRIM_RIGHT");
-				Transmitter.sharedTransmitter().transmmitSimpleCommand(OSDCommon.MSPCommnand.MSP_TRIM_RIGHT);
-			}
-		});
-    	
+//    	upTrimBtn.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View arg0) {
+//				Log.d(TAG, "MSP_TRIM_UP");
+//				Transmitter.sharedTransmitter().transmmitSimpleCommand(OSDCommon.MSPCommnand.MSP_TRIM_UP);
+//			}
+//		});
+//    	
+//    	downTrimBtn.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View arg0) {
+//				Log.d(TAG, "MSP_TRIM_DOWN");
+//				Transmitter.sharedTransmitter().transmmitSimpleCommand(OSDCommon.MSPCommnand.MSP_TRIM_DOWN);
+//			}
+//		});
+//    	
+//    	leftTrimBtn.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View arg0) {
+//				Log.d(TAG, "MSP_TRIM_LEFT");
+//				Transmitter.sharedTransmitter().transmmitSimpleCommand(OSDCommon.MSPCommnand.MSP_TRIM_LEFT);
+//			}
+//		});
+//    	
+//    	rightTrimBtn.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View arg0) {
+//				Log.d(TAG, "MSP_TRIM_RIGHT");
+//				Transmitter.sharedTransmitter().transmmitSimpleCommand(OSDCommon.MSPCommnand.MSP_TRIM_RIGHT);
+//			}
+//		});
+//    	
     	magCalibrateBtn.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -532,67 +539,67 @@ public class SettingsViewController extends ViewController
 			}
 		});
     	
-    	accCalibrateBtn.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-		      	new AlertDialog.Builder(SettingsViewController.this.context)
-				.setIcon(android.R.drawable.ic_dialog_alert).setTitle(R.string.dialog_title_info)
-				.setMessage(R.string.dialog_calibrate_acc)
-				.setPositiveButton(R.string.dialog_btn_yes, new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						Transmitter.sharedTransmitter().transmmitSimpleCommand(OSDCommon.MSPCommnand.MSP_ACC_CALIBRATION);
-					}
-				}).setNegativeButton(R.string.dialog_btn_no, null).show();				
-			}
-		});
+//    	accCalibrateBtn.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//		      	new AlertDialog.Builder(SettingsViewController.this.context)
+//				.setIcon(android.R.drawable.ic_dialog_alert).setTitle(R.string.dialog_title_info)
+//				.setMessage(R.string.dialog_calibrate_acc)
+//				.setPositiveButton(R.string.dialog_btn_yes, new DialogInterface.OnClickListener() {
+//					public void onClick(DialogInterface dialog, int which) {
+//						Transmitter.sharedTransmitter().transmmitSimpleCommand(OSDCommon.MSPCommnand.MSP_ACC_CALIBRATION);
+//					}
+//				}).setNegativeButton(R.string.dialog_btn_no, null).show();				
+//			}
+//		});
+//    	
+//    	defaultSettingsBtn.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				new AlertDialog.Builder(SettingsViewController.this.context)
+//				.setIcon(android.R.drawable.ic_dialog_alert).setTitle(R.string.dialog_title_info)
+//				.setMessage(R.string.dialog_reset)
+//				.setPositiveButton(R.string.dialog_btn_yes, new DialogInterface.OnClickListener() {
+//					public void onClick(DialogInterface dialog, int which) {
+//						ApplicationSettings settings = HexMiniApplication.sharedApplicaion().getAppSettings();
+//
+//						settings.resetToDefault();
+//						
+//						settings.save();
+//						
+//						SettingsViewController.this.updateSettingsUI();
+//						
+//						if (delegate != null) {
+//							delegate.interfaceOpacityValueDidChange(settings.getInterfaceOpacity() * 100);
+//						
+//							delegate.leftHandedValueDidChange(settings.isLeftHanded());
+//						
+//							delegate.accModeValueDidChange(settings.isAccMode());
+//							delegate.headfreeModeValueDidChange(settings.isHeadFreeMode());
+//						
+//							delegate.aileronAndElevatorDeadBandValueDidChange(settings.getAileronDeadBand());
+//							delegate.rudderDeadBandValueDidChange(settings.getRudderDeadBand());
+//						
+//						}
+//					}
+//				}).setNegativeButton(R.string.dialog_btn_no, null).show();	
+//			}
+//		});
     	
-    	defaultSettingsBtn.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				new AlertDialog.Builder(SettingsViewController.this.context)
-				.setIcon(android.R.drawable.ic_dialog_alert).setTitle(R.string.dialog_title_info)
-				.setMessage(R.string.dialog_reset)
-				.setPositiveButton(R.string.dialog_btn_yes, new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						ApplicationSettings settings = HexMiniApplication.sharedApplicaion().getAppSettings();
-
-						settings.resetToDefault();
-						
-						settings.save();
-						
-						SettingsViewController.this.updateSettingsUI();
-						
-						if (delegate != null) {
-							delegate.interfaceOpacityValueDidChange(settings.getInterfaceOpacity() * 100);
-						
-							delegate.leftHandedValueDidChange(settings.isLeftHanded());
-						
-							delegate.accModeValueDidChange(settings.isAccMode());
-							delegate.headfreeModeValueDidChange(settings.isHeadFreeMode());
-						
-							delegate.aileronAndElevatorDeadBandValueDidChange(settings.getAileronDeadBand());
-							delegate.rudderDeadBandValueDidChange(settings.getRudderDeadBand());
-						
-						}
-					}
-				}).setNegativeButton(R.string.dialog_btn_no, null).show();	
-			}
-		});
-    	
-    	feedbackBtn.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent intent = new Intent();
-				intent.setClass(SettingsViewController.this.getContext(), FeedbackActivity.class);
-				SettingsViewController.this.getContext().startActivity(intent);
-			}
-    		
-    	});
-    	
+//    	feedbackBtn.setOnClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				Intent intent = new Intent();
+//				intent.setClass(SettingsViewController.this.getContext(), FeedbackActivity.class);
+//				SettingsViewController.this.getContext().startActivity(intent);
+//			}
+//    		
+//    	});
+//    	
     	
         isLeftHandedCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(
         		) {
@@ -621,19 +628,19 @@ public class SettingsViewController extends ViewController
 			}
 		});
         
-        isHeadfreeModeCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
-			@Override
-			public void onCheckedChanged(CompoundButton arg0, boolean isHeadfree) {
-				ApplicationSettings settings = HexMiniApplication.sharedApplicaion().getAppSettings();
-				settings.setIsHeadFreeMode(isHeadfree);
-				settings.save();
-				if (delegate != null) {
-					delegate.headfreeModeValueDidChange(isHeadfree);
-				}
-			}
-		});
-    	
+//        isHeadfreeModeCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+//			
+//			@Override
+//			public void onCheckedChanged(CompoundButton arg0, boolean isHeadfree) {
+//				ApplicationSettings settings = HexMiniApplication.sharedApplicaion().getAppSettings();
+//				settings.setIsHeadFreeMode(isHeadfree);
+//				settings.save();
+//				if (delegate != null) {
+//					delegate.headfreeModeValueDidChange(isHeadfree);
+//				}
+//			}
+//		});
+//    	
         isBeginnerModeCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
@@ -647,93 +654,93 @@ public class SettingsViewController extends ViewController
 			}
 		});
         
-        isAutoAltHoldModeCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
-			@Override
-			public void onCheckedChanged(CompoundButton arg0, boolean isAutoAltHoldMode) {
-				ApplicationSettings settings = HexMiniApplication.sharedApplicaion().getAppSettings();
-				settings.setIsAutoAltHoldMode(isAutoAltHoldMode);
-				settings.save();
-				if (delegate != null) {
-					delegate.autoAltHoldModeValueDidChange(isAutoAltHoldMode);
-				}
-			}
-		});
-        
-    	interfaceOpacitySeekBarListener = new OnSeekBarChangeListener() {
-			@Override
-			public void onStopTrackingTouch(SeekBar seekBar) {
-				ApplicationSettings settings = HexMiniApplication.sharedApplicaion().getAppSettings();
-				settings.setInterfaceOpacity(seekBar.getProgress() / 100.0f);
-				settings.save();
-				
-				if (delegate != null) {
-					delegate.interfaceOpacityValueDidChange(settings.getInterfaceOpacity() * 100);
-				}
-			}
-			
-			@Override
-			public void onStartTrackingTouch(SeekBar seekBar) {
-			}
-			
-			@Override
-			public void onProgressChanged(SeekBar seekBar, int progress,
-					boolean fromUser) {
-              safeSetText(interfaceOpacityValueTextView, progress + "%");
-			}
-		};
-		interfaceOpacitySeekBar.setOnSeekBarChangeListener(interfaceOpacitySeekBarListener);
-    	
-    	aileronAndElevatorDeadBandSeekBarListener = new OnSeekBarChangeListener() {
-			@Override
-			public void onStopTrackingTouch(SeekBar seekBar) {
-				ApplicationSettings settings = HexMiniApplication.sharedApplicaion().getAppSettings();
-				settings.setAileronDeadBand(seekBar.getProgress() / 100.f);
-				settings.setElevatorDeadBand(settings.getAileronDeadBand());
-				settings.save();
-				
-				if (delegate != null) {
-					delegate.aileronAndElevatorDeadBandValueDidChange(settings.getAileronDeadBand());
-				}
-			}
-			
-			@Override
-			public void onStartTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
-			}
-			
-			@Override
-			public void onProgressChanged(SeekBar seekBar, int progress,
-					boolean fromUser) {
-              safeSetText(aileronAndElevatorDeadBandValueTextView, progress + "%");
-			}
-		};
-		aileronAndElevatorDeadBandSeekBar.setOnSeekBarChangeListener(aileronAndElevatorDeadBandSeekBarListener);
-		
-    	rudderDeadBandSeekBarListener = new OnSeekBarChangeListener() {
-			@Override
-			public void onStopTrackingTouch(SeekBar seekBar) {
-				ApplicationSettings settings = HexMiniApplication.sharedApplicaion().getAppSettings();
-				settings.setRudderDeadBand(seekBar.getProgress() / 100.f);
-				settings.save();
-				
-				if (delegate != null) {
-					delegate.rudderDeadBandValueDidChange(settings.getRudderDeadBand());
-				}
-			}
-			
-			@Override
-			public void onStartTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
-			}
-			
-			@Override
-			public void onProgressChanged(SeekBar seekBar, int progress,
-					boolean fromUser) {
-              safeSetText(rudderDeadBandValueTextView, progress + "%");
-			}
-		};
-		rudderDeadBandSeekBar.setOnSeekBarChangeListener(rudderDeadBandSeekBarListener);
+//        isAutoAltHoldModeCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+//			
+//			@Override
+//			public void onCheckedChanged(CompoundButton arg0, boolean isAutoAltHoldMode) {
+//				ApplicationSettings settings = HexMiniApplication.sharedApplicaion().getAppSettings();
+//				settings.setIsAutoAltHoldMode(isAutoAltHoldMode);
+//				settings.save();
+//				if (delegate != null) {
+//					delegate.autoAltHoldModeValueDidChange(isAutoAltHoldMode);
+//				}
+//			}
+//		});
+//        
+//    	interfaceOpacitySeekBarListener = new OnSeekBarChangeListener() {
+//			@Override
+//			public void onStopTrackingTouch(SeekBar seekBar) {
+//				ApplicationSettings settings = HexMiniApplication.sharedApplicaion().getAppSettings();
+//				settings.setInterfaceOpacity(seekBar.getProgress() / 100.0f);
+//				settings.save();
+//				
+//				if (delegate != null) {
+//					delegate.interfaceOpacityValueDidChange(settings.getInterfaceOpacity() * 100);
+//				}
+//			}
+//			
+//			@Override
+//			public void onStartTrackingTouch(SeekBar seekBar) {
+//			}
+//			
+//			@Override
+//			public void onProgressChanged(SeekBar seekBar, int progress,
+//					boolean fromUser) {
+//              safeSetText(interfaceOpacityValueTextView, progress + "%");
+//			}
+//		};
+//		interfaceOpacitySeekBar.setOnSeekBarChangeListener(interfaceOpacitySeekBarListener);
+//    	
+//    	aileronAndElevatorDeadBandSeekBarListener = new OnSeekBarChangeListener() {
+//			@Override
+//			public void onStopTrackingTouch(SeekBar seekBar) {
+//				ApplicationSettings settings = HexMiniApplication.sharedApplicaion().getAppSettings();
+//				settings.setAileronDeadBand(seekBar.getProgress() / 100.f);
+//				settings.setElevatorDeadBand(settings.getAileronDeadBand());
+//				settings.save();
+//				
+//				if (delegate != null) {
+//					delegate.aileronAndElevatorDeadBandValueDidChange(settings.getAileronDeadBand());
+//				}
+//			}
+//			
+//			@Override
+//			public void onStartTrackingTouch(SeekBar seekBar) {
+//				// TODO Auto-generated method stub
+//			}
+//			
+//			@Override
+//			public void onProgressChanged(SeekBar seekBar, int progress,
+//					boolean fromUser) {
+//              safeSetText(aileronAndElevatorDeadBandValueTextView, progress + "%");
+//			}
+//		};
+//		aileronAndElevatorDeadBandSeekBar.setOnSeekBarChangeListener(aileronAndElevatorDeadBandSeekBarListener);
+//		
+//    	rudderDeadBandSeekBarListener = new OnSeekBarChangeListener() {
+//			@Override
+//			public void onStopTrackingTouch(SeekBar seekBar) {
+//				ApplicationSettings settings = HexMiniApplication.sharedApplicaion().getAppSettings();
+//				settings.setRudderDeadBand(seekBar.getProgress() / 100.f);
+//				settings.save();
+//				
+//				if (delegate != null) {
+//					delegate.rudderDeadBandValueDidChange(settings.getRudderDeadBand());
+//				}
+//			}
+//			
+//			@Override
+//			public void onStartTrackingTouch(SeekBar seekBar) {
+//				// TODO Auto-generated method stub
+//			}
+//			
+//			@Override
+//			public void onProgressChanged(SeekBar seekBar, int progress,
+//					boolean fromUser) {
+//              safeSetText(rudderDeadBandValueTextView, progress + "%");
+//			}
+//		};
+//		rudderDeadBandSeekBar.setOnSeekBarChangeListener(rudderDeadBandSeekBarListener);
     }
     
 
@@ -995,19 +1002,19 @@ public class SettingsViewController extends ViewController
 	public void onReceive(Context context, Intent intent) {
 	    // TODO Auto-generated method stub
 	    String action = intent.getAction();
-	    if(action.equals(IpcProxy.ACTION_RESOLUTION_CHANGED)) {
-		if(videoSetting != null) {
-		    videoSetting.refreshResolutionConfig();
-		}
-	    }
-	    else if(action.equals(IpcProxy.ACTION_DECODEMODE_CHANGED)) {
-		if(videoSetting != null) {
-		    videoSetting.refreshDecodeConfig();
-		}
-	    }
-	    else if(action.equals(IpcProxy.ACTION_BITRATE_CHANGED)) {
-		
-	    }
+//	    if(action.equals(IpcProxy.ACTION_RESOLUTION_CHANGED)) {
+//		if(videoSetting != null) {
+//		    videoSetting.refreshResolutionConfig();
+//		}
+//	    }
+//	    else if(action.equals(IpcProxy.ACTION_DECODEMODE_CHANGED)) {
+//		if(videoSetting != null) {
+//		    videoSetting.refreshDecodeConfig();
+//		}
+//	    }
+//	    else if(action.equals(IpcProxy.ACTION_BITRATE_CHANGED)) {
+//		
+//	    }
 	}
 	
     };
