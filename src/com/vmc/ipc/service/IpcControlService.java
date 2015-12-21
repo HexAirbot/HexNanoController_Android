@@ -256,12 +256,12 @@ private int ddd = 0;
 		.sendBroadcast(intent);
     }
 
-    private void onRecordChanged(boolean isProgress) {
-	Intent intent = intentMap.get(ACTION_NAVDATA_RECORDCHANGED);
-	intent.putExtra(EXTRA_STATE_RECORD, isProgress);
-	LocalBroadcastManager.getInstance(getApplicationContext())
-		.sendBroadcast(intent);
-    }
+//    private void onRecordChanged(boolean isProgress) {
+//	Intent intent = intentMap.get(ACTION_NAVDATA_RECORDCHANGED);
+//	intent.putExtra(EXTRA_STATE_RECORD, isProgress);
+//	LocalBroadcastManager.getInstance(getApplicationContext())
+//		.sendBroadcast(intent);
+//    }
 
     private OnIpcConnectChangedListener mOnIpcConnectChangedListener = new OnIpcConnectChangedListener() {
 

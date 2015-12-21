@@ -37,8 +37,8 @@ import android.widget.SimpleCursorAdapter.ViewBinder;
 import com.hexairbot.hexmini.R;
 import com.hexairbot.hexmini.ipc.view.OnGalleryItemClick;
 import com.hexairbot.hexmini.ipc.view.SquareRelativeLayout;
-import com.hexairbot.hexmini.ipc.view.adapter.RemoteMediaAdapter;
-import com.vmc.ipc.util.DebugHandler;
+//import com.hexairbot.hexmini.ipc.view.adapter.RemoteMediaAdapter;
+//import com.vmc.ipc.util.DebugHandler;
 import com.vmc.ipc.util.MediaUtil;
 
 public class GalleryActivity extends Activity implements
@@ -131,7 +131,7 @@ public class GalleryActivity extends Activity implements
 										int whichButton) {
 									((OnGalleryItemClick) adapter).delete(selectIds);						
 									mode.finish();
-									loadData(type);
+//									loadData(type);
 								}
 							}).show();
 				} else {
@@ -151,7 +151,7 @@ public class GalleryActivity extends Activity implements
 											int whichButton) {
 										((OnGalleryItemClick) adapter).delete(selectIds);						
 										mode.finish();
-										loadData(type);
+//										loadData(type);
 									}
 								}).show();
 				}	
@@ -214,43 +214,43 @@ public class GalleryActivity extends Activity implements
 		}
 	}
 
-	private void loadData(int type) {
-		int id = LOADER_ID_IMAGE;
-		if (type == MediaUtil.MEDIA_TYPE_IMAGE) {
-			id = LOADER_ID_IMAGE;
-			queryUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-			mediaColumns = new String[] { MediaStore.Images.Media.DATA,
-					MediaStore.Images.Media._ID, MediaStore.Images.Media.TITLE,
-					MediaStore.Images.Media.MIME_TYPE, };
-		} else if (type == MediaUtil.MEDIA_TYPE_VIDEO) {
-			id = LOADER_ID_VIEDO;
-			queryUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-			mediaColumns = new String[] { MediaStore.Video.Media.DATA,
-					MediaStore.Video.Media._ID, MediaStore.Video.Media.TITLE,
-					MediaStore.Video.Media.MIME_TYPE, };
-		} else {
-			id = LOADER_ID_ALL;
-			queryUri= Uri.parse("content://media/external");
-			mediaColumns = new String[] { MediaStore.Video.Media.DATA,
-					MediaStore.Video.Media._ID, MediaStore.Video.Media.TITLE,
-					MediaStore.Video.Media.MIME_TYPE, };
-		}
-		mediaType = type;
-		if (browserType == BROWSER_TYPE_LOCAL) {
-			adapter = new MySimpleCursorAdapter(this,
-					R.layout.media_item_layout, null, mediaColumns,
-					new int[] { R.id.media_thumb }, 0);
-			//((MySimpleCursorAdapter) adapter).setViewBinder(new MyViewBinder());
-			this.getLoaderManager().initLoader(id, null, this);
-		} else if (browserType == BROWSER_TYPE_REMOTE) {
-			adapter = new RemoteMediaAdapter(this, mediaType);
-		}
-		gridView.setAdapter(adapter);
-		if (adapter instanceof RemoteMediaAdapter) {
-			((RemoteMediaAdapter) adapter).loadData(mediaType);
-		}
-		gridView.setOnItemClickListener(this);
-	}
+//	private void loadData(int type) {
+//		int id = LOADER_ID_IMAGE;
+//		if (type == MediaUtil.MEDIA_TYPE_IMAGE) {
+//			id = LOADER_ID_IMAGE;
+//			queryUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+//			mediaColumns = new String[] { MediaStore.Images.Media.DATA,
+//					MediaStore.Images.Media._ID, MediaStore.Images.Media.TITLE,
+//					MediaStore.Images.Media.MIME_TYPE, };
+//		} else if (type == MediaUtil.MEDIA_TYPE_VIDEO) {
+//			id = LOADER_ID_VIEDO;
+//			queryUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+//			mediaColumns = new String[] { MediaStore.Video.Media.DATA,
+//					MediaStore.Video.Media._ID, MediaStore.Video.Media.TITLE,
+//					MediaStore.Video.Media.MIME_TYPE, };
+//		} else {
+//			id = LOADER_ID_ALL;
+//			queryUri= Uri.parse("content://media/external");
+//			mediaColumns = new String[] { MediaStore.Video.Media.DATA,
+//					MediaStore.Video.Media._ID, MediaStore.Video.Media.TITLE,
+//					MediaStore.Video.Media.MIME_TYPE, };
+//		}
+//		mediaType = type;
+//		if (browserType == BROWSER_TYPE_LOCAL) {
+//			adapter = new MySimpleCursorAdapter(this,
+//					R.layout.media_item_layout, null, mediaColumns,
+//					new int[] { R.id.media_thumb }, 0);
+//			//((MySimpleCursorAdapter) adapter).setViewBinder(new MyViewBinder());
+//			this.getLoaderManager().initLoader(id, null, this);
+//		} else if (browserType == BROWSER_TYPE_REMOTE) {
+//			adapter = new RemoteMediaAdapter(this, mediaType);
+//		}
+//		gridView.setAdapter(adapter);
+//		if (adapter instanceof RemoteMediaAdapter) {
+//			((RemoteMediaAdapter) adapter).loadData(mediaType);
+//		}
+//		gridView.setOnItemClickListener(this);
+//	}
 
 	@Override
 	protected void onDestroy() {
@@ -264,7 +264,7 @@ public class GalleryActivity extends Activity implements
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		loadData(type);
+//		loadData(type);
 	}
 
 	@Override
@@ -357,8 +357,8 @@ public class GalleryActivity extends Activity implements
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			// TODO Auto-generated method stub
-			DebugHandler
-					.logd(TAG, "MySimpleCursorAdapter.getView: " + position);
+//			DebugHandler
+//					.logd(TAG, "MySimpleCursorAdapter.getView: " + position);
 			View view = super.getView(position, convertView, parent);
 			return view;
 		}
@@ -410,8 +410,8 @@ public class GalleryActivity extends Activity implements
 	public void onItemClick(AdapterView<?> parent, View arg1, int position,
 			long arg3) {
 		// TODO Auto-generated method stub
-		DebugHandler.logd(TAG, String.format("position=%d", position));
-		DebugHandler.logd(TAG, String.format("id=%d", arg3));
+//		DebugHandler.logd(TAG, String.format("position=%d", position));
+//		DebugHandler.logd(TAG, String.format("id=%d", arg3));
 		((OnGalleryItemClick) gridView.getAdapter()).onClick(position, this);
 	}
 }

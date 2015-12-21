@@ -15,7 +15,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import com.hexairbot.hexmini.R;
-import com.vmc.ipc.util.DebugHandler;
+//import com.vmc.ipc.util.DebugHandler;
 
 public class MainActivityLayout extends RelativeLayout {
 
@@ -112,7 +112,7 @@ public class MainActivityLayout extends RelativeLayout {
 	int w = getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec);
 	int h = getDefaultSize(getSuggestedMinimumHeight(), heightMeasureSpec);
 	int square = Math.min(w, h);
-	DebugHandler.logd(TAG, String.format("onmeasure(%1$d,%2$d)", w, h));
+//	DebugHandler.logd(TAG, String.format("onmeasure(%1$d,%2$d)", w, h));
 
 	ViewGroup.LayoutParams lpft = leftTop.getLayoutParams();
 	lpft.width = DEFAULT_BUTTON_SIZE * square / DEFAULT_SQUARE_SIZE;

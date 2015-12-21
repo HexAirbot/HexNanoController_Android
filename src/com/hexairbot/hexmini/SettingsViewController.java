@@ -14,7 +14,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
+//import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -37,10 +37,10 @@ import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.SeekBar;
+//import android.widget.SeekBar;
 import android.widget.Toast;
 import android.widget.ProgressBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
+//import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import com.hexairbot.hexmini.adapter.SettingsViewAdapter;
@@ -51,7 +51,7 @@ import com.hexairbot.hexmini.modal.ApplicationSettings;
 import com.hexairbot.hexmini.modal.OSDCommon;
 import com.hexairbot.hexmini.modal.Transmitter;
 import com.hexairbot.hexmini.ui.control.ViewPagerIndicator;
-import com.vmc.ipc.proxy.IpcProxy;
+//import com.vmc.ipc.proxy.IpcProxy;
 import com.hexairbot.hexmini.R;
 
 public class SettingsViewController extends ViewController
@@ -959,18 +959,18 @@ public class SettingsViewController extends ViewController
 	}
 	
 	
-	@Override
-	public void viewWillAppear() {
-		// TODO Auto-generated method stub
-		super.viewWillAppear();
-		sendBleEnableRequest();
-		
-		IntentFilter filter = new IntentFilter();
-		filter.addAction(IpcProxy.ACTION_BITRATE_CHANGED);
-		filter.addAction(IpcProxy.ACTION_DECODEMODE_CHANGED);
-		filter.addAction(IpcProxy.ACTION_RESOLUTION_CHANGED);
-		mLocalBroadcastManager.registerReceiver(receiver, filter);
-	}
+//	@Override
+//	public void viewWillAppear() {
+//		// TODO Auto-generated method stub
+//		super.viewWillAppear();
+//		sendBleEnableRequest();
+//		
+//		IntentFilter filter = new IntentFilter();
+//		filter.addAction(IpcProxy.ACTION_BITRATE_CHANGED);
+//		filter.addAction(IpcProxy.ACTION_DECODEMODE_CHANGED);
+//		filter.addAction(IpcProxy.ACTION_RESOLUTION_CHANGED);
+//		mLocalBroadcastManager.registerReceiver(receiver, filter);
+//	}
 	
 	
 	@Override
