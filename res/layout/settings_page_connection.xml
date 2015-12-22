@@ -6,10 +6,44 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="38dp" >
+        android:layout_height="45dp"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal"
+        android:layout_weight="3"
+         >
+
+        <TextView
+            android:id="@+id/connectionStateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:text="未连接"
+            android:textColor="@color/white"
+            android:textSize="@dimen/settings_indicator_text_size" />
+
+        <Button
+            android:id="@+id/scanBtn"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            
+            android:background="@drawable/btn_black"
+            android:paddingLeft="15dp"
+            android:paddingRight="10dp"
+            android:text="Stop Scanning"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="38dp" 
+      
+        >
 
         <RelativeLayout
-            android:id="@+id/RelativeLayout1"
+            android:id="@+id/RelativeLayout2"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" >
 
@@ -17,7 +51,6 @@
                 android:id="@+id/scanningStateTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="false"
                 android:layout_centerVertical="true"
                 android:text="Scanning"
                 android:textColor="@color/white"
@@ -32,34 +65,14 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/scanningStateTextView" />
-
         </RelativeLayout>
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/connectionStateTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="未连接"
-        android:textColor="@color/white"
-        android:textSize="@dimen/settings_indicator_text_size" />
-
-    <Button
-        android:id="@+id/scanBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/btn_black"
-        android:paddingLeft="15dp"
-        android:paddingRight="10dp"
-        android:text="Stop Scanning"
-        android:textColor="@color/white" />
 
     <ListView
         android:id="@+id/bleDeviceListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp" >
-
     </ListView>
 
 </LinearLayout>
