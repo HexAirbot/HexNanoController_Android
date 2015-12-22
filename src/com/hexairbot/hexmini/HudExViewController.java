@@ -79,9 +79,9 @@ import com.hexairbot.hexmini.ui.joystick.JoystickFactory.JoystickType;
 import com.hexairbot.hexmini.util.FontUtils;
 //import com.hexairbot.hexmini.util.SystemUtil;
 //import com.vmc.ipc.config.VmcConfig;
-import com.vmc.ipc.proxy.IpcProxy;
+//import com.vmc.ipc.proxy.IpcProxy;
 //import com.vmc.ipc.proxy.IpcProxy.OnRecordCompleteListener;
-import com.vmc.ipc.service.ConnectStateManager;
+//import com.vmc.ipc.service.ConnectStateManager;
 //import com.vmc.ipc.service.IpcControlService;
 //import com.vmc.ipc.service.OnIpcConnectChangedListener;
 //import com.vmc.ipc.util.MediaUtil;
@@ -195,7 +195,7 @@ public class HudExViewController extends ViewController
     
 //    private LocalBroadcastManager mLocalBroadcastManager;
     
-    private IpcProxy ipcProxy;
+//    private IpcProxy ipcProxy;
     
 //    private boolean isStartRecord = false;
 //    final CustomOnRecordCompleteListener mCustomOnRecordCompleteListener = new CustomOnRecordCompleteListener();
@@ -272,9 +272,9 @@ public class HudExViewController extends ViewController
 		 
 		mainFrameLayout.addView(glView);
 		
-		ConnectStateManager mConnectStateManager = ConnectStateManager
-				.getInstance(HexMiniApplication.sharedApplicaion());
-		ipcProxy = mConnectStateManager.getIpcProxy();
+//		ConnectStateManager mConnectStateManager = ConnectStateManager
+//				.getInstance(HexMiniApplication.sharedApplicaion());
+//		ipcProxy = mConnectStateManager.getIpcProxy();
 		
 //		videoStageSoft = (GLSurfaceView)context.findViewById(R.id.video_bg_soft2);
 //		videoStageHard = (SurfaceView)context.findViewById(R.id.video_bg_hard2);
@@ -992,9 +992,9 @@ public class HudExViewController extends ViewController
 		}
 		
 		deviceOrientationManager.resume();
-		
-		if (ipcProxy != null)
-		    ipcProxy.doStartPreview();
+//		
+//		if (ipcProxy != null)
+//		    ipcProxy.doStartPreview();
 	}
 
     //glView onTouch Event handler

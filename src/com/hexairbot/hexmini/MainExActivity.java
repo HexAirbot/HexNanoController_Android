@@ -8,19 +8,19 @@ import com.hexairbot.hexmini.modal.OSDCommon;
 import com.hexairbot.hexmini.modal.Transmitter;
 //import com.vmc.ipc.service.ApConnectService;
 //import com.vmc.ipc.service.ConnectStateManager;
-import com.vmc.ipc.service.IpcControlService;
+//import com.vmc.ipc.service.IpcControlService;
 //import com.vmc.ipc.service.OnIpcConnectChangedListener;
 //import com.vmc.ipc.util.DebugHandler;
 //import com.vmc.ipc.util.MediaUtil;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
+//import android.content.ServiceConnection;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.os.IBinder;
+//import android.os.IBinder;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -81,9 +81,9 @@ public class MainExActivity extends FragmentActivity implements
 
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-		Intent intent = new Intent();
-		intent.setClass(this, IpcControlService.class);
-		this.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+//		Intent intent = new Intent();
+//		intent.setClass(this, IpcControlService.class);
+//		this.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
 //
 //		Intent apintent = new Intent();
 //		apintent.setAction(ApConnectService.ACTION_CHECK_AND_ENABLE_WIFI);
@@ -192,24 +192,24 @@ public class MainExActivity extends FragmentActivity implements
 //				connectStateChangedReceiver);
 //	}
 
-	private ServiceConnection mConnection = new ServiceConnection() {
-
-		@Override
-		public void onServiceConnected(ComponentName name, IBinder service) {
-//			controlService = ((IpcControlService.LocalBinder) service)
-//					.getService();
-//			controlService.getConnectStateManager().addConnectChangedListener(
-//					MainExActivity.this);
-			// onDroneServiceConnected();
-		}
-
-		@Override
-		public void onServiceDisconnected(ComponentName name) {
-//			controlService.getConnectStateManager()
-//					.removeConnectChangedListener(MainExActivity.this);
-//			controlService = null;
-		}
-	};
+//	private ServiceConnection mConnection = new ServiceConnection() {
+//
+//		@Override
+//		public void onServiceConnected(ComponentName name, IBinder service) {
+////			controlService = ((IpcControlService.LocalBinder) service)
+////					.getService();
+////			controlService.getConnectStateManager().addConnectChangedListener(
+////					MainExActivity.this);
+//			// onDroneServiceConnected();
+//		}
+//
+//		@Override
+//		public void onServiceDisconnected(ComponentName name) {
+////			controlService.getConnectStateManager()
+////					.removeConnectChangedListener(MainExActivity.this);
+////			controlService = null;
+//		}
+//	};
 
 //	private void showDialogWhenWifiCheckFail() {
 //		IpcAlertDialog dialog = new IpcAlertDialog();
@@ -411,7 +411,7 @@ public class MainExActivity extends FragmentActivity implements
 		hudVC.onDestroy();
 		hudVC = null;
 
-		this.unbindService(mConnection);
+//		this.unbindService(mConnection);
 		Thread destroy = new Thread(new Runnable() {
 
 			@Override

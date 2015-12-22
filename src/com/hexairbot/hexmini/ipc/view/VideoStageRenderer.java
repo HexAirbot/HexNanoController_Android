@@ -18,11 +18,11 @@ import android.opengl.GLSurfaceView.Renderer;
 import android.opengl.Matrix;
 import android.util.Log;
 
-import com.vmc.ipc.view.gl.GLBGVideoSprite;
+//import com.vmc.ipc.view.gl.GLBGVideoSprite;
 
 public class VideoStageRenderer implements Renderer {
 
-    private GLBGVideoSprite bgSprite;
+//    private GLBGVideoSprite bgSprite;
 
     private float fps;
 
@@ -74,8 +74,8 @@ public class VideoStageRenderer implements Renderer {
     // ***********************
 
     public VideoStageRenderer(Context context, Bitmap initialTexture) {
-	bgSprite = new GLBGVideoSprite(context.getResources());
-	bgSprite.setAlpha(1.0f);
+//	bgSprite = new GLBGVideoSprite(context.getResources());
+//	bgSprite.setAlpha(1.0f);
     }
 
     // public void addSprite(Integer id, Sprite sprite)
@@ -100,7 +100,7 @@ public class VideoStageRenderer implements Renderer {
     // }
 
     public void onDrawFrame(Canvas canvas) {
-	bgSprite.onDraw(canvas, 0, 0);
+//	bgSprite.onDraw(canvas, 0, 0);
 
 	// synchronized (sprites) {
 	// int spritesSize = sprites.size();
@@ -138,7 +138,7 @@ public class VideoStageRenderer implements Renderer {
 	startTime = System.currentTimeMillis();
 
 	// Drawing scene
-	bgSprite.onDraw(gl, 0, 0);
+//	bgSprite.onDraw(gl, 0, 0);
     }
 
     @Override
@@ -149,8 +149,8 @@ public class VideoStageRenderer implements Renderer {
 	GLES20.glViewport(0, 0, width, height);
 	Matrix.orthoM(mProjMatrix, 0, 0, width, 0, height, 0, 2f);
 
-	bgSprite.setViewAndProjectionMatrices(mVMatrix, mProjMatrix);
-	bgSprite.onSurfaceChanged(gl, width, height);
+//	bgSprite.setViewAndProjectionMatrices(mVMatrix, mProjMatrix);
+//	bgSprite.onSurfaceChanged(gl, width, height);
 
 	// synchronized (sprites) {
 	// int size = sprites.size();
@@ -169,7 +169,7 @@ public class VideoStageRenderer implements Renderer {
 	screenWidth = width;
 	screenHeight = height;
 
-	bgSprite.onSurfaceChanged(null, width, height);
+//	bgSprite.onSurfaceChanged(null, width, height);
     }
 
     @Override
@@ -189,7 +189,7 @@ public class VideoStageRenderer implements Renderer {
 	GLES20.glAttachShader(program, fragmentShader);
 
 	GLES20.glLinkProgram(program);
-	bgSprite.init(gl, program);
+//	bgSprite.init(gl, program);
 
 	// Init sprites
 	// synchronized (sprites) {
@@ -206,9 +206,9 @@ public class VideoStageRenderer implements Renderer {
 	return fps;
     }
 
-    public boolean updateVideoFrame() {
-	return bgSprite.updateVideoFrame();
-    }
+//    public boolean updateVideoFrame() {
+////	return bgSprite.updateVideoFrame();
+//    }
 
     private int loadShader(int type, String code) {
 	int shader = GLES20.glCreateShader(type);

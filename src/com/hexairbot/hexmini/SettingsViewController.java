@@ -993,29 +993,29 @@ public class SettingsViewController extends ViewController
 			}
 		}
 		
-		mLocalBroadcastManager.unregisterReceiver(receiver);
+//		mLocalBroadcastManager.unregisterReceiver(receiver);
 	}
 	
-    BroadcastReceiver receiver = new BroadcastReceiver() {
-
-	@Override
-	public void onReceive(Context context, Intent intent) {
-	    // TODO Auto-generated method stub
-	    String action = intent.getAction();
-//	    if(action.equals(IpcProxy.ACTION_RESOLUTION_CHANGED)) {
-//		if(videoSetting != null) {
-//		    videoSetting.refreshResolutionConfig();
-//		}
-//	    }
-//	    else if(action.equals(IpcProxy.ACTION_DECODEMODE_CHANGED)) {
-//		if(videoSetting != null) {
-//		    videoSetting.refreshDecodeConfig();
-//		}
-//	    }
-//	    else if(action.equals(IpcProxy.ACTION_BITRATE_CHANGED)) {
-//		
-//	    }
-	}
-	
-    };
+//    BroadcastReceiver receiver = new BroadcastReceiver() {
+//
+//	@Override
+//	public void onReceive(Context context, Intent intent) {
+//	    // TODO Auto-generated method stub
+//	    String action = intent.getAction();
+////	    if(action.equals(IpcProxy.ACTION_RESOLUTION_CHANGED)) {
+////		if(videoSetting != null) {
+////		    videoSetting.refreshResolutionConfig();
+////		}
+////	    }
+////	    else if(action.equals(IpcProxy.ACTION_DECODEMODE_CHANGED)) {
+////		if(videoSetting != null) {
+////		    videoSetting.refreshDecodeConfig();
+////		}
+////	    }
+////	    else if(action.equals(IpcProxy.ACTION_BITRATE_CHANGED)) {
+////		
+////	    }
+//	}
+//	
+//    };
 }

@@ -1,5 +1,5 @@
-package com.hexairbot.hexmini;
-
-public interface GalleryViewControllerDelegate {
-
-}
+//package com.hexairbot.hexmini;
+//
+//public interface GalleryViewControllerDelegate {
+//
+//}

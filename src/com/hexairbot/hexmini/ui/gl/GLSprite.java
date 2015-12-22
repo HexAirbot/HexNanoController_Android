@@ -179,7 +179,7 @@ public class GLSprite
         checkGlError("glBufferData vertices");
         
         if (useWorkaroundsForSDK8) {
-            fix.android.opengl.GLES20.glVertexAttribPointer(positionHandle, 3, GLES20.GL_FLOAT, false, 5 * FLOAT_SIZE_BYTES, 0);
+//            fix.android.opengl.GLES20.glVertexAttribPointer(positionHandle, 3, GLES20.GL_FLOAT, false, 5 * FLOAT_SIZE_BYTES, 0);
         } else {
             GLES20.glVertexAttribPointer(positionHandle, 3, GLES20.GL_FLOAT, false, 5 * FLOAT_SIZE_BYTES, 0); 
         }
@@ -187,7 +187,7 @@ public class GLSprite
         GLES20.glEnableVertexAttribArray(positionHandle);
 
         if (useWorkaroundsForSDK8) {
-            fix.android.opengl.GLES20.glVertexAttribPointer(textureHandle, 2, GLES20.GL_FLOAT, false, 5 * FLOAT_SIZE_BYTES, 3 * FLOAT_SIZE_BYTES);
+//            fix.android.opengl.GLES20.glVertexAttribPointer(textureHandle, 2, GLES20.GL_FLOAT, false, 5 * FLOAT_SIZE_BYTES, 3 * FLOAT_SIZE_BYTES);
         } else {
             GLES20.glVertexAttribPointer(textureHandle, 2, GLES20.GL_FLOAT, false, 5 * FLOAT_SIZE_BYTES, 3 * FLOAT_SIZE_BYTES);
         }
@@ -306,8 +306,8 @@ public class GLSprite
 
         int stride = 5 * FLOAT_SIZE_BYTES;
         if (useWorkaroundsForSDK8) {
-            fix.android.opengl.GLES20.glVertexAttribPointer(positionHandle, VERTEX_COORDS_SIZE, GLES20.GL_FLOAT, false, stride, 0);
-            fix.android.opengl.GLES20.glVertexAttribPointer(textureHandle, TEXTURE_COORDS_SIZE, GLES20.GL_FLOAT, false, stride, VERTEX_COORDS_SIZE * FLOAT_SIZE_BYTES);
+//            fix.android.opengl.GLES20.glVertexAttribPointer(positionHandle, VERTEX_COORDS_SIZE, GLES20.GL_FLOAT, false, stride, 0);
+//            fix.android.opengl.GLES20.glVertexAttribPointer(textureHandle, TEXTURE_COORDS_SIZE, GLES20.GL_FLOAT, false, stride, VERTEX_COORDS_SIZE * FLOAT_SIZE_BYTES);
         } else {            
             GLES20.glVertexAttribPointer(positionHandle, VERTEX_COORDS_SIZE, GLES20.GL_FLOAT, false, stride, 0);
             GLES20.glVertexAttribPointer(textureHandle, TEXTURE_COORDS_SIZE, GLES20.GL_FLOAT, false, stride, VERTEX_COORDS_SIZE * FLOAT_SIZE_BYTES);

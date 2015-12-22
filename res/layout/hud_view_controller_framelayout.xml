@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <com.vmc.ipc.view.VideoStageSurfaceHardware
+  <!--   <com.vmc.ipc.view.VideoStageSurfaceHardware
         android:id="@+id/video_bg_hard2"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -12,7 +12,7 @@
         android:id="@+id/video_bg_soft2"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
+ -->
     <FrameLayout
         android:id="@+id/mainFrameLaytout"
         android:layout_width="match_parent"
