@@ -2,11 +2,16 @@ package com.hexairbot.hexmini.ui;
 
 import javax.microedition.khronos.opengles.GL10;
 
+<<<<<<< HEAD
 import com.hexairbot.hexmini.ui.gl.GLSprite;
 
 
+=======
+>>>>>>> master
 import android.content.res.Resources;
 import android.graphics.Canvas;
+
+import com.hexairbot.hexmini.ui.gl.GLSprite;
 
 
 public class ToggleButton extends Button

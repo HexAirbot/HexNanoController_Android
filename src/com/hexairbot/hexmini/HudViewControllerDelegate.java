@@ -7,7 +7,10 @@ import com.hexairbot.hexmini.ui.Button;
 
 import android.view.View;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 /**
  * @author koupoo
  *

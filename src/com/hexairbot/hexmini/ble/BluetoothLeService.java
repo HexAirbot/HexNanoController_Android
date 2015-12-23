@@ -16,6 +16,9 @@
 
 package com.hexairbot.hexmini.ble;
 
+import java.util.List;
+import java.util.UUID;
+
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -32,11 +35,14 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
+<<<<<<< HEAD
 import java.util.List;
 import java.util.UUID;
 
 import com.hexairbot.hexmini.HexMiniApplication;
 
+=======
+>>>>>>> master
 /**
  * Service for managing connection and data communication with a GATT server hosted on a
  * given Bluetooth LE device.
@@ -212,7 +218,7 @@ public class BluetoothLeService extends Service {
                 // Attempts to discover services after successful connection.
                 Log.i(TAG, "Attempting to start service discovery:" +
                 		mBluetoothGatt.discoverServices());
-            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {  //当蓝牙模块断电，也会发送此广播
+            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) { 
                 intentAction = ACTION_GATT_DISCONNECTED;
                 //mBluetoothGatt.close();
                 //mBluetoothGatt = null;
@@ -239,9 +245,14 @@ public class BluetoothLeService extends Service {
         public void onCharacteristicRead(BluetoothGatt gatt,
                                          BluetoothGattCharacteristic characteristic,
                                          int status) {
+            Log.e(TAG, "onCharacteristicRead");
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
+                Log.d(TAG, "onCharacteristicRead SUCCESS");
+            } else {
+                Log.e(TAG, "onCharacteristicRead FAILED");
             }
+            
         }
 
         @Override
@@ -249,6 +260,7 @@ public class BluetoothLeService extends Service {
         	Log.e(TAG, "onCharacteristicChanged");
         	
             broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
+<<<<<<< HEAD
             //Log.e(TAG, "OnCharacteristicWrite");
             
             if (gatt != mBluetoothGatt) {
@@ -258,6 +270,9 @@ public class BluetoothLeService extends Service {
             if (characteristic == mOsdCharacteristic) {
             	
             }
+=======
+            Log.e(TAG, "onCharacteristicChanged");
+>>>>>>> master
         }
         
         @Override
@@ -266,7 +281,7 @@ public class BluetoothLeService extends Service {
         {
         	/*
         	if (status == BluetoothGatt.GATT_SUCCESS) {
-        		Log.e(TAG, "OnCharacteristicWrite SUCCESS");
+        		Log.d(TAG, "OnCharacteristicWrite SUCCESS");
 			}
         	else{
         		

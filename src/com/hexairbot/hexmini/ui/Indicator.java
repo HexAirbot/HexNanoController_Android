@@ -2,13 +2,18 @@ package com.hexairbot.hexmini.ui;
 
 import javax.microedition.khronos.opengles.GL10;
 
+<<<<<<< HEAD
 import com.hexairbot.hexmini.ui.gl.GLSprite;
 
 
+=======
+>>>>>>> master
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.hexairbot.hexmini.ui.gl.GLSprite;
 
 public class Indicator extends Sprite 
 {

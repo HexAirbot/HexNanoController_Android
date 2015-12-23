@@ -1,6 +1,9 @@
 package com.hexairbot.hexmini.ui.control;
 
+<<<<<<< HEAD
 import com.hexairbot.hexmini.R;
+=======
+>>>>>>> master
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -12,6 +15,8 @@ import android.view.Gravity;
 import android.widget.SeekBar;
 import android.widget.TableLayout.LayoutParams;
 import android.widget.TextView;
+
+import com.hexairbot.hexmini.R;
 
 
 public class CustomSeekBar extends SeekBar {

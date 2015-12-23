@@ -1,7 +1,11 @@
 package com.hexairbot.hexmini.modal;
 
+<<<<<<< HEAD
 import com.dd.plist.NSDictionary;
+=======
+>>>>>>> master
 import com.dd.plist.NSArray;
+import com.dd.plist.NSDictionary;
 import com.dd.plist.NSNumber;
 import com.dd.plist.NSString;
 

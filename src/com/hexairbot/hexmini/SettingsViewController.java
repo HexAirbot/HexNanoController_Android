@@ -30,11 +30,11 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
+<<<<<<< HEAD
 import android.widget.ImageButton;
 import android.widget.ListView;
 //import android.widget.SeekBar;
@@ -43,6 +43,20 @@ import android.widget.ProgressBar;
 //import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
+=======
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageButton;
+import android.widget.ListView;
+//import android.webkit.WebView;
+import android.widget.ProgressBar;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.TextView;
+import android.widget.Toast;
+
+//import com.hexairbot.hexmini.drone.DroneConfig;
+//import com.hexairbot.hexmini.drone.DroneConfig.EDroneVersion;
+>>>>>>> master
 import com.hexairbot.hexmini.adapter.SettingsViewAdapter;
 import com.hexairbot.hexmini.ble.BleConnectinManager;
 import com.hexairbot.hexmini.ble.BleConnectinManagerDelegate;

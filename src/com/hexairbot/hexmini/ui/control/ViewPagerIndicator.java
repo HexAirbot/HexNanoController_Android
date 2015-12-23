@@ -1,6 +1,9 @@
 package com.hexairbot.hexmini.ui.control;
 
+<<<<<<< HEAD
 import com.hexairbot.hexmini.R;
+=======
+>>>>>>> master
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -10,6 +13,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.hexairbot.hexmini.R;
 
 
 public class ViewPagerIndicator extends View 

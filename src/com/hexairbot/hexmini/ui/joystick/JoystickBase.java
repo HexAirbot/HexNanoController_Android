@@ -9,10 +9,13 @@ package com.hexairbot.hexmini.ui.joystick;
 
 import javax.microedition.khronos.opengles.GL10;
 
+<<<<<<< HEAD
 import com.hexairbot.hexmini.ui.Sprite;
 import com.hexairbot.hexmini.ui.gl.GLSprite;
 
 import com.hexairbot.hexmini.R;
+=======
+>>>>>>> master
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
@@ -20,6 +23,10 @@ import android.graphics.RectF;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.hexairbot.hexmini.R;
+import com.hexairbot.hexmini.ui.Sprite;
+import com.hexairbot.hexmini.ui.gl.GLSprite;
 
 public abstract class JoystickBase extends Sprite
 {

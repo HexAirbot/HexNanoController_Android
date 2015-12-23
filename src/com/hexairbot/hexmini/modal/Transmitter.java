@@ -2,9 +2,15 @@ package com.hexairbot.hexmini.modal;
 
 import java.util.Timer;
 import java.util.TimerTask;
+<<<<<<< HEAD
 import android.os.Handler;
 import android.util.Log;
 import com.hexairbot.hexmini.HexMiniApplication;
+=======
+
+import android.os.Handler;
+
+>>>>>>> master
 import com.hexairbot.hexmini.ble.BleConnectinManager;
 import com.hexairbot.hexmini.modal.OSDCommon.MSPCommnand;
 import com.hexairbot.hexmini.ui.Text;

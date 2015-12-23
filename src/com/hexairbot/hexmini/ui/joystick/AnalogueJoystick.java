@@ -6,8 +6,14 @@
  */
 
 package com.hexairbot.hexmini.ui.joystick;
+<<<<<<< HEAD
 import com.hexairbot.hexmini.R;
+=======
+
+>>>>>>> master
 import android.content.Context;
+
+import com.hexairbot.hexmini.R;
 
 
 public class AnalogueJoystick 

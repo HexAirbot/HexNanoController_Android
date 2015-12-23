@@ -1,8 +1,11 @@
 package com.hexairbot.hexmini;
 
+<<<<<<< HEAD:src/com/hexairbot/hexmini/HudExViewController.java
 import java.text.SimpleDateFormat;
 
 
+=======
+>>>>>>> master:src/com/hexairbot/hexmini/HudViewController.java
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -14,9 +17,8 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
+<<<<<<< HEAD:src/com/hexairbot/hexmini/HudExViewController.java
 import android.graphics.PixelFormat;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
@@ -24,6 +26,8 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+=======
+>>>>>>> master:src/com/hexairbot/hexmini/HudViewController.java
 import android.opengl.GLSurfaceView;
 import android.os.AsyncTask;
 import android.os.BatteryManager;
@@ -41,10 +45,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+<<<<<<< HEAD:src/com/hexairbot/hexmini/HudExViewController.java
 import android.widget.FrameLayout;
 
 
 import com.hexairbot.hexmini.R;
+=======
+>>>>>>> master:src/com/hexairbot/hexmini/HudViewController.java
 
 import com.hexairbot.hexmini.HexMiniApplication.AppStage;
 import com.hexairbot.hexmini.ble.BleConnectinManager;
@@ -61,13 +68,17 @@ import com.hexairbot.hexmini.sensors.DeviceSensorManagerWrapper;
 
 import com.hexairbot.hexmini.ui.Button;
 import com.hexairbot.hexmini.ui.Image;
+import com.hexairbot.hexmini.ui.Image.SizeParams;
 import com.hexairbot.hexmini.ui.Indicator;
 import com.hexairbot.hexmini.ui.Sprite;
-import com.hexairbot.hexmini.ui.Text;
-
-import com.hexairbot.hexmini.ui.UIRenderer;
-import com.hexairbot.hexmini.ui.Image.SizeParams;
 import com.hexairbot.hexmini.ui.Sprite.Align;
+import com.hexairbot.hexmini.ui.Text;
+<<<<<<< HEAD:src/com/hexairbot/hexmini/HudExViewController.java
+
+=======
+import com.hexairbot.hexmini.ui.ToggleButton;
+>>>>>>> master:src/com/hexairbot/hexmini/HudViewController.java
+import com.hexairbot.hexmini.ui.UIRenderer;
 import com.hexairbot.hexmini.ui.joystick.AcceleratorJoystick;
 import com.hexairbot.hexmini.ui.joystick.AnalogueJoystick;
 import com.hexairbot.hexmini.ui.joystick.JoystickBase;
@@ -206,11 +217,27 @@ public class HudExViewController extends ViewController
 
 		Resources res = context.getResources();
 
+<<<<<<< HEAD:src/com/hexairbot/hexmini/HudExViewController.java
 		middleBg = new Image(res, R.drawable.main_background, Align.CENTER);
 		middleBg.setAlpha(0.5f);
 		middleBg.setVisible(true);
 		middleBg.setSizeParams(SizeParams.REPEATED, SizeParams.REPEATED);
 		middleBg.setAlphaEnabled(true);		
+=======
+		Image topBarBg = new Image(res, R.drawable.bar_top, Align.TOP_CENTER);
+		topBarBg.setSizeParams(SizeParams.FILL_SCREEN, SizeParams.NONE);
+		topBarBg.setAlphaEnabled(true);
+		
+		bottomBarBg = new Image(res, R.drawable.bar_bottom, Align.BOTTOM_CENTER);
+		bottomBarBg.setSizeParams(SizeParams.FILL_SCREEN, SizeParams.NONE);
+		bottomBarBg.setAlphaEnabled(true);
+		
+		Image middleBg = new Image(res, R.drawable.bg_tile, Align.CENTER);
+		middleBg.setAlpha(1f);
+		middleBg.setVisible(false);
+		middleBg.setSizeParams(SizeParams.REPEATED, SizeParams.REPEATED);
+		middleBg.setAlphaEnabled(true);
+>>>>>>> master:src/com/hexairbot/hexmini/HudViewController.java
 		
 		Image logo = new Image(res, R.drawable.logo_new, Align.BOTTOM_LEFT);
 		logo.setMargin(0, 0, (int)res.getDimension(R.dimen.main_logo_margin_bottom), (int)res.getDimension(R.dimen.main_logo_margin_left));
@@ -331,12 +358,22 @@ public class HudExViewController extends ViewController
 	        {
 	            public void onChanged(JoystickBase joy, float x, float y)
 	            {
+<<<<<<< HEAD:src/com/hexairbot/hexmini/HudExViewController.java
 	            	if(HexMiniApplication.sharedApplicaion().getAppStage() == AppStage.SETTINGS
 	            			|| HexMiniApplication.sharedApplicaion().getAppStage() == AppStage.UNKNOWN){
+=======
+	            	if(HexMiniApplication.sharedApplicaion().getAppStage() == AppStage.SETTINGS){
+	            		Log.w(TAG, "AppStage.SETTINGS ignore rollPitchListener onChanged");
+>>>>>>> master:src/com/hexairbot/hexmini/HudViewController.java
 	            		return;
 	            	}
 	            	
 	            	if (isAccMode == false && rollAndPitchJoystickPressed == true) {
+<<<<<<< HEAD:src/com/hexairbot/hexmini/HudExViewController.java
+=======
+		        		Log.v(TAG, "rollPitchListener onChanged x:" + x + "y:" + y);
+		        		
+>>>>>>> master:src/com/hexairbot/hexmini/HudViewController.java
 		        		if (settings.isBeginnerMode()) {
 		        			aileronChannel.setValue(x * BEGINNER_AILERON_CHANNEL_RATIO);
 		        			elevatorChannel.setValue(y * BEGINNER_ELEVATOR_CHANNEL_RATIO);
@@ -369,9 +406,20 @@ public class HudExViewController extends ViewController
 	            public void onChanged(JoystickBase joy, float x, float y)
 	            {
 	            	if(HexMiniApplication.sharedApplicaion().getAppStage() == AppStage.SETTINGS){
+<<<<<<< HEAD:src/com/hexairbot/hexmini/HudExViewController.java
 	            		return;
 	            	}
 	            	
+=======
+	            		Log.w(TAG, "AppStage.SETTINGS ignore rudderThrottleListener onChanged");
+	            		return;
+	            	}
+	            	
+	            	
+	        		Log.v(TAG, "rudderThrottleListener onChanged x:" + x + "y:" + y);
+	        		
+	        		
+>>>>>>> master:src/com/hexairbot/hexmini/HudViewController.java
 	        		if (settings.isBeginnerMode()) {
 	        			rudderChannel.setValue(x * BEGINNER_RUDDER_CHANNEL_RATIO);
 		        		throttleChannel.setValue((BEGINNER_THROTTLE_CHANNEL_RATIO - 1) + y * BEGINNER_THROTTLE_CHANNEL_RATIO);
@@ -392,6 +440,12 @@ public class HudExViewController extends ViewController
 	            public void onReleased(JoystickBase joy)
 	            {
 	        		rudderChannel.setValue(0.0f);
+<<<<<<< HEAD:src/com/hexairbot/hexmini/HudExViewController.java
+=======
+	        		
+	        		Log.v(TAG, "rudderThrottleListener onReleased"+joy.getYValue());
+	        		
+>>>>>>> master:src/com/hexairbot/hexmini/HudViewController.java
 	        		throttleChannel.setValue(joy.getYValue());
 	        		
 
@@ -734,13 +788,18 @@ public class HudExViewController extends ViewController
 	            rollBase = orientation[ROLL];
                 aileronChannel.setValue(0.0f);
                 elevatorChannel.setValue(0.0f);
+<<<<<<< HEAD:src/com/hexairbot/hexmini/HudExViewController.java
+=======
+                
+                Log.v(TAG, "before pressed ROLL:" + rollBase + ",PITCH:" + pitchBase);
+>>>>>>> master:src/com/hexairbot/hexmini/HudViewController.java
 	      }
 		  else {
 	            float x = (orientation[PITCH] - pitchBase);
 	            float y = (orientation[ROLL] - rollBase);
 
 	            if (isAccMode) {
-					Log.d(TAG, "ROLL:" + (-x) + ",PITCH:" + y);
+					Log.v(TAG, "ROLL:" + (-x) + ",PITCH:" + y);
 					
 					if (Math.abs(x) > ACCELERO_TRESHOLD || Math.abs(y) > ACCELERO_TRESHOLD) {
 			            if (settings.isBeginnerMode()) {
