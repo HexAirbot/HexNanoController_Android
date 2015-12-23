@@ -12,9 +12,6 @@ import android.util.Log;
 
 import com.hexairbot.hexmini.modal.ApplicationSettings;
 import com.hexairbot.hexmini.util.FileHelper;
-//import com.vmc.ipc.config.ConfigStoreHandler;
-//import com.vmc.ipc.config.VmcConfig;
-//import com.vmc.ipc.util.MediaUtil;
 import com.hexairbot.hexmini.ui.Text;
 
 
@@ -90,10 +87,6 @@ public class HexMiniApplication extends Application
 		copyDefaultSettingsFileIfNeeded();
 		
 		settings = new ApplicationSettings(getFilesDir() + "/Settings.plist");
-
-//		MediaUtil.createIPCDir();
-//		VmcConfig.getInstance().setConfigStoreHandler(new ConfigStoreHandler(this));
-//		VmcConfig.getInstance().initNativeConfig(MediaUtil.getAppConfigDir());
 	}
 	
 	
@@ -121,8 +114,8 @@ public class HexMiniApplication extends Application
     
     
     private void copyDefaultSettingsFileIfNeeded(){
-		String settingsFileName        = "Settings.plist";        //user
-		String defaultSettingsFileName = "DefaultSettings.plist"; //default
+		String settingsFileName        = "Settings.plist";       
+		String defaultSettingsFileName = "DefaultSettings.plist"; 
 
 		if (fileHelper.hasDataFile(defaultSettingsFileName) == false) {
 			AssetManager assetManager = getAssets();

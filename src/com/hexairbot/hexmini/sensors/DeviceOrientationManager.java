@@ -515,8 +515,6 @@ implements Runnable
                         HPF_COEFFICIENT * gyroOrientation[2]
                                 + oneMinusCoeff * accMagOrientation[2];
     
-                // overwrite gyro matrix and orientation with fused orientation
-                // to comensate gyro drift
                 gyroRotationMatrix = getRotationMatrixFromOrientation(fusedOrientation);
                 System.arraycopy(fusedOrientation, 0, gyroOrientation, 0, 3);
                 
