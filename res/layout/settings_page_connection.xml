@@ -4,70 +4,78 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <LinearLayout
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="38dp" 
+    android:layout_marginTop="15dp">
+
+    
+    <RelativeLayout 
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        >
+    <TextView
+        android:id="@+id/connectionStateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:gravity="center_horizontal"
+        android:text="未连接"
+        android:textColor="@color/white"
+        android:textSize="@dimen/settings_indicator_text_size" />
+
+    <Button
+        android:id="@+id/scanBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/btn_black"
+        android:layout_centerVertical="true"
+        android:paddingLeft="15dp"
+        android:paddingRight="10dp"
+        android:text="Stop Scanning"
+        android:textColor="@color/white" />
+    </RelativeLayout>
+</LinearLayout>
+
+
+<LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginTop="15dp"
-        android:orientation="horizontal"
-        android:layout_weight="3"
-         >
+        android:layout_height="38dp" 
+        >
+
+    <RelativeLayout
+        android:id="@+id/RelativeLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" >
 
         <TextView
-            android:id="@+id/connectionStateTextView"
+            android:id="@+id/scanningStateTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="2"
-            android:text="未连接"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="Scanning"
             android:textColor="@color/white"
             android:textSize="@dimen/settings_indicator_text_size" />
 
-        <Button
-            android:id="@+id/scanBtn"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            
-            android:background="@drawable/btn_black"
-            android:paddingLeft="15dp"
-            android:paddingRight="10dp"
-            android:text="Stop Scanning"
-            android:textColor="@color/white" />
+        <ProgressBar
+            android:id="@+id/scanningProgressBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentTop="false"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/scanningStateTextView" />
+    </RelativeLayout>
+
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="38dp" 
-      
-        >
-
-        <RelativeLayout
-            android:id="@+id/RelativeLayout2"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" >
-
-            <TextView
-                android:id="@+id/scanningStateTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Scanning"
-                android:textColor="@color/white"
-                android:textSize="@dimen/settings_indicator_text_size" />
-
-            <ProgressBar
-                android:id="@+id/scanningProgressBar"
-                style="?android:attr/progressBarStyleLarge"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_alignParentTop="false"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@+id/scanningStateTextView" />
-        </RelativeLayout>
-    </LinearLayout>
-
+    
     <ListView
         android:id="@+id/bleDeviceListView"
         android:layout_width="match_parent"

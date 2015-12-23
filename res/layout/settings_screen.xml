@@ -89,15 +89,15 @@
                 android:src="@drawable/btn_arrow_right" />
         </RelativeLayout>
 
-        <RelativeLayout
+       <!--  <RelativeLayout
             android:id="@+id/bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:background="@drawable/bar_bottom" >
-
-            <Button
+ -->
+          <!--   <Button
                 android:id="@+id/magCalibrateBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -111,8 +111,8 @@
                 android:text="@string/btn_title_calibrate_mag"
                 android:textColor="@color/white"
                 android:textSize="@dimen/settings_btn_text_size" />
-
-          <!--   <Button
+ -->
+           <!--  <Button
                 android:id="@+id/accCalibrateBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -124,9 +124,9 @@
                 android:paddingRight="@dimen/settings_button_right_padding"
                 android:text="@string/btn_title_calibrate_acc"
                 android:textColor="@color/white"
-                android:textSize="@dimen/settings_btn_text_size" /> -->
+                android:textSize="@dimen/settings_btn_text_size" />
 
-           <!--  <Button
+            <Button
                 android:id="@+id/defaultSettingsBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -138,8 +138,8 @@
                 android:paddingRight="@dimen/settings_button_right_padding"
                 android:text="@string/btn_title_default_settings"
                 android:textColor="@color/white"
-                android:textSize="@dimen/settings_btn_text_size" /> -->
-           <!--  
+                android:textSize="@dimen/settings_btn_text_size" />
+            
             <Button
                 android:id="@+id/feedbackBtn"
                 android:layout_width="wrap_content"
@@ -151,9 +151,9 @@
                 android:paddingRight="@dimen/settings_button_right_padding"
                 android:text="@string/btn_feedback"
                 android:textColor="@color/white"
-                android:textSize="@dimen/settings_btn_text_size" /> -->
-
-        </RelativeLayout>
+                android:textSize="@dimen/settings_btn_text_size" />
+ -->
+      <!--   </RelativeLayout> -->
 
     </RelativeLayout>
 

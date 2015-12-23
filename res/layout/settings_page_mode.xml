@@ -75,5 +75,25 @@
          android:text="@string/settings_item_acc_mode"
          android:textColor="@color/white"
          android:textSize="@dimen/settings_indicator_text_size" />
-     
+
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_alignParentLeft="true"
+          android:layout_marginTop="@dimen/settings_v_gap"
+          android:layout_below="@+id/isAccModeCheckBox"
+            >
+
+          <Button
+              android:id="@+id/magCalibrateBtn"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentRight="true"
+              android:layout_marginRight="80dp"
+              android:background="@drawable/btn_black"
+              android:text="@string/btn_title_calibrate_mag"
+              android:textColor="@color/white"
+              android:textSize="@dimen/settings_btn_text_size" />
+      </RelativeLayout>
+
 </RelativeLayout>

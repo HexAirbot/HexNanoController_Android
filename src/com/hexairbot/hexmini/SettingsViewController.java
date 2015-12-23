@@ -165,7 +165,7 @@ public class SettingsViewController extends ViewController
         
 //        defaultSettingsBtn = (Button)container.findViewById(R.id.defaultSettingsBtn);
 //        accCalibrateBtn = (Button)container.findViewById(R.id.accCalibrateBtn);
-        magCalibrateBtn = (Button)container.findViewById(R.id.magCalibrateBtn);
+//        magCalibrateBtn = (Button)container.findViewById(R.id.magCalibrateBtn);
 
         
         titles = new int[] {
@@ -308,7 +308,7 @@ public class SettingsViewController extends ViewController
         
             isLeftHandedCheckBox   = (CheckBox)settingsViews.get(modePageIdx).findViewById(R.id.isLeftHandedCheckBox);
             isAccModeCheckBox      = (CheckBox)settingsViews.get(modePageIdx).findViewById(R.id.isAccModeCheckBox);
-        
+            magCalibrateBtn = (Button)settingsViews.get(modePageIdx).findViewById(R.id.magCalibrateBtn);
         
 //        isHeadfreeModeCheckBox = (CheckBox)settingsViews.get(modePageIdx).findViewById(R.id.isHeadfreeModeCheckBox);
         isBeginnerModeCheckBox = (CheckBox)settingsViews.get(modePageIdx).findViewById(R.id.isBeginnerModeCheckBox);
@@ -524,10 +524,27 @@ public class SettingsViewController extends ViewController
 //			}
 //		});
 //    	
+    	
+    	
+    	/*isLeftHandedCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(
+        		) {
+			
+			@Override
+			public void onCheckedChanged(CompoundButton arg0, boolean isLeftHanded) {
+				ApplicationSettings settings = HexMiniApplication.sharedApplicaion().getAppSettings();
+				settings.setLeftHanded(isLeftHanded);
+				settings.save();
+				if (delegate != null) {
+					delegate.leftHandedValueDidChange(isLeftHanded);
+				}
+				
+			}
+		});*/
     	magCalibrateBtn.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
+				
 		      	new AlertDialog.Builder(SettingsViewController.this.context)
 				.setIcon(android.R.drawable.ic_dialog_alert).setTitle(R.string.dialog_title_info)
 				.setMessage(R.string.dialog_calibrate_mag)
